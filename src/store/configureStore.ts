@@ -1,14 +1,10 @@
-import modules, { StoreState } from "./modules";
-import { createStore, Store } from "redux";
+import * as reducer from "./modules";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import ReduxThunk from "redux-thunk";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
-export default function configureStore():Store<StoreState> {
-  const store = createStore(
-    modules,
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-      (window as any).__REDUX_DEVTOOLS_EXTENSION__()
-  );
-  return store;
-}
+const reducers = combineReducers({ ...reducer });
+const middlewares = applyMiddleware(ReduxThunk);
 
-
-export const store = configureStore();
+export default createStore(reducers, composeWithDevTools(middlewares));
+export type RootState = ReturnType<typeof reducers>;
