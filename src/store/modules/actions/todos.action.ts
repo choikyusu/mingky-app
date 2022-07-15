@@ -6,7 +6,7 @@ export const todoAction = {
 };
 
 export const todoActions = {
-  create: function (params: { text: string }) {
+  create (params: { text: string }) {
     return {
       type: todoAction.CREATE,
       payload: {
