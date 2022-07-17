@@ -1,10 +1,12 @@
+import { IconType } from 'react-icons/lib';
 import styled from 'styled-components';
 
-function IconBody(props: { icon: string }) {
-  return <i className={`fa-solid fa-2x ${props.icon}`} />;
+function IconBody(props: { icon: IconType }) {
+  const Icon = props.icon;
+  return <Icon size={32} />;
 }
 
-export function Icon(props: { icon: string }) {
+export function HeaderIcon(props: { icon: IconType }) {
   return (
     <Wrapper>
       <div className="icon">
@@ -24,5 +26,8 @@ const Wrapper = styled.div`
     color: red;
     border-bottom: solid;
     border-color: red;
+  }
+  .material-icons {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
 `;
