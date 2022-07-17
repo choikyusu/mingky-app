@@ -1,4 +1,4 @@
 type TodosStateType = {
-    todoItems: {id : string, done : boolean, text : string}[],
-    input: string,
-  };
+  todoItems: { id: string; done: boolean; text: string }[];
+  input: string;
+};
