@@ -32,5 +32,6 @@ const Wrapper = styled.div`
   justify-content: center;
   .icons {
     display: flex;
+    flex-wrap: wrap;
   }
 `;
