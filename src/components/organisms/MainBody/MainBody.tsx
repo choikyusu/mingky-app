@@ -9,8 +9,14 @@ import {
 } from 'react-icons/bs';
 import { FiMonitor, FiGift } from 'react-icons/fi';
 import { IoFastFoodOutline } from 'react-icons/io5';
+import store, { RootState } from '../../../store/configureStore';
+import { useSelector } from 'react-redux';
 
 export function MainBody() {
+  const selectedMenu = useSelector(
+    (state: RootState) => state.menu.selectedMenu,
+  );
+
   return (
     <Wrapper>
       <div className="icons">

@@ -1,15 +1,27 @@
 import { IconType } from 'react-icons/lib';
 import styled from 'styled-components';
+import { menuActions } from '../../../store/modules/actions/menu.action';
+import store from '../../../store/configureStore';
 
 function IconBody(props: { icon: IconType }) {
   const Icon = props.icon;
   return <Icon size={32} />;
 }
 
-export function HeaderIcon(props: { icon: IconType }) {
+export function HeaderIcon(props: { icon: IconType; menu: MenuType }) {
   return (
     <Wrapper>
-      <div className="icon">
+      <div
+        tabIndex={0}
+        className="icon"
+        role="button"
+        onClick={() =>
+          store.dispatch(menuActions.setMenu({ menu: props.menu }))
+        }
+        onKeyPress={() => {
+          store.dispatch(menuActions.setMenu({ menu: props.menu }));
+        }}
+      >
         <IconBody icon={props.icon} />
       </div>
     </Wrapper>
@@ -19,6 +31,9 @@ export function HeaderIcon(props: { icon: IconType }) {
 const Wrapper = styled.div`
   display: block;
   margin-right: 50px;
+  box-sizing: border-box;
+  width: 45px;
+  height: 49px;
   .icon {
     padding: 5px;
   }
@@ -26,8 +41,5 @@ const Wrapper = styled.div`
     color: red;
     border-bottom: solid;
     border-color: red;
-  }
-  .material-icons {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
 `;

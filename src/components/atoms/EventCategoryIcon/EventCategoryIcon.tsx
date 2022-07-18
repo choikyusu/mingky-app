@@ -18,7 +18,8 @@ export function EventCategoryIcon(props: { icon: IconType }) {
 
 const Wrapper = styled.div`
   display: block;
-  margin-right: 50px;
+  margin-right: 25px;
+  margin-left: 25px;
   .icon {
     padding: 5px;
   }
