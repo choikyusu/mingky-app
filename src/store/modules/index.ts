@@ -1,1 +1,1 @@
-export { todoReducer as todos } from './reducer/todos.reducer';
+export { menuReducer as menu } from './reducer/menu.reducer';

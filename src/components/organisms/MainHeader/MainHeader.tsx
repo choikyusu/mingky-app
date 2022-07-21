@@ -8,9 +8,9 @@ export function MainHeader() {
   return (
     <Wrapper>
       <div className="icons">
-        <HeaderIcon icon={AiFillHome} />
-        <HeaderIcon icon={BsCalendar2EventFill} />
-        <HeaderIcon icon={IoSettingsSharp} />
+        <HeaderIcon icon={AiFillHome} menu="HOME_MENU" />
+        <HeaderIcon icon={BsCalendar2EventFill} menu="CALENDAR_MENU" />
+        <HeaderIcon icon={IoSettingsSharp} menu="SETTINGS_MENU" />
       </div>
     </Wrapper>
   );
