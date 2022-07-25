@@ -11,33 +11,23 @@ import { FiMonitor, FiGift } from 'react-icons/fi';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import store, { RootState } from '../../../store/configureStore';
 import { useSelector } from 'react-redux';
+import { HomeBody } from './Body/HomeBody';
+import { SettingsBody } from './Body/SettingsBody';
+import { CalendarBody } from './Body/CalendarBody';
 
 export function MainBody() {
   const selectedMenu = useSelector(
     (state: RootState) => state.menu.selectedMenu,
   );
 
-  return (
-    <Wrapper>
-      <div className="icons">
-        <EventCategoryIcon icon={BiCoffeeTogo} />
-        <EventCategoryIcon icon={BsCashStack} />
-        <EventCategoryIcon icon={BsCreditCard2Back} />
-        <EventCategoryIcon icon={BsCoin} />
-        <EventCategoryIcon icon={FiMonitor} />
-        <EventCategoryIcon icon={BsHouseDoor} />
-        <EventCategoryIcon icon={FiGift} />
-        <EventCategoryIcon icon={IoFastFoodOutline} />
-      </div>
-    </Wrapper>
-  );
-}
-const Wrapper = styled.div`
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  .icons {
-    display: flex;
-    flex-wrap: wrap;
+  switch (selectedMenu) {
+    case 'HOME_MENU':
+      return <HomeBody />;
+    case 'CALENDAR_MENU':
+      return <CalendarBody />;
+    case 'SETTINGS_MENU':
+      return <SettingsBody />;
+    default:
+      return <div />;
   }
-`;
+}
