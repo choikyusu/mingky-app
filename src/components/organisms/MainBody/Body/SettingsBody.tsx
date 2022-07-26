@@ -11,11 +11,12 @@ import { FiMonitor, FiGift } from 'react-icons/fi';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import store, { RootState } from '../../../../store/configureStore';
 import { useSelector } from 'react-redux';
+import { NaverLogin } from '../../../modules/NaverLogin/NaverLogin';
 
 export function SettingsBody() {
   return (
     <Wrapper>
-      <div className="icons">Settings</div>
+      <NaverLogin />
     </Wrapper>
   );
 }
