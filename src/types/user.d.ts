@@ -1,10 +1,10 @@
 type UserInfoType = {
   accountType: AccountType;
-  userName: string;
+  id: string;
+  name: string;
   email: string;
   gender: string;
-  birthOfYear: string;
-  phone: string;
+  age: string;
 };
 
 type AccountType = 'ANONYMOUS' | 'MEMBER';
