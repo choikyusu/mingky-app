@@ -6,5 +6,7 @@ import { composeWithDevTools } from '@redux-devtools/extension';
 const reducers = combineReducers({ ...reducer });
 const middlewares = applyMiddleware(ReduxThunk);
 
-export default createStore(reducers, composeWithDevTools(middlewares));
+const stores = createStore(reducers, composeWithDevTools(middlewares));
 export type RootState = ReturnType<typeof reducers>;
+
+export default stores;

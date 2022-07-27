@@ -1,4 +1,6 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import { NaverLogin } from './components/modules/NaverLogin/NaverLogin';
 import { MainPage } from './pages/MainPage';
 
 declare global {
@@ -8,13 +10,14 @@ declare global {
 }
 
 function App() {
-  // const aaaa = useSelector((state: RootState) => state.todos.todoItems);
-
-  // useEffect(() => {
-  //   stores.dispatch(todoActions.create({ text: 'aaaa' }));
-  // }, []);
-
-  return <MainPage />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/naver_login" element={<NaverLogin />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
