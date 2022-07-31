@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import stores from '../../../store/configureStore';
 import { loginInfoActions } from '../../../store/modules/actions/loginInfo.action';
+import { useNavigate } from 'react-router-dom';
 
 export function NaverLogin() {
+  const newNavigate = useNavigate();
+
   useEffect(() => {
     const naverLogin = new window.naver.LoginWithNaverId({
       clientId: 'yFp3tqSxzQ1anw6XTwWB',
@@ -35,6 +38,7 @@ export function NaverLogin() {
               },
             }),
           );
+          newNavigate('/');
         }
       } else {
         console.log('Naver 비 로그인 상태');

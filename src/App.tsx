@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { NaverLogin } from './components/modules/NaverLogin/NaverLogin';
+import { NaverLogin } from './components/molecules/NaverLogin/NaverLogin';
 import { MainPage } from './pages/MainPage';
 
 declare global {
