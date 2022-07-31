@@ -1,3 +1,4 @@
+import { userInfo } from 'os';
 import { loginInfoAction } from '../actions/loginInfo.action';
 
 const initialState: { userInfo: UserInfoType } = {
@@ -18,6 +19,11 @@ export function loginInfoReducer(
   switch (action.type) {
     case loginInfoAction.SET_LOGIN_INFO:
       return { ...state, userInfo: action.payload.userInfo };
+    case loginInfoAction.SET_NAME:
+      return {
+        ...state,
+        userInfo: { ...state.userInfo, name: action.payload.name },
+      };
     default:
       return state;
   }
