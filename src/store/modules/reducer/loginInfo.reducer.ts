@@ -1,6 +1,6 @@
 import { loginInfoAction } from '../actions/loginInfo.action';
 
-const initialState: { userInfo: UserInfoType } = {
+const initialState: { userInfo: UserInfoType; settingInfo: SettingInfoType } = {
   userInfo: {
     accountType: 'ANONYMOUS',
     id: '',
@@ -8,6 +8,10 @@ const initialState: { userInfo: UserInfoType } = {
     email: '',
     gender: '',
     age: '',
+  },
+  settingInfo: {
+    push: true,
+    topFix: true,
   },
 };
 
@@ -22,6 +26,17 @@ export function loginInfoReducer(
       return {
         ...state,
         userInfo: { ...state.userInfo, name: action.payload.name },
+      };
+    case loginInfoAction.SET_PUSH:
+      console.log('a', action.payload.push);
+      return {
+        ...state,
+        settingInfo: { ...state.settingInfo, push: action.payload.push },
+      };
+    case loginInfoAction.SET_TOP_FIX:
+      return {
+        ...state,
+        settingInfo: { ...state.settingInfo, topFix: action.payload.topFix },
       };
     default:
       return state;
