@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import stores, { RootState } from '../../../store/configureStore';
 import { loginInfoActions } from '../../../store/modules/actions/loginInfo.action';
+import { modalActions } from '../../../store/modules/actions/modal.action';
+import { toast } from 'react-toastify';
 
 export function Member() {
   const userInfo: UserInfoType = useSelector(
@@ -17,6 +19,15 @@ export function Member() {
 
   const save = () => {
     stores.dispatch(loginInfoActions.setName({ name }));
+
+    // stores.dispatch(
+    //   modalActions.setDialogStatus({
+    //     id: 'CHANGE_NICK_NAME',
+    //     data: {},
+    //   }),
+    // );
+
+    toast('이름을 저장했습니다.');
   };
 
   return (
