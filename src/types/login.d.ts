@@ -8,3 +8,8 @@ type UserInfoType = {
 };
 
 type AccountType = 'ANONYMOUS' | 'MEMBER';
+
+type SettingInfoType = {
+  push: boolean;
+  topFix: boolean;
+};
