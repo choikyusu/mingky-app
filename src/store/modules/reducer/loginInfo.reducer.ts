@@ -1,4 +1,3 @@
-import { userInfo } from 'os';
 import { loginInfoAction } from '../actions/loginInfo.action';
 
 const initialState: { userInfo: UserInfoType } = {

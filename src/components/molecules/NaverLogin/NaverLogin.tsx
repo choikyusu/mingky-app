@@ -9,7 +9,7 @@ export function NaverLogin() {
   useEffect(() => {
     const naverLogin = new window.naver.LoginWithNaverId({
       clientId: 'yFp3tqSxzQ1anw6XTwWB',
-      callbackUrl: 'http://localhost:3000/naver_login',
+      callbackUrl: 'http://localhost:3002/naver_login',
       callbackHandle: true,
       isPopup: false,
       loginButton: {
