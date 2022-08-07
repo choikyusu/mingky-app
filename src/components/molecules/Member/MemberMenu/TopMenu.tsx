@@ -18,14 +18,6 @@ export function TopMenu() {
 
   const save = () => {
     stores.dispatch(loginInfoActions.setName({ name }));
-
-    // stores.dispatch(
-    //   modalActions.setDialogStatus({
-    //     id: 'CHANGE_NICK_NAME',
-    //     data: {},
-    //   }),
-    // );
-
     toast('이름을 저장했습니다.');
   };
   return (

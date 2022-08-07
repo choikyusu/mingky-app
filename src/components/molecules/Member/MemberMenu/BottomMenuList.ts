@@ -4,6 +4,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import stores from '../../../../store/configureStore';
 import { loginInfoActions } from '../../../../store/modules/actions/loginInfo.action';
+import { modalActions } from '../../../../store/modules/actions/modal.action';
 
 export const memberOptionList = [
   {
@@ -24,13 +25,11 @@ export const memberOptionList = [
     title: 'PUSH알림',
     subTitle: '이벤트 및 혜택 정보',
     linkType: () => {
-      console.log(stores.getState().loginInfo.settingInfo.push);
       return stores.getState().loginInfo.settingInfo.push
         ? BsToggleOn
         : BsToggleOff;
     },
     doClick: () => {
-      console.log(stores.getState().loginInfo.settingInfo.push);
       stores.dispatch(
         loginInfoActions.setPush({
           push: !stores.getState().loginInfo.settingInfo.push,
@@ -42,13 +41,32 @@ export const memberOptionList = [
     id: 4,
     title: '상단고정메뉴',
     subTitle: '',
-    linkType: () => BsToggleOn,
+    linkType: () => {
+      return stores.getState().loginInfo.settingInfo.topFix
+        ? BsToggleOn
+        : BsToggleOff;
+    },
+    doClick: () => {
+      stores.dispatch(
+        loginInfoActions.setTopFix({
+          topFix: !stores.getState().loginInfo.settingInfo.topFix,
+        }),
+      );
+    },
   },
   {
     id: 5,
     title: '공지사항',
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
+    doClick: () => {
+      stores.dispatch(
+        modalActions.setDialogStatus({
+          id: 'NOTICE',
+          data: {},
+        }),
+      );
+    },
   },
   {
     id: 6,
@@ -67,6 +85,14 @@ export const memberOptionList = [
     title: '이용약관',
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
+    doClick: () => {
+      stores.dispatch(
+        modalActions.setDialogStatus({
+          id: 'TERMS_AND_CONDITIONS',
+          data: {},
+        }),
+      );
+    },
   },
   {
     id: 9,
