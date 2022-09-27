@@ -8,10 +8,9 @@ export function ModalDialog(props: { children: React.ReactNode }) {
       <div
         className="dialog-content"
         style={{
-          width: '408px',
-          minHeight: '204px',
-          maxHeight: '600px',
-          padding: '24px',
+          width: 'auto',
+          margin: '24px',
+          height: '100%',
         }}
       >
         {props.children}
@@ -50,6 +49,7 @@ const ModalWrapper = styled.div`
   transform: translate(-50%, -50%);
   box-shadow: 0px 5px 16px rgb(0 0 0 / 25%);
   min-height: 204px;
+  height: 50%;
   .dialog-header {
     font-size: 1em;
     font-weight: 400;
@@ -60,6 +60,8 @@ const ModalWrapper = styled.div`
     align-items: center;
   }
   .dialog-body {
+    overflow: auto;
+    height: calc(100% - 95px);
     text-align: center;
     white-space: pre-wrap;
     .reset-content {
