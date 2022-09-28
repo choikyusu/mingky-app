@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import stores from '../../../../store/configureStore';
 import { loginInfoActions } from '../../../../store/modules/actions/loginInfo.action';
 import { modalActions } from '../../../../store/modules/actions/modal.action';
+import { logout } from '../../../../services/Naver.service';
 
 export const memberOptionList = [
   {
@@ -105,6 +106,22 @@ export const memberOptionList = [
     title: '로그아웃',
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
+    doClick: () => {
+      stores.dispatch(
+        loginInfoActions.setLoginInfo({
+          userInfo: {
+            accountType: 'ANONYMOUS',
+            id: '',
+            name: '',
+            email: '',
+            gender: '',
+            age: '',
+          },
+        }),
+      );
+
+      logout();
+    },
   },
   {
     id: 11,
