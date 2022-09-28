@@ -1,32 +1,40 @@
 import { useReducer } from 'react';
+import { IconType } from 'react-icons';
 import styled from 'styled-components';
 import { memberOptionList } from './BottomMenuList';
 
-export function BottomMenu() {
+function MenuItem(props: {
+  title: string;
+  subTitle: string;
+  linkType: () => IconType;
+  doClick?: () => void;
+}) {
   const [_, forceUpdate] = useReducer(x => x + 1, 0);
+  const Icon = props.linkType();
+  return (
+    <Wrapper>
+      <div className="title">{props.title}</div>
+      <div className="sub-title">{props.subTitle}</div>
+      <div
+        className="link-type"
+        onMouseDown={() => {
+          if (props.doClick) props.doClick();
+          forceUpdate();
+        }}
+        role="button"
+        tabIndex={0}
+      >
+        <Icon />
+      </div>
+    </Wrapper>
+  );
+}
 
+export function BottomMenu() {
   return (
     <BottomMenuWrapper>
       {memberOptionList.map(item => {
-        const Icon = item.linkType();
-
-        return (
-          <MenuItem>
-            <div className="title">{item.title}</div>
-            <div className="sub-title">{item.subTitle}</div>
-            <div
-              className="link-type"
-              onMouseDown={() => {
-                if (item.doClick) item.doClick();
-                forceUpdate();
-              }}
-              role="button"
-              tabIndex={0}
-            >
-              <Icon />
-            </div>
-          </MenuItem>
-        );
+        return <MenuItem {...item} />;
       })}
     </BottomMenuWrapper>
   );
@@ -34,7 +42,7 @@ export function BottomMenu() {
 
 const BottomMenuWrapper = styled.div``;
 
-const MenuItem = styled.div`
+const Wrapper = styled.div`
   display: flex;
   font-size: 0.8em;
   border-bottom: 2px solid #e8e8e8;
