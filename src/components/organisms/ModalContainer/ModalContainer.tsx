@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import stores, { RootState } from '../../../store/configureStore';
 import { modalActions } from '../../../store/modules/actions/modal.action';

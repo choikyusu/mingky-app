@@ -3,6 +3,7 @@ import { HeaderIcon } from '../../atoms/HeaderIcon/HeaderIcon';
 import { AiFillHome } from 'react-icons/ai';
 import { BsCalendar2EventFill } from 'react-icons/bs';
 import { IoSettingsSharp } from 'react-icons/io5';
+import { RiAdminLine } from 'react-icons/ri';
 
 export function MainHeader() {
   return (
@@ -11,6 +12,7 @@ export function MainHeader() {
         <HeaderIcon icon={AiFillHome} menu="HOME_MENU" />
         <HeaderIcon icon={BsCalendar2EventFill} menu="CALENDAR_MENU" />
         <HeaderIcon icon={IoSettingsSharp} menu="SETTINGS_MENU" />
+        <HeaderIcon icon={RiAdminLine} menu="ADMIN_MENU" />
       </div>
     </Wrapper>
   );
