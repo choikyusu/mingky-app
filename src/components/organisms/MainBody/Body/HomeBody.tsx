@@ -9,8 +9,6 @@ import {
 } from 'react-icons/bs';
 import { FiMonitor, FiGift } from 'react-icons/fi';
 import { IoFastFoodOutline } from 'react-icons/io5';
-import store, { RootState } from '../../../../store/configureStore';
-import { useSelector } from 'react-redux';
 
 export function HomeBody() {
   return (

@@ -14,7 +14,7 @@ export function SettingsBody() {
     case 'ANONYMOUS':
       return (
         <Wrapper>
-          <NaverLogin /> ;
+          <NaverLogin />
         </Wrapper>
       );
     case 'MEMBER':

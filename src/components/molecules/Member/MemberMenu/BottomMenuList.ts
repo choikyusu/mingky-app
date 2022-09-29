@@ -7,7 +7,7 @@ import { loginInfoActions } from '../../../../store/modules/actions/loginInfo.ac
 import { modalActions } from '../../../../store/modules/actions/modal.action';
 import { logout } from '../../../../services/Naver.service';
 
-export const memberOptionList = [
+export const memberOptionList: SettingsMenu[] = [
   {
     id: 1,
     title: '추천코드',

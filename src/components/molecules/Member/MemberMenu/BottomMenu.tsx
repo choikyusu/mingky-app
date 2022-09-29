@@ -1,14 +1,8 @@
 import { useReducer } from 'react';
-import { IconType } from 'react-icons';
 import styled from 'styled-components';
 import { memberOptionList } from './BottomMenuList';
 
-function MenuItem(props: {
-  title: string;
-  subTitle: string;
-  linkType: () => IconType;
-  doClick?: () => void;
-}) {
+function MenuItem(props: SettingsMenu) {
   const [_, forceUpdate] = useReducer(x => x + 1, 0);
   const Icon = props.linkType();
   return (
@@ -33,7 +27,7 @@ function MenuItem(props: {
 export function BottomMenu() {
   return (
     <BottomMenuWrapper>
-      {memberOptionList.map(item => {
+      {memberOptionList.map((item: SettingsMenu) => {
         return <MenuItem {...item} />;
       })}
     </BottomMenuWrapper>
