@@ -1,15 +1,42 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { RootState } from '../../../../store/configureStore';
+import { useSelector } from 'react-redux';
+import { getToday } from '../../../../utils/date.util';
 
 export function CalendarBody() {
-  const [dayList, setDayList] = useState<Date[]>([]);
+  const eventList: EventItem[] = useSelector(
+    (state: RootState) => state.event.eventList,
+  );
+  const [dayList, setDayList] = useState<
+    { date: Date; eventList: EventItem[] }[]
+  >([]);
+
+  const dayRef: React.MutableRefObject<HTMLTableCellElement | null> =
+    useRef(null);
 
   useEffect(() => {
-    const today = new Date();
-    const list: Date[] = [];
-    for (let i = 0; i < 15; i++) {
-      const newDay = new Date();
-      list.push(new Date(newDay.setDate(today.getDate() + i)));
+    const list: { date: Date; eventList: EventItem[] }[] = [];
+    for (let i = -1; i < 15; i++) {
+      const today = getToday();
+      const dateEvent: {
+        date: Date;
+        eventList: EventItem[];
+      } = {
+        date: new Date(today.setDate(today.getDate() + i)),
+        eventList: [],
+      };
+
+      eventList.forEach(item => {
+        if (
+          item.startDate <= dateEvent.date &&
+          dateEvent.date <= item.endDate
+        ) {
+          dateEvent.eventList.push(item);
+        }
+      });
+
+      list.push(dateEvent);
     }
 
     setDayList(list);
@@ -18,17 +45,27 @@ export function CalendarBody() {
   return (
     <Wrapper>
       <div className="body">
-        {dayList.map(day => (
-          <div>
-            <div className="card">
-              <div className="title">
-                {`${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`}
+        {dayList.map(dateInfo => {
+          return (
+            <div ref={dayRef}>
+              <div className="card">
+                <div className="title">
+                  {`${dateInfo.date.getFullYear()}-${
+                    dateInfo.date.getMonth() + 1
+                  }-${dateInfo.date.getDate()}`}
+                </div>
+                <div className="event-list">
+                  {dateInfo.eventList.map(event => (
+                    <div>
+                      {event.name} {event.status}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="event-list">contents</div>
+              <hr />
             </div>
-            <hr />
-          </div>
-        ))}
+          );
+        })}
       </div>
     </Wrapper>
   );
