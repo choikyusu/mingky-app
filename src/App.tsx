@@ -20,6 +20,7 @@ function App() {
     eventActions.setEventItem({
       event: {
         id: '1',
+        category: '커피',
         name: 'test01',
         startDate: new Date('2022-10-14'),
         endDate: new Date('2022-10-15'),
@@ -34,6 +35,7 @@ function App() {
     eventActions.setEventItem({
       event: {
         id: '2',
+        category: '커피',
         name: 'test02',
         startDate: new Date('2022-10-17'),
         endDate: new Date('2022-10-18'),
