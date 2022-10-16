@@ -1,27 +1,18 @@
 import styled from 'styled-components';
 import { EventCategoryIcon } from '../../../atoms/EventCategoryIcon/EventCategoryIcon';
-import { BiCoffeeTogo } from 'react-icons/bi';
-import {
-  BsCashStack,
-  BsCreditCard2Back,
-  BsCoin,
-  BsHouseDoor,
-} from 'react-icons/bs';
-import { FiMonitor, FiGift } from 'react-icons/fi';
-import { IoFastFoodOutline } from 'react-icons/io5';
+
+import { GrInfo, GrLike } from 'react-icons/gr';
+import { FaPiggyBank } from 'react-icons/fa';
+import { GiReceiveMoney } from 'react-icons/gi';
 
 export function HomeBody() {
   return (
     <Wrapper>
       <div className="icons">
-        <EventCategoryIcon icon={BiCoffeeTogo} />
-        <EventCategoryIcon icon={BsCashStack} />
-        <EventCategoryIcon icon={BsCreditCard2Back} />
-        <EventCategoryIcon icon={BsCoin} />
-        <EventCategoryIcon icon={FiMonitor} />
-        <EventCategoryIcon icon={BsHouseDoor} />
-        <EventCategoryIcon icon={FiGift} />
-        <EventCategoryIcon icon={IoFastFoodOutline} />
+        <EventCategoryIcon icon={GiReceiveMoney} title="절약" />
+        <EventCategoryIcon icon={FaPiggyBank} title="부수입" />
+        <EventCategoryIcon icon={GrLike} title="추첨" />
+        <EventCategoryIcon icon={GrInfo} title="꿀팁" />
       </div>
     </Wrapper>
   );

@@ -6,11 +6,12 @@ function IconBody(props: { icon: IconType }) {
   return <Icon size={32} />;
 }
 
-export function EventCategoryIcon(props: { icon: IconType }) {
+export function EventCategoryIcon(props: { icon: IconType; title: string }) {
   return (
     <Wrapper>
       <div className="icon">
         <IconBody icon={props.icon} />
+        <div>{props.title}</div>
       </div>
     </Wrapper>
   );
