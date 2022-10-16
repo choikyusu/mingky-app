@@ -11,13 +11,16 @@ export function CalendarBody() {
   const [dayList, setDayList] = useState<
     { date: Date; eventList: EventItem[] }[]
   >([]);
+  const datePlusOffset = useRef<number>(0);
+  const dateMinusOffset = useRef<number>(0);
 
   const dayRef: React.MutableRefObject<HTMLTableCellElement | null> =
     useRef(null);
+  const listRef: React.MutableRefObject<HTMLDivElement | null> = useRef(null);
 
   useEffect(() => {
     const list: { date: Date; eventList: EventItem[] }[] = [];
-    for (let i = -1; i < 15; i++) {
+    for (let i = 0; i < 15; i++) {
       const today = getToday();
       const dateEvent: {
         date: Date;
@@ -39,12 +42,89 @@ export function CalendarBody() {
       list.push(dateEvent);
     }
 
-    setDayList(list);
+    datePlusOffset.current = 14;
+
+    setDayList([...list]);
   }, []);
+
+  const onScroll = (e: any) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    console.log(scrollTop, scrollHeight, clientHeight);
+
+    if (scrollTop === 0) {
+      const list: { date: Date; eventList: EventItem[] }[] = [];
+      for (let i = 0; i < 5; i++) {
+        const today = getToday();
+        const dateEvent: {
+          date: Date;
+          eventList: EventItem[];
+        } = {
+          date: new Date(
+            today.setDate(today.getDate() - dateMinusOffset.current - i),
+          ),
+          eventList: [],
+        };
+
+        eventList.forEach(item => {
+          if (
+            item.startDate <= dateEvent.date &&
+            dateEvent.date <= item.endDate
+          ) {
+            dateEvent.eventList.push(item);
+          }
+        });
+
+        list.push(dateEvent);
+      }
+
+      dateMinusOffset.current += 5;
+
+      setDayList([...list.reverse(), ...dayList]);
+
+      listRef.current?.scrollTo({ top: 400 });
+    }
+
+    if (scrollTop + clientHeight === scrollHeight) {
+      const list: { date: Date; eventList: EventItem[] }[] = [];
+      for (let i = 1; i < 6; i++) {
+        const today = getToday();
+        const dateEvent: {
+          date: Date;
+          eventList: EventItem[];
+        } = {
+          date: new Date(
+            today.setDate(today.getDate() + datePlusOffset.current + i),
+          ),
+          eventList: [],
+        };
+
+        eventList.forEach(item => {
+          if (
+            item.startDate <= dateEvent.date &&
+            dateEvent.date <= item.endDate
+          ) {
+            dateEvent.eventList.push(item);
+          }
+        });
+
+        list.push(dateEvent);
+      }
+
+      datePlusOffset.current += 5;
+
+      setDayList([...dayList, ...list]);
+    }
+  };
+  useEffect(() => {
+    listRef?.current?.addEventListener('scroll', onScroll);
+    return () => {
+      listRef?.current?.removeEventListener('scroll', onScroll);
+    };
+  }, [onScroll]);
 
   return (
     <Wrapper>
-      <div className="body">
+      <div className="body" ref={listRef}>
         {dayList.map(dateInfo => {
           return (
             <div ref={dayRef}>
@@ -79,6 +159,8 @@ const Wrapper = styled.div`
     background: #f7f7f7;
     max-width: 450px;
     width: 100%;
+    height: 80vh;
+    overflow: auto;
 
     .card {
       width: 402px;
