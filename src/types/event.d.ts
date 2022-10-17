@@ -1,6 +1,6 @@
 type EventItem = {
   id: string;
-  category: string;
+  category: Category;
   name: string;
   startDate: Date;
   endDate: Date;

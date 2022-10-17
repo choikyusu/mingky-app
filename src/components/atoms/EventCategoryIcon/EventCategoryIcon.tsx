@@ -1,15 +1,33 @@
 import styled from 'styled-components';
 import { IconType } from 'react-icons/lib';
+import stores from '../../../store/configureStore';
+import { menuActions } from '../../../store/modules/actions/menu.action';
 
 function IconBody(props: { icon: IconType }) {
   const Icon = props.icon;
   return <Icon size={32} />;
 }
 
-export function EventCategoryIcon(props: { icon: IconType; title: string }) {
+export function EventCategoryIcon(props: {
+  icon: IconType;
+  title: string;
+  category: Category;
+}) {
   return (
     <Wrapper>
-      <div className="icon">
+      <div
+        tabIndex={0}
+        className="icon"
+        role="button"
+        onClick={() =>
+          stores.dispatch(menuActions.setCategory({ category: props.category }))
+        }
+        onKeyPress={() => {
+          stores.dispatch(
+            menuActions.setCategory({ category: props.category }),
+          );
+        }}
+      >
         <IconBody icon={props.icon} />
         <div>{props.title}</div>
       </div>
@@ -19,8 +37,8 @@ export function EventCategoryIcon(props: { icon: IconType; title: string }) {
 
 const Wrapper = styled.div`
   display: block;
-  margin-right: 25px;
-  margin-left: 25px;
+  padding-right: 25px;
+  padding-left: 25px;
   .icon {
     padding: 5px;
   }

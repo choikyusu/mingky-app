@@ -1,7 +1,8 @@
 import { menuAction } from '../actions/menu.action';
 
-const initialState: { selectedMenu: MenuType } = {
+const initialState: { selectedMenu: MenuType; selectedCategory: Category } = {
   selectedMenu: 'HOME_MENU',
+  selectedCategory: 'SAVE',
 };
 
 export function menuReducer(
@@ -11,6 +12,8 @@ export function menuReducer(
   switch (action.type) {
     case menuAction.SET_MENU:
       return { ...state, selectedMenu: action.payload.menu };
+    case menuAction.SET_CATEGORY:
+      return { ...state, selectedCategory: action.payload.category };
     default:
       return state;
   }
