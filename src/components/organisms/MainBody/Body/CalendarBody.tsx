@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
-import { RootState } from '../../../../store/configureStore';
+import stores, { RootState } from '../../../../store/configureStore';
 import { useSelector } from 'react-redux';
 import { getToday } from '../../../../utils/date.util';
+import { modalActions } from '../../../../store/modules/actions/modal.action';
 
 export function CalendarBody() {
   const eventList: EventItem[] = useSelector(
@@ -136,7 +137,18 @@ export function CalendarBody() {
                 </div>
                 <div className="event-list">
                   {dateInfo.eventList.map(event => (
-                    <div>
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onMouseDown={() =>
+                        stores.dispatch(
+                          modalActions.setDialogStatus({
+                            id: 'EVENT',
+                            data: { event },
+                          }),
+                        )
+                      }
+                    >
                       {event.name} {event.status}
                     </div>
                   ))}

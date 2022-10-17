@@ -6,7 +6,9 @@ type EventItem = {
   endDate: Date;
   description: string;
   status: string;
-  isUse: boolean;
+  done: boolean;
+  bold: boolean;
+  hidden: boolean;
 };
 
 type Category = 'SAVE' | 'INCOME' | 'RECOMMAND' | 'TIP';
