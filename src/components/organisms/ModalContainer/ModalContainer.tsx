@@ -5,6 +5,7 @@ import stores, { RootState } from '../../../store/configureStore';
 import { modalActions } from '../../../store/modules/actions/modal.action';
 import { ModalDialog } from './ModalDialog/ModalDialog';
 import { Notice } from './ModalDialog/Notice/Notice';
+import { Event } from './ModalDialog/Event/Event';
 import { TermsAndConditions } from './ModalDialog/TermsAndConditions/TermsAndConditions';
 
 export type ModalStatus = {
@@ -54,6 +55,11 @@ export default function ModalContainer() {
       {newModalContainer.modalStatus.id === 'TERMS_AND_CONDITIONS' && (
         <ModalDialog>
           <TermsAndConditions />
+        </ModalDialog>
+      )}
+      {newModalContainer.modalStatus.id === 'EVENT' && (
+        <ModalDialog>
+          <Event modalStatus={newModalContainer.modalStatus} />
         </ModalDialog>
       )}
     </div>

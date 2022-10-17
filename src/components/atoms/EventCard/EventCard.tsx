@@ -1,10 +1,24 @@
 import styled from 'styled-components';
+import stores from '../../../store/configureStore';
+import { modalActions } from '../../../store/modules/actions/modal.action';
 
 export function EventCard(props: { event: EventItem }) {
   const { event } = props;
   return (
     <Wrapper>
-      <div className="card">
+      <div
+        className="card"
+        role="button"
+        tabIndex={0}
+        onMouseDown={() =>
+          stores.dispatch(
+            modalActions.setDialogStatus({
+              id: 'EVENT',
+              data: { event },
+            }),
+          )
+        }
+      >
         <div className="event-list">{event.name}</div>
       </div>
       <hr />
