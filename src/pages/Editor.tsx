@@ -1,9 +1,17 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
-export function Editor() {
+export function Editor(props: { initTitle?: string; initMain?: string }) {
+  const { initMain, initTitle } = props;
+
   const imgSelector: React.MutableRefObject<HTMLInputElement | null> =
     useRef(null);
+
+  const [title, setTitle] = useState<string>('');
+  const [main, setMain] = useState<string>('');
+
+  const titlePlaceholder = <i style={{ color: '#CCCCCC' }}>제목</i>;
+  const mainPlaceholder = <i style={{ color: '#CCCCCC' }}>본문</i>;
 
   return (
     <Wrapper>
@@ -83,8 +91,6 @@ export function Editor() {
         <select
           id="select-font-size"
           onChange={e => {
-            const value = parseInt(e.target.value, 10);
-
             document.execCommand('fontSize', false, e.target.value);
           }}
         >
@@ -125,9 +131,49 @@ export function Editor() {
           <option value="#1971C2">파랑</option>
           <option value="#37B24D">녹색</option>
         </select>
+        <button
+          type="button"
+          onClick={e => {
+            document.execCommand('insertUnorderedList');
+          }}
+        >
+          개시
+        </button>
+        <button
+          type="button"
+          onClick={e => {
+            document.execCommand('insertUnorderedList');
+          }}
+        >
+          HOME
+        </button>
       </div>
-      <div id="editor-title" contentEditable="true" />
-      <div id="editor-main" contentEditable="true" />
+      <div
+        id="editor-title"
+        contentEditable="true"
+        onInput={e => {
+          const target = e.target as HTMLDivElement;
+          setTitle(target.innerHTML);
+        }}
+      >
+        {initTitle ?? titlePlaceholder}
+      </div>
+      <div
+        id="editor-main"
+        contentEditable="true"
+        onInput={e => {
+          const target = e.target as HTMLDivElement;
+          setMain(target.innerHTML);
+        }}
+        onClick={e => {
+          const target = e.target as HTMLDivElement;
+          target.focus();
+        }}
+        role="button"
+        tabIndex={0}
+      >
+        {initMain ?? mainPlaceholder}
+      </div>
     </Wrapper>
   );
 }
@@ -137,6 +183,12 @@ const Wrapper = styled.div`
     padding: 16px 24px;
     border: 1px solid #d6d6d6;
     border-radius: 4px;
+  }
+  #editor-main {
+    padding: 16px 24px;
+    border: 1px solid #d6d6d6;
+    border-radius: 4px;
+    min-height: 500px;
   }
   #img-selector {
     display: none;
