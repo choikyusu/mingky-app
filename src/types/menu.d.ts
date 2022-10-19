@@ -1,3 +1,5 @@
+type ModeType = 'EDIT' | 'NORMAL';
+
 type MenuType =
   | HomeMenuType
   | CalendarMenuType
