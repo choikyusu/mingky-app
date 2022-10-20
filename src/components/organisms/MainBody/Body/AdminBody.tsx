@@ -14,7 +14,7 @@ export function AdminBody() {
             console.log('aaa');
             stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
           }}
-        >{`글쓰기 >`}</div>
+        >{`새글 쓰기 >`}</div>
         <div className="menu-card">{`블로그 따오기 >`}</div>
       </div>
     </Wrapper>
