@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 export function Event(props: { modalStatus: { id: any; data: any } }) {
   const { modalStatus } = props;
   return (

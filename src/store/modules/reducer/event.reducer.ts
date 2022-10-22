@@ -1,7 +1,7 @@
 import { eventAction } from '../actions/event.action';
 
-const initialState: { eventList: EventItem[] } = {
-  eventList: [],
+const initialState: { eventList: { [id: string]: EventItem } } = {
+  eventList: {} as { [id: string]: EventItem },
 };
 
 export function eventReducer(
@@ -11,12 +11,25 @@ export function eventReducer(
   switch (action.type) {
     case eventAction.INITIALIZE:
       return initialState;
-    case eventAction.SET_EVENT_ITEM:
+    case eventAction.ADD_EVENT_ITEM: {
+      const { event } = action.payload;
+      const newEvent = state.eventList;
+      newEvent[event.id] = event;
       return {
         ...state,
-        eventList: [...state.eventList, action.payload.event],
+        eventList: { ...newEvent },
       };
+    }
+    case eventAction.UPDATE_EVENT_ITEM: {
+      const { event } = action.payload;
+      const newEvent = state.eventList;
+      newEvent[event.id] = event;
 
+      return {
+        ...state,
+        eventList: { ...newEvent },
+      };
+    }
     default:
       return state;
   }

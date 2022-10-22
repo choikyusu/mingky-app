@@ -14,12 +14,12 @@ export function Editor() {
 
   useEffect(() => {
     if (editId !== '') {
-      const event: EventItem = stores
-        .getState()
-        .event.eventList.find((event: EventItem) => event.id === editId);
+      const event: EventItem = stores.getState().event.eventList[editId];
 
       setInitTitle(event.name);
       setInitMain(event.description);
+      setTitle(event.name);
+      setMain(event.description);
     }
   }, [editId]);
 
@@ -36,11 +36,6 @@ export function Editor() {
   const [startDate, setStartDate] = useState<Date>(new Date(getToday()));
   const [endDate, setEndDate] = useState<Date>(new Date(getToday()));
   const [category, setCategory] = useState<Category | ''>('');
-
-  useEffect(() => {
-    setTitle(initTitle);
-    setTitle(initMain);
-  }, []);
 
   useEffect(() => {
     console.log(main);
@@ -168,9 +163,9 @@ export function Editor() {
           type="button"
           onClick={e => {
             stores.dispatch(
-              eventActions.setEventItem({
+              eventActions.addEventItem({
                 event: {
-                  id: '1',
+                  id: editId !== '' ? editId : '6',
                   startDate: new Date(startDate),
                   endDate: new Date(endDate),
                   name: title,
@@ -233,9 +228,10 @@ export function Editor() {
           const target = e.target as HTMLDivElement;
           setTitle(target.innerHTML);
         }}
-      >
-        {initTitle}
-      </div>
+        dangerouslySetInnerHTML={{
+          __html: initTitle,
+        }}
+      />
       <div
         id="editor-main"
         contentEditable="true"
@@ -250,9 +246,11 @@ export function Editor() {
         }}
         role="button"
         tabIndex={0}
-      >
-        {initMain}
-      </div>
+        dangerouslySetInnerHTML={{
+          __html: initMain,
+        }}
+      />
+
       <Calendar
         onChange={(value: Date) => {
           if (selectedDate === 'start') setStartDate(value);

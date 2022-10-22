@@ -6,7 +6,7 @@ import { getToday } from '../../../../utils/date.util';
 import { modalActions } from '../../../../store/modules/actions/modal.action';
 
 export function CalendarBody() {
-  const eventList: EventItem[] = useSelector(
+  const eventList: { [id: string]: EventItem } = useSelector(
     (state: RootState) => state.event.eventList,
   );
   const [dayList, setDayList] = useState<
@@ -31,7 +31,7 @@ export function CalendarBody() {
         eventList: [],
       };
 
-      eventList.forEach(item => {
+      Object.values(eventList).forEach(item => {
         if (
           item.startDate <= dateEvent.date &&
           dateEvent.date <= item.endDate
@@ -66,7 +66,7 @@ export function CalendarBody() {
           eventList: [],
         };
 
-        eventList.forEach(item => {
+        Object.values(eventList).forEach(item => {
           if (
             item.startDate <= dateEvent.date &&
             dateEvent.date <= item.endDate
@@ -99,7 +99,7 @@ export function CalendarBody() {
           eventList: [],
         };
 
-        eventList.forEach(item => {
+        Object.values(eventList).forEach(item => {
           if (
             item.startDate <= dateEvent.date &&
             dateEvent.date <= item.endDate
