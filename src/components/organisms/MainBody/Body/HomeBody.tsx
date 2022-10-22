@@ -27,7 +27,7 @@ export function HomeBody() {
             title="부수입"
             category="INCOME"
           />
-          <EventCategoryIcon icon={GrLike} title="추첨" category="RECOMMAND" />
+          <EventCategoryIcon icon={GrLike} title="추첨" category="RAFFLE" />
           <EventCategoryIcon icon={GrInfo} title="꿀팁" category="TIP" />
         </div>
         <CardList category={selectedCategory} />

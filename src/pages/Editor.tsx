@@ -1,17 +1,50 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import stores, { RootState } from '../store/configureStore';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { menuActions } from '../store/modules/actions/menu.action';
+import { getToday, getYYYYMMDD } from '../utils/date.util';
+import { eventActions } from '../store/modules/actions/event.action';
+import { useSelector } from 'react-redux';
+import { editActions } from '../store/modules/actions/edit.action';
 
-export function Editor(props: { initTitle?: string; initMain?: string }) {
-  const { initMain, initTitle } = props;
+export function Editor() {
+  const editId: string = useSelector((state: RootState) => state.edit.editId);
+
+  useEffect(() => {
+    if (editId !== '') {
+      const event: EventItem = stores
+        .getState()
+        .event.eventList.find((event: EventItem) => event.id === editId);
+
+      setInitTitle(event.name);
+      setInitMain(event.description);
+    }
+  }, [editId]);
+
+  const [initTitle, setInitTitle] = useState<string>('');
+  const [initMain, setInitMain] = useState<string>('');
 
   const imgSelector: React.MutableRefObject<HTMLInputElement | null> =
     useRef(null);
 
   const [title, setTitle] = useState<string>('');
   const [main, setMain] = useState<string>('');
+  const [value, onChange] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [startDate, setStartDate] = useState<Date>(new Date(getToday()));
+  const [endDate, setEndDate] = useState<Date>(new Date(getToday()));
+  const [category, setCategory] = useState<Category | ''>('');
 
-  const titlePlaceholder = <i style={{ color: '#CCCCCC' }}>제목</i>;
-  const mainPlaceholder = <i style={{ color: '#CCCCCC' }}>본문</i>;
+  useEffect(() => {
+    setTitle(initTitle);
+    setTitle(initMain);
+  }, []);
+
+  useEffect(() => {
+    console.log(main);
+  }, [main]);
 
   return (
     <Wrapper>
@@ -134,33 +167,79 @@ export function Editor(props: { initTitle?: string; initMain?: string }) {
         <button
           type="button"
           onClick={e => {
-            document.execCommand('insertUnorderedList');
+            stores.dispatch(
+              eventActions.setEventItem({
+                event: {
+                  id: '1',
+                  startDate: new Date(startDate),
+                  endDate: new Date(endDate),
+                  name: title,
+                  description: main,
+                  category: category !== '' ? category : 'SAVE',
+                  status: '',
+                  done: false,
+                  bold: false,
+                  hidden: false,
+                },
+              }),
+            );
+            stores.dispatch(editActions.setEditId({ editId: '' }));
+            stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
+            stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
           }}
         >
           개시
         </button>
         <button
           type="button"
-          onClick={e => {
-            document.execCommand('insertUnorderedList');
+          onClick={() => {
+            stores.dispatch(editActions.setEditId({ editId: '' }));
+            stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
+            stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
           }}
         >
           HOME
         </button>
+        <div onClick={() => setSelectedDate('start')} aria-hidden>
+          시작일자
+        </div>
+        <div onClick={() => setSelectedDate('start')} aria-hidden>
+          {getYYYYMMDD(startDate)}
+        </div>
+        <div onClick={() => setSelectedDate('end')} aria-hidden>
+          종료일자
+        </div>
+        <div onClick={() => setSelectedDate('end')} aria-hidden>
+          {getYYYYMMDD(endDate)}
+        </div>
+        <select
+          id="select-category"
+          onChange={e => {
+            setCategory(e.target.value as Category);
+          }}
+        >
+          <option value="">카테고리</option>
+          <option value="SAVE">절약</option>
+          <option value="INCOME">부수입</option>
+          <option value="RALLE">추첨</option>
+          <option value="TIP">꿀팁</option>
+        </select>
       </div>
       <div
         id="editor-title"
         contentEditable="true"
+        suppressContentEditableWarning
         onInput={e => {
           const target = e.target as HTMLDivElement;
           setTitle(target.innerHTML);
         }}
       >
-        {initTitle ?? titlePlaceholder}
+        {initTitle}
       </div>
       <div
         id="editor-main"
         contentEditable="true"
+        suppressContentEditableWarning
         onInput={e => {
           const target = e.target as HTMLDivElement;
           setMain(target.innerHTML);
@@ -172,13 +251,23 @@ export function Editor(props: { initTitle?: string; initMain?: string }) {
         role="button"
         tabIndex={0}
       >
-        {initMain ?? mainPlaceholder}
+        {initMain}
       </div>
+      <Calendar
+        onChange={(value: Date) => {
+          if (selectedDate === 'start') setStartDate(value);
+          else setEndDate(value);
+        }}
+        value={value}
+      />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  #editor-menu {
+    display: flex;
+  }
   #editor-title {
     padding: 16px 24px;
     border: 1px solid #d6d6d6;

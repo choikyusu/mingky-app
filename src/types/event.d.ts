@@ -11,4 +11,4 @@ type EventItem = {
   hidden: boolean;
 };
 
-type Category = 'SAVE' | 'INCOME' | 'RECOMMAND' | 'TIP';
+type Category = 'SAVE' | 'INCOME' | 'RAFFLE' | 'TIP';
