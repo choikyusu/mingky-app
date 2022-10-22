@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import stores from '../../../store/configureStore';
+import { editActions } from '../../../store/modules/actions/edit.action';
+import { menuActions } from '../../../store/modules/actions/menu.action';
 import { modalActions } from '../../../store/modules/actions/modal.action';
 
 export function EventCard(props: { event: EventItem }) {
@@ -8,9 +10,8 @@ export function EventCard(props: { event: EventItem }) {
     <Wrapper>
       <div
         className="card"
-        role="button"
-        tabIndex={0}
-        onMouseDown={() =>
+        aria-hidden
+        onClick={() =>
           stores.dispatch(
             modalActions.setDialogStatus({
               id: 'EVENT',
@@ -20,6 +21,16 @@ export function EventCard(props: { event: EventItem }) {
         }
       >
         <div className="event-list">{event.name}</div>
+        <div
+          aria-hidden
+          onClick={e => {
+            e.stopPropagation();
+            stores.dispatch(editActions.setEditId({ editId: event.id }));
+            stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
+          }}
+        >
+          편집
+        </div>
       </div>
       <hr />
     </Wrapper>

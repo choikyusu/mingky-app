@@ -9,7 +9,7 @@ export const menuActions = {
     return {
       type: menuAction.SET_MODE,
       payload: {
-        menu: params.mode,
+        mode: params.mode,
       },
     };
   },

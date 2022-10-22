@@ -15,7 +15,7 @@ export function MainPage() {
           <MainBody />
         </div>
       ) : (
-        <Editor initTitle="gggg" initMain="aaaaa" />
+        <Editor />
       )}
     </div>
   );
