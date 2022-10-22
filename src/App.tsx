@@ -23,7 +23,7 @@ function App() {
     insert.current = true;
 
     stores.dispatch(
-      eventActions.setEventItem({
+      eventActions.addEventItem({
         event: {
           id: '1',
           category: 'SAVE',
@@ -169,7 +169,7 @@ function App() {
     );
 
     stores.dispatch(
-      eventActions.setEventItem({
+      eventActions.addEventItem({
         event: {
           id: '2',
           category: 'SAVE',
@@ -258,7 +258,7 @@ function App() {
     );
 
     stores.dispatch(
-      eventActions.setEventItem({
+      eventActions.addEventItem({
         event: {
           id: '3',
           category: 'INCOME',
@@ -553,7 +553,7 @@ function App() {
     );
 
     stores.dispatch(
-      eventActions.setEventItem({
+      eventActions.addEventItem({
         event: {
           id: '4',
           category: 'INCOME',

@@ -6,14 +6,14 @@ import { EventCard } from '../../atoms/EventCard/EventCard';
 
 export function CardList(props: { category: Category }) {
   const { category } = props;
-  const eventList: EventItem[] = useSelector(
+  const eventList: { [id: string]: EventItem } = useSelector(
     (state: RootState) => state.event.eventList,
   );
   const [categoryItemList, setCategoryItemList] = useState<EventItem[]>([]);
 
   useEffect(() => {
     const list: EventItem[] = [];
-    eventList.forEach(event => {
+    Object.values(eventList).forEach(event => {
       if (category === event.category) list.push(event);
     });
 
