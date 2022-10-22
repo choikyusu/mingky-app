@@ -216,7 +216,7 @@ export function Editor() {
           <option value="">카테고리</option>
           <option value="SAVE">절약</option>
           <option value="INCOME">부수입</option>
-          <option value="RALLE">추첨</option>
+          <option value="RAFFLE">추첨</option>
           <option value="TIP">꿀팁</option>
         </select>
       </div>
