@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import stores, { RootState } from '../store/configureStore';
 import Calendar from 'react-calendar';
@@ -20,6 +20,9 @@ export function Editor() {
       setInitMain(event.description);
       setTitle(event.name);
       setMain(event.description);
+      setStartDate(event.startDate);
+      setEndDate(event.endDate);
+      setCategory(event.category);
     }
   }, [editId]);
 
@@ -27,6 +30,20 @@ export function Editor() {
   const [initMain, setInitMain] = useState<string>('');
 
   const imgSelector: React.MutableRefObject<HTMLInputElement | null> =
+    useRef(null);
+  const mainEditor: React.MutableRefObject<HTMLDivElement | null> =
+    useRef(null);
+  const boldRef: React.MutableRefObject<HTMLButtonElement | null> =
+    useRef(null);
+  const italicRef: React.MutableRefObject<HTMLButtonElement | null> =
+    useRef(null);
+  const underlineRef: React.MutableRefObject<HTMLButtonElement | null> =
+    useRef(null);
+  const strikeRef: React.MutableRefObject<HTMLButtonElement | null> =
+    useRef(null);
+  const orderListRef: React.MutableRefObject<HTMLButtonElement | null> =
+    useRef(null);
+  const unorderListRef: React.MutableRefObject<HTMLButtonElement | null> =
     useRef(null);
 
   const [title, setTitle] = useState<string>('');
@@ -36,15 +53,135 @@ export function Editor() {
   const [startDate, setStartDate] = useState<Date>(new Date(getToday()));
   const [endDate, setEndDate] = useState<Date>(new Date(getToday()));
   const [category, setCategory] = useState<Category | ''>('');
+  const [fontName, setFontName] = useState<string>('');
+  const [fontSize, setFontSize] = useState<number>(0);
+  const [fontColor, setFontColor] = useState<string>('');
+  const [bgColor, setBgColor] = useState<string>('');
+  const fontSizeList = [10, 13, 16, 18, 24, 32, 48];
 
-  useEffect(() => {
-    console.log(main);
-  }, [main]);
+  function checkStyle() {
+    reportFont();
+    if (isStyle('bold')) {
+      boldRef?.current?.classList.add('active');
+    } else {
+      boldRef?.current?.classList.remove('active');
+    }
+    if (isStyle('italic')) {
+      italicRef?.current?.classList.add('active');
+    } else {
+      italicRef?.current?.classList.remove('active');
+    }
+    if (isStyle('underline')) {
+      underlineRef?.current?.classList.add('active');
+    } else {
+      underlineRef?.current?.classList.remove('active');
+    }
+    if (isStyle('strikeThrough')) {
+      strikeRef?.current?.classList.add('active');
+    } else {
+      strikeRef?.current?.classList.remove('active');
+    }
+    if (isStyle('insertOrderedList')) {
+      orderListRef?.current?.classList.add('active');
+    } else {
+      orderListRef?.current?.classList.remove('active');
+    }
+    if (isStyle('insertUnorderedList')) {
+      unorderListRef?.current?.classList.add('active');
+    } else {
+      unorderListRef?.current?.classList.remove('active');
+    }
+  }
+
+  function isStyle(style: string) {
+    return document.queryCommandState(style);
+  }
+
+  function getComputedStyleProperty(el: HTMLElement, propName: any) {
+    if (window.getComputedStyle) {
+      const style: CSSStyleDeclaration = window.getComputedStyle(el, null);
+      return style[propName];
+    }
+
+    if (el.style) {
+      return el.style[propName];
+    }
+
+    return '';
+  }
+
+  function reportFont() {
+    let containerEl: Node | null = null;
+    let sel: Selection | null = null;
+    if (window.getSelection) {
+      sel = window.getSelection();
+      if (sel?.rangeCount) {
+        containerEl = sel.getRangeAt(0).commonAncestorContainer;
+        if (containerEl.nodeType === 3) {
+          containerEl = containerEl.parentNode;
+        }
+      }
+    }
+    // if (sel === document.getSelection() && sel?.type !== 'Control') {
+    //   containerEl = sel?.focusNode?.parentElement();
+    // }
+
+    if (containerEl) {
+      const fontSize = getComputedStyleProperty(
+        containerEl as HTMLElement,
+        'fontSize',
+      );
+      const fontName = getComputedStyleProperty(
+        containerEl as HTMLElement,
+        'fontFamily',
+      );
+
+      const fontColor = getComputedStyleProperty(
+        containerEl as HTMLElement,
+        'color',
+      );
+      const backgroundColor = getComputedStyleProperty(
+        containerEl as HTMLElement,
+        'backgroundColor',
+      );
+      const size = parseInt(fontSize.replace('px', ''), 10);
+
+      setFontName(fontName);
+      setFontSize(fontSizeList.findIndex(value => value === size) + 1);
+      setFontColor(rgbToHex(fontColor).toUpperCase());
+
+      if (backgroundColor === 'rgba(0, 0, 0, 0)') {
+        setBgColor(backgroundColor);
+      } else {
+        setBgColor(rgbToHex(backgroundColor).toUpperCase());
+      }
+      // fontSizeSelector.value = fontSizeList.indexOf(size) + 1;
+      // // fontName이 문자열 "폰트명"으로 오기 때문에 "를 제거해주는 코드 추가
+      // fontNameSelector.value = fontName.replaceAll('"', '');
+    }
+  }
+
+  function componentToHex(c: string) {
+    const hex = parseInt(c, 10).toString(16);
+    console.log(hex);
+    return hex.length === 1 ? `0${hex}` : hex;
+  }
+
+  function rgbToHex(color: string) {
+    // rgb(r, g, b)에서 색상값만 뽑아 내기 위해서 rgb() 제거
+    const temp = color.replace(/[^0-9,]/g, '');
+    // r,g,b만 남은 값을 ,로 [r,g,b] 배열로 변환
+    const rgb = temp.split(',');
+    return `#${componentToHex(rgb[0])}${componentToHex(rgb[1])}${componentToHex(
+      rgb[2],
+    )}`;
+  }
 
   return (
     <Wrapper>
       <div id="editor-menu">
         <button
+          ref={boldRef}
           type="button"
           onClick={e => {
             document.execCommand('bold');
@@ -53,6 +190,7 @@ export function Editor() {
           Bold
         </button>
         <button
+          ref={italicRef}
           type="button"
           onClick={e => {
             document.execCommand('italic');
@@ -61,6 +199,7 @@ export function Editor() {
           Italic
         </button>
         <button
+          ref={underlineRef}
           type="button"
           onClick={e => {
             document.execCommand('underline');
@@ -69,6 +208,7 @@ export function Editor() {
           Underline
         </button>
         <button
+          ref={strikeRef}
           type="button"
           onClick={e => {
             document.execCommand('strikeThrough');
@@ -77,6 +217,7 @@ export function Editor() {
           Strike
         </button>
         <button
+          ref={orderListRef}
           type="button"
           onClick={e => {
             document.execCommand('insertOrderedList');
@@ -85,6 +226,7 @@ export function Editor() {
           OL
         </button>
         <button
+          ref={unorderListRef}
           type="button"
           onClick={e => {
             document.execCommand('insertUnorderedList');
@@ -121,6 +263,7 @@ export function Editor() {
           onChange={e => {
             document.execCommand('fontSize', false, e.target.value);
           }}
+          value={fontSize}
         >
           <option value="">폰트 사이즈</option>
           <option value="1">10px</option>
@@ -136,6 +279,7 @@ export function Editor() {
           onChange={e => {
             document.execCommand('foreColor', false, e.target.value);
           }}
+          value={fontColor}
         >
           <option value="">폰트 색상</option>
           <option value="#000000">검정</option>
@@ -150,6 +294,7 @@ export function Editor() {
           onChange={e => {
             document.execCommand('hiliteColor', false, e.target.value);
           }}
+          value={bgColor}
         >
           <option value="rgba(0, 0, 0, 0)">폰트 백그라운드</option>
           <option value="#000000">검정</option>
@@ -212,6 +357,7 @@ export function Editor() {
           onChange={e => {
             setCategory(e.target.value as Category);
           }}
+          value={category}
         >
           <option value="">카테고리</option>
           <option value="SAVE">절약</option>
@@ -233,16 +379,16 @@ export function Editor() {
         }}
       />
       <div
+        ref={mainEditor}
         id="editor-main"
         contentEditable="true"
         suppressContentEditableWarning
+        onMouseDown={e => {
+          checkStyle();
+        }}
         onInput={e => {
           const target = e.target as HTMLDivElement;
           setMain(target.innerHTML);
-        }}
-        onClick={e => {
-          const target = e.target as HTMLDivElement;
-          target.focus();
         }}
         role="button"
         tabIndex={0}
@@ -254,7 +400,7 @@ export function Editor() {
       <Calendar
         onChange={(value: Date) => {
           if (selectedDate === 'start') setStartDate(value);
-          else setEndDate(value);
+          else if (selectedDate === 'end') setEndDate(value);
         }}
         value={value}
       />
@@ -279,5 +425,9 @@ const Wrapper = styled.div`
   }
   #img-selector {
     display: none;
+  }
+  button.active {
+    background-color: purple;
+    color: #fff;
   }
 `;
