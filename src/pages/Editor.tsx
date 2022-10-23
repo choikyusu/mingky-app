@@ -367,6 +367,7 @@ export function Editor() {
           <option value="INCOME">부수입</option>
           <option value="RAFFLE">추첨</option>
           <option value="TIP">꿀팁</option>
+          <option value="UNUSED">사용안함</option>
         </select>
         <select
           id="select-status"
