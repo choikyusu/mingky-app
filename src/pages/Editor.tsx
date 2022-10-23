@@ -320,6 +320,7 @@ export function Editor() {
                   done: false,
                   bold: false,
                   hidden: false,
+                  check: false,
                 },
               }),
             );

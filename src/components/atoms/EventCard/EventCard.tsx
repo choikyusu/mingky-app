@@ -1,11 +1,18 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import stores from '../../../store/configureStore';
 import { editActions } from '../../../store/modules/actions/edit.action';
+import { eventActions } from '../../../store/modules/actions/event.action';
 import { menuActions } from '../../../store/modules/actions/menu.action';
 import { modalActions } from '../../../store/modules/actions/modal.action';
 
 export function EventCard(props: { event: EventItem }) {
   const { event } = props;
+  const [status, setStatus] = useState<string>(event.status);
+  const [hidden, setHidden] = useState<boolean>(event.hidden);
+  const [bold, setBold] = useState<boolean>(event.bold);
+  const [check, setCheck] = useState<boolean>(event.check);
+
   return (
     <Wrapper>
       <div
@@ -30,6 +37,53 @@ export function EventCard(props: { event: EventItem }) {
           }}
         >
           편집
+        </div>
+        <div
+          aria-hidden
+          onClick={e => {
+            e.stopPropagation();
+            setHidden(!hidden);
+            const newEvent = { ...event, hidden: !hidden };
+            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+          }}
+        >
+          {hidden ? '숨김' : '보임'}
+        </div>
+        <div
+          aria-hidden
+          onClick={e => {
+            e.stopPropagation();
+            setBold(!bold);
+            const newEvent = { ...event, bold: !bold };
+            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+          }}
+        >
+          {bold ? '강조' : '일반'}
+        </div>
+        <div
+          aria-hidden
+          onClick={e => {
+            e.stopPropagation();
+            setCheck(!check);
+            const newEvent = { ...event, check: !check };
+            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+          }}
+        >
+          {check ? '미확인' : '확인함'}
+        </div>
+        <div
+          aria-hidden
+          onClick={e => {
+            e.stopPropagation();
+
+            const nextStatus = status === '완료' ? '진행중' : '완료';
+            setStatus(nextStatus);
+            const newEvent = { ...event, status: nextStatus };
+
+            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+          }}
+        >
+          {status}
         </div>
       </div>
       <hr />
