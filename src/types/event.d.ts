@@ -9,6 +9,7 @@ type EventItem = {
   done: boolean;
   bold: boolean;
   hidden: boolean;
+  check: boolean;
 };
 
 type Category = 'SAVE' | 'INCOME' | 'RAFFLE' | 'TIP';
