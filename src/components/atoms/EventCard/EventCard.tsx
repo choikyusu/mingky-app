@@ -47,7 +47,7 @@ export function EventCard(props: { event: EventItem }) {
             stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
-          {hidden ? '숨김' : '보임'}
+          {hidden ? '숨김' : '보임'}{' '}
         </div>
         <div
           aria-hidden
@@ -58,7 +58,7 @@ export function EventCard(props: { event: EventItem }) {
             stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
-          {bold ? '강조' : '일반'}
+          {bold ? '강조' : '일반'}{' '}
         </div>
         <div
           aria-hidden
@@ -69,21 +69,21 @@ export function EventCard(props: { event: EventItem }) {
             stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
-          {check ? '미확인' : '확인함'}
+          {check ? '미확인' : '확인함'}{' '}
         </div>
         <div
           aria-hidden
           onClick={e => {
             e.stopPropagation();
 
-            const nextStatus = status === '완료' ? '진행중' : '완료';
+            const nextStatus = status === 'COMPLETE' ? 'ONGOING' : 'COMPLETE';
             setStatus(nextStatus);
             const newEvent = { ...event, status: nextStatus };
 
             stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
-          {status}
+          {status === 'COMPLETE' ? '완료' : '진행중'}{' '}
         </div>
       </div>
       <hr />
