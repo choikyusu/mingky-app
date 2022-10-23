@@ -23,6 +23,7 @@ export function Editor() {
       setStartDate(event.startDate);
       setEndDate(event.endDate);
       setCategory(event.category);
+      setStatus(event.status);
     }
   }, [editId]);
 
@@ -57,6 +58,7 @@ export function Editor() {
   const [fontSize, setFontSize] = useState<number>(0);
   const [fontColor, setFontColor] = useState<string>('');
   const [bgColor, setBgColor] = useState<string>('');
+  const [status, setStatus] = useState<string>('');
   const fontSizeList = [10, 13, 16, 18, 24, 32, 48];
 
   function checkStyle() {
@@ -316,7 +318,7 @@ export function Editor() {
                   name: title,
                   description: main,
                   category: category !== '' ? category : 'SAVE',
-                  status: '',
+                  status,
                   done: false,
                   bold: false,
                   hidden: false,
@@ -365,6 +367,17 @@ export function Editor() {
           <option value="INCOME">부수입</option>
           <option value="RAFFLE">추첨</option>
           <option value="TIP">꿀팁</option>
+        </select>
+        <select
+          id="select-status"
+          onChange={e => {
+            setStatus(e.target.value);
+          }}
+          value={status}
+        >
+          <option value="">상태</option>
+          <option value="COMPLETE">완료</option>
+          <option value="ONGOING">진행중</option>
         </select>
       </div>
       <div
