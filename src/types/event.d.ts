@@ -12,4 +12,4 @@ type EventItem = {
   check: boolean;
 };
 
-type Category = 'SAVE' | 'INCOME' | 'RAFFLE' | 'TIP';
+type Category = 'SAVE' | 'INCOME' | 'RAFFLE' | 'TIP' | 'UNUSED';
