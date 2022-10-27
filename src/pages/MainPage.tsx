@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import { MainBody } from '../components/organisms/MainBody/MainBody';
 import { MainHeader } from '../components/organisms/MainHeader/MainHeader';
-import { RootState } from '../store/configureStore';
+import stores, { RootState } from '../store/configureStore';
+import { eventActions } from '../store/modules/actions/event.action';
 import { Editor } from './Editor';
 
 export function MainPage() {
