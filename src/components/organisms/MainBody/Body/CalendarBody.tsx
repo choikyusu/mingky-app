@@ -4,6 +4,8 @@ import stores, { RootState } from '../../../../store/configureStore';
 import { useSelector } from 'react-redux';
 import { getToday } from '../../../../utils/date.util';
 import { modalActions } from '../../../../store/modules/actions/modal.action';
+import axios from 'axios';
+import { eventActions } from '../../../../store/modules/actions/event.action';
 
 export function CalendarBody() {
   const eventList: { [id: string]: EventItem } = useSelector(
@@ -18,6 +20,19 @@ export function CalendarBody() {
   const dayRef: React.MutableRefObject<HTMLTableCellElement | null> =
     useRef(null);
   const listRef: React.MutableRefObject<HTMLDivElement | null> = useRef(null);
+
+  useEffect(() => {
+    axios.get('/api/events').then(res => {
+      const { events }: { events: EventItem[] } = res.data;
+
+      events.forEach(event => {
+        event.startDate = new Date(event.startDate);
+        event.endDate = new Date(event.endDate);
+      });
+
+      stores.dispatch(eventActions.setEventItem({ eventList: events }));
+    });
+  }, []);
 
   useEffect(() => {
     const list: { date: Date; eventList: EventItem[] }[] = [];
@@ -46,11 +61,11 @@ export function CalendarBody() {
     datePlusOffset.current = 14;
 
     setDayList([...list]);
-  }, []);
+  }, [eventList]);
 
   const onScroll = (e: any) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target;
-    console.log(scrollTop, scrollHeight, clientHeight);
+    // console.log(scrollTop, scrollHeight, clientHeight);
 
     if (scrollTop === 0) {
       const list: { date: Date; eventList: EventItem[] }[] = [];

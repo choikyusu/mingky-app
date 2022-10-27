@@ -5,8 +5,6 @@ import { NaverLogin } from './components/molecules/NaverLogin/NaverLogin';
 import ModalContainer from './components/organisms/ModalContainer/ModalContainer';
 import { MainPage } from './pages/MainPage';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios';
-import { useEffect } from 'react';
 
 declare global {
   interface Window {
@@ -15,12 +13,6 @@ declare global {
 }
 
 function App() {
-  useEffect(() => {
-    axios.get('/api').then(() => {
-      console.log('a');
-    });
-  }, []);
-
   return (
     <>
       <BrowserRouter>
