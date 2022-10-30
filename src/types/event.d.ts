@@ -5,6 +5,7 @@ type EventItem = {
   startDate: Date;
   endDate: Date;
   description: string;
+  summary: string;
   status: string;
   done: boolean;
   bold: boolean;

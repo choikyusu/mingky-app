@@ -49,6 +49,7 @@ export function Editor() {
 
   const [title, setTitle] = useState<string>('');
   const [main, setMain] = useState<string>('');
+  const [summary, setSummary] = useState<string>('');
   const [value, onChange] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [startDate, setStartDate] = useState<Date>(new Date(getToday()));
@@ -165,7 +166,6 @@ export function Editor() {
 
   function componentToHex(c: string) {
     const hex = parseInt(c, 10).toString(16);
-    console.log(hex);
     return hex.length === 1 ? `0${hex}` : hex;
   }
 
@@ -316,6 +316,7 @@ export function Editor() {
                   startDate: new Date(startDate),
                   endDate: new Date(endDate),
                   name: title,
+                  summary,
                   description: main,
                   category: category !== '' ? category : 'SAVE',
                   status,
@@ -404,6 +405,7 @@ export function Editor() {
         onInput={e => {
           const target = e.target as HTMLDivElement;
           setMain(target.innerHTML);
+          setSummary(target.innerText.slice(0, 50));
         }}
         role="button"
         tabIndex={0}
