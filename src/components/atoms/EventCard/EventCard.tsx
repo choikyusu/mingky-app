@@ -28,6 +28,7 @@ export function EventCard(props: { event: EventItem }) {
         }
       >
         <div className="event-list">{event.name}</div>
+        <div>{`${event.summary}...`}</div>
         <div
           aria-hidden
           onClick={e => {
