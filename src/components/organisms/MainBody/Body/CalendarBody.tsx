@@ -21,20 +21,27 @@ export function CalendarBody() {
   const dayRef: React.MutableRefObject<HTMLTableCellElement | null> =
     useRef(null);
   const listRef: React.MutableRefObject<HTMLDivElement | null> = useRef(null);
-  const { data } = useFetch<{ events: EventItem[] }>(API.GET_EVENTS_LIST);
+  const newFetch = useFetch();
 
   useEffect(() => {
-    if (data) {
-      const { events } = data;
-
-      events.forEach(event => {
-        event.startDate = new Date(event.startDate);
-        event.endDate = new Date(event.endDate);
+    (async () => {
+      const resultData: { events: EventItem[] } = await newFetch.callApi({
+        method: 'get',
+        url: API.GET_EVENTS_LIST,
       });
 
-      stores.dispatch(eventActions.setEventItem({ eventList: events }));
-    }
-  }, [data]);
+      if (resultData) {
+        const { events } = resultData;
+
+        events.forEach(event => {
+          event.startDate = new Date(event.startDate);
+          event.endDate = new Date(event.endDate);
+        });
+
+        stores.dispatch(eventActions.setEventItem({ eventList: events }));
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     const list: { date: Date; eventList: EventItem[] }[] = [];
