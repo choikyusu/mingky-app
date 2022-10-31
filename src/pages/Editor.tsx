@@ -8,23 +8,32 @@ import { getToday, getYYYYMMDD } from '../utils/date.util';
 import { eventActions } from '../store/modules/actions/event.action';
 import { useSelector } from 'react-redux';
 import { editActions } from '../store/modules/actions/edit.action';
+import { API } from '../constants/api.constant';
+import useFetch from '../hooks/useFetch';
 
 export function Editor() {
   const editId: string = useSelector((state: RootState) => state.edit.editId);
 
-  useEffect(() => {
-    if (editId !== '') {
-      const event: EventItem = stores.getState().event.eventList[editId];
+  const newFetch = useFetch();
 
-      setInitTitle(event.name);
-      setInitMain(event.description);
-      setTitle(event.name);
-      setMain(event.description);
-      setStartDate(event.startDate);
-      setEndDate(event.endDate);
-      setCategory(event.category);
-      setStatus(event.status);
-    }
+  useEffect(() => {
+    (async () => {
+      const resultData = await newFetch.callApi({
+        url: `${API.GET_EVENT_BY_ID}/${editId}`,
+        method: 'get',
+      });
+      if (resultData) {
+        const { event } = resultData;
+        setInitTitle(event.name);
+        setInitMain(event.description);
+        setTitle(event.name);
+        setMain(event.description);
+        setStartDate(new Date(event.startDate));
+        setEndDate(new Date(event.endDate));
+        setCategory(event.category);
+        setStatus(event.status);
+      }
+    })();
   }, [editId]);
 
   const [initTitle, setInitTitle] = useState<string>('');
@@ -330,6 +339,46 @@ export function Editor() {
             stores.dispatch(editActions.setEditId({ editId: '' }));
             stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
             stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
+
+            if (editId === '') {
+              newFetch.callApi({
+                url: API.CREATE_EVENT,
+                method: 'post',
+                data: {
+                  id: editId,
+                  startDate: getYYYYMMDD(startDate),
+                  endDate: getYYYYMMDD(endDate),
+                  name: title,
+                  summary,
+                  description: main,
+                  category,
+                  status,
+                  done: false,
+                  bold: false,
+                  hidden: false,
+                  check: false,
+                },
+              });
+            } else {
+              newFetch.callApi({
+                url: API.UPDATE_EVENT,
+                method: 'put',
+                data: {
+                  id: editId,
+                  startDate: getYYYYMMDD(startDate),
+                  endDate: getYYYYMMDD(endDate),
+                  name: title,
+                  summary,
+                  description: main,
+                  category,
+                  status,
+                  done: false,
+                  bold: false,
+                  hidden: false,
+                  check: false,
+                },
+              });
+            }
           }}
         >
           개시
