@@ -361,7 +361,7 @@ export function Editor() {
               });
             } else {
               newFetch.callApi({
-                url: API.UPDATE_EVENT,
+                url: `${API.UPDATE_EVENT}/${editId}`,
                 method: 'put',
                 data: {
                   id: editId,
