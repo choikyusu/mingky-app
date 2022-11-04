@@ -11,7 +11,6 @@ export function AdminBody() {
           tabIndex={0}
           role="button"
           onClick={() => {
-            console.log('aaa');
             stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
           }}
         >{`새글 쓰기 >`}</div>
