@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { editActions } from '../store/modules/actions/edit.action';
 import { API } from '../constants/api.constant';
 import useFetch from '../hooks/useFetch';
+import axios from 'axios';
 
 export function Editor() {
   const editId: string = useSelector((state: RootState) => state.edit.editId);
@@ -266,6 +267,22 @@ export function Editor() {
                 document.execCommand('insertImage', false, `${reader.result}`);
               });
               reader.readAsDataURL(files[0]);
+
+              const frm = new FormData();
+              frm.append('photo', files[0]);
+
+              axios
+                .post('/api/upload', frm, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  },
+                })
+                .then(response => {
+                  console.log(response);
+                })
+                .catch(error => {
+                  // 예외 처리
+                });
             }
           }}
         />
@@ -345,7 +362,6 @@ export function Editor() {
                 url: API.CREATE_EVENT,
                 method: 'post',
                 data: {
-                  id: editId,
                   startDate: getYYYYMMDD(startDate),
                   endDate: getYYYYMMDD(endDate),
                   name: title,
@@ -490,7 +506,6 @@ const Wrapper = styled.div`
     min-height: 500px;
   }
   #img-selector {
-    display: none;
   }
   button.active {
     background-color: purple;
