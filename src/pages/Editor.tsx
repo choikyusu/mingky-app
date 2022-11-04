@@ -19,6 +19,7 @@ export function Editor() {
 
   useEffect(() => {
     (async () => {
+      if (editId === '') return;
       const resultData = await newFetch.callApi({
         url: `${API.GET_EVENT_BY_ID}/${editId}`,
         method: 'get',
@@ -267,9 +268,7 @@ export function Editor() {
 
               axios
                 .post('/api/upload', frm, {
-                  headers: {
-                    'Content-Type': 'multipart/form-data',
-                  },
+                  headers: { 'Content-Type': 'multipart/form-data' },
                 })
                 .then(response => {
                   document.execCommand(
@@ -277,10 +276,11 @@ export function Editor() {
                     false,
                     `${response.data.filename}`,
                   );
+                  e.target.value = '';
                   console.log(response);
                 })
                 .catch(error => {
-                  // 예외 처리
+                  e.target.value = '';
                 });
             }
           }}
