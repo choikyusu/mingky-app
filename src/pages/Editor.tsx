@@ -262,12 +262,6 @@ export function Editor() {
           onChange={e => {
             const { files } = e.target;
             if (files) {
-              const reader = new FileReader();
-              reader.addEventListener('load', function (e) {
-                document.execCommand('insertImage', false, `${reader.result}`);
-              });
-              reader.readAsDataURL(files[0]);
-
               const frm = new FormData();
               frm.append('photo', files[0]);
 
@@ -278,6 +272,11 @@ export function Editor() {
                   },
                 })
                 .then(response => {
+                  document.execCommand(
+                    'insertImage',
+                    false,
+                    `${response.data.filename}`,
+                  );
                   console.log(response);
                 })
                 .catch(error => {
