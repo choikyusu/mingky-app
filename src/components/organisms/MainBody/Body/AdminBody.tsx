@@ -1,8 +1,11 @@
 import styled from 'styled-components';
+import { API } from '../../../../constants/api.constant';
+import useFetch from '../../../../hooks/useFetch';
 import stores from '../../../../store/configureStore';
 import { menuActions } from '../../../../store/modules/actions/menu.action';
 
 export function AdminBody() {
+  const newFetch = useFetch();
   return (
     <Wrapper>
       <div className="menu-list">
@@ -14,7 +17,19 @@ export function AdminBody() {
             stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
           }}
         >{`새글 쓰기 >`}</div>
-        <div className="menu-card">{`블로그 따오기 >`}</div>
+        <div
+          className="menu-card"
+          tabIndex={0}
+          role="button"
+          onClick={async () => {
+            const result = await newFetch.callApi({
+              url: API.GET_BLOG_EVENT,
+              method: 'get',
+            });
+
+            console.log(result);
+          }}
+        >{`블로그 따오기 >`}</div>
       </div>
     </Wrapper>
   );
