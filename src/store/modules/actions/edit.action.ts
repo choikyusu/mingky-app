@@ -11,7 +11,7 @@ export const editActions = {
   setEditId: (payload: { editId: string }) => {
     return { type: editAction.SET_EDIT_ID, payload };
   },
-  setContents: (payload: { contents: string }) => {
+  setContents: (payload: { title: string; contents: string }) => {
     return { type: editAction.SET_CONTENTS, payload };
   },
 };

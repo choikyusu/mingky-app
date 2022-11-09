@@ -31,7 +31,10 @@ export function AdminBody() {
             stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
 
             stores.dispatch(
-              editActions.setContents({ contents: result.contents }),
+              editActions.setContents({
+                title: result.title,
+                contents: result.contents,
+              }),
             );
           }}
         >{`블로그 따오기 >`}</div>

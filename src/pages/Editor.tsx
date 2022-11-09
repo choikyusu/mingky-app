@@ -13,18 +13,28 @@ import useFetch from '../hooks/useFetch';
 import axios from 'axios';
 
 export function Editor() {
-  const { editId, contents }: { editId: string; contents: string } =
-    useSelector((state: RootState) => state.edit);
+  const {
+    editId,
+    title,
+    contents,
+  }: { editId: string; title: string; contents: string } = useSelector(
+    (state: RootState) => state.edit,
+  );
 
   const newFetch = useFetch();
 
   useEffect(() => {
     (async () => {
-      if (contents === '') return;
-      setInitMain(contents);
-      setMain(contents);
+      if (contents !== '') {
+        setInitMain(contents);
+        setMain(contents);
+      }
+      if (title !== '') {
+        setInitTitle(title);
+        setEditorTitle(title);
+      }
     })();
-  }, [contents]);
+  }, [title, contents]);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +47,7 @@ export function Editor() {
         const { event } = resultData;
         setInitTitle(event.name);
         setInitMain(event.description);
-        setTitle(event.name);
+        setEditorTitle(event.name);
         setMain(event.description);
         setStartDate(new Date(event.startDate));
         setEndDate(new Date(event.endDate));
@@ -67,7 +77,7 @@ export function Editor() {
   const unorderListRef: React.MutableRefObject<HTMLButtonElement | null> =
     useRef(null);
 
-  const [title, setTitle] = useState<string>('');
+  const [editorTitle, setEditorTitle] = useState<string>('');
   const [main, setMain] = useState<string>('');
   const [summary, setSummary] = useState<string>('');
   const [value, onChange] = useState(new Date());
@@ -349,7 +359,7 @@ export function Editor() {
                   id: editId !== '' ? editId : '6',
                   startDate: new Date(startDate),
                   endDate: new Date(endDate),
-                  name: title,
+                  name: editorTitle,
                   summary,
                   description: main,
                   category: category !== '' ? category : 'SAVE',
@@ -362,7 +372,9 @@ export function Editor() {
               }),
             );
             stores.dispatch(editActions.setEditId({ editId: '' }));
-            stores.dispatch(editActions.setContents({ contents: '' }));
+            stores.dispatch(
+              editActions.setContents({ title: '', contents: '' }),
+            );
             stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
             stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
 
@@ -373,7 +385,7 @@ export function Editor() {
                 data: {
                   startDate: getYYYYMMDD(startDate),
                   endDate: getYYYYMMDD(endDate),
-                  name: title,
+                  name: editorTitle,
                   summary,
                   description: main,
                   category,
@@ -392,7 +404,7 @@ export function Editor() {
                   id: editId,
                   startDate: getYYYYMMDD(startDate),
                   endDate: getYYYYMMDD(endDate),
-                  name: title,
+                  name: editorTitle,
                   summary,
                   description: main,
                   category,
@@ -412,7 +424,9 @@ export function Editor() {
           type="button"
           onClick={() => {
             stores.dispatch(editActions.setEditId({ editId: '' }));
-            stores.dispatch(editActions.setContents({ contents: '' }));
+            stores.dispatch(
+              editActions.setContents({ title: '', contents: '' }),
+            );
             stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
             stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
           }}
@@ -463,7 +477,7 @@ export function Editor() {
         suppressContentEditableWarning
         onInput={e => {
           const target = e.target as HTMLDivElement;
-          setTitle(target.innerHTML);
+          setEditorTitle(target.innerHTML);
         }}
         dangerouslySetInnerHTML={{
           __html: initTitle,
