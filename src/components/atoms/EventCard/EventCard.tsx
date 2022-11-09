@@ -34,7 +34,9 @@ export function EventCard(props: { event: EventItem }) {
           onClick={e => {
             e.stopPropagation();
             stores.dispatch(editActions.setEditId({ editId: event.id }));
-            stores.dispatch(editActions.setContents({ contents: '' }));
+            stores.dispatch(
+              editActions.setContents({ title: '', contents: '' }),
+            );
             stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
           }}
         >
