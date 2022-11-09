@@ -13,9 +13,18 @@ import useFetch from '../hooks/useFetch';
 import axios from 'axios';
 
 export function Editor() {
-  const editId: string = useSelector((state: RootState) => state.edit.editId);
+  const { editId, contents }: { editId: string; contents: string } =
+    useSelector((state: RootState) => state.edit);
 
   const newFetch = useFetch();
+
+  useEffect(() => {
+    (async () => {
+      if (contents === '') return;
+      setInitMain(contents);
+      setMain(contents);
+    })();
+  }, [contents]);
 
   useEffect(() => {
     (async () => {
@@ -353,6 +362,7 @@ export function Editor() {
               }),
             );
             stores.dispatch(editActions.setEditId({ editId: '' }));
+            stores.dispatch(editActions.setContents({ contents: '' }));
             stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
             stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
 
@@ -402,6 +412,7 @@ export function Editor() {
           type="button"
           onClick={() => {
             stores.dispatch(editActions.setEditId({ editId: '' }));
+            stores.dispatch(editActions.setContents({ contents: '' }));
             stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
             stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
           }}
@@ -503,6 +514,14 @@ const Wrapper = styled.div`
     border: 1px solid #d6d6d6;
     border-radius: 4px;
     min-height: 500px;
+
+    .se-text-paragraph {
+      white-space: break-spaces;
+    }
+
+    .se-text-paragraph-align-center {
+      text-align: center !important;
+    }
   }
   #img-selector {
   }

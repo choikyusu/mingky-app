@@ -2,6 +2,7 @@ import { editAction } from '../actions/edit.action';
 
 const initialState = {
   editId: '',
+  contents: '',
 };
 
 export function editReducer(
@@ -15,6 +16,11 @@ export function editReducer(
       return {
         ...state,
         editId: action.payload.editId,
+      };
+    case editAction.SET_CONTENTS:
+      return {
+        ...state,
+        contents: action.payload.contents,
       };
 
     default:

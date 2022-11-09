@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { API } from '../../../../constants/api.constant';
 import useFetch from '../../../../hooks/useFetch';
 import stores from '../../../../store/configureStore';
+import { editActions } from '../../../../store/modules/actions/edit.action';
 import { menuActions } from '../../../../store/modules/actions/menu.action';
 
 export function AdminBody() {
@@ -27,7 +28,11 @@ export function AdminBody() {
               method: 'get',
             });
 
-            console.log(result);
+            stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
+
+            stores.dispatch(
+              editActions.setContents({ contents: result.contents }),
+            );
           }}
         >{`블로그 따오기 >`}</div>
       </div>
