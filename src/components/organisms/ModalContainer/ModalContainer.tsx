@@ -7,6 +7,7 @@ import { ModalDialog } from './ModalDialog/ModalDialog';
 import { Notice } from './ModalDialog/Notice/Notice';
 import { Event } from './ModalDialog/Event/Event';
 import { TermsAndConditions } from './ModalDialog/TermsAndConditions/TermsAndConditions';
+import { BlogLink } from './ModalDialog/BlogLink/BlogLink';
 
 export type ModalStatus = {
   id: string;
@@ -60,6 +61,11 @@ export default function ModalContainer() {
       {newModalContainer.modalStatus.id === 'EVENT' && (
         <ModalDialog>
           <Event modalStatus={newModalContainer.modalStatus} />
+        </ModalDialog>
+      )}
+      {newModalContainer.modalStatus.id === 'BLOG_LINK' && (
+        <ModalDialog modalStatus={newModalContainer.modalStatus}>
+          <BlogLink />
         </ModalDialog>
       )}
     </div>
