@@ -4,6 +4,7 @@ import useFetch from '../../../../hooks/useFetch';
 import stores from '../../../../store/configureStore';
 import { editActions } from '../../../../store/modules/actions/edit.action';
 import { menuActions } from '../../../../store/modules/actions/menu.action';
+import { modalActions } from '../../../../store/modules/actions/modal.action';
 
 export function AdminBody() {
   const newFetch = useFetch();
@@ -22,18 +23,10 @@ export function AdminBody() {
           className="menu-card"
           tabIndex={0}
           role="button"
-          onClick={async () => {
-            const result = await newFetch.callApi({
-              url: API.GET_BLOG_EVENT,
-              method: 'get',
-            });
-
-            stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
-
+          onClick={() => {
             stores.dispatch(
-              editActions.setContents({
-                title: result.title,
-                contents: result.contents,
+              modalActions.setDialogStatus({
+                id: 'BLOG_LINK',
               }),
             );
           }}
