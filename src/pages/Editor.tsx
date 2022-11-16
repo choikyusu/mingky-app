@@ -532,6 +532,22 @@ const Wrapper = styled.div`
       white-space: break-spaces;
     }
 
+    .se-text-paragraph-align-center {
+      text-align: center !important;
+    }
+
+    .se-component-content{
+      .se-section-align-center{
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+
+    iframe {
+      margin-right: auto;
+      margin-left: auto;
+    }
+
     .se-section-oglink {
       width: 100%;
       max-width: 450px;
