@@ -543,10 +543,14 @@ const Wrapper = styled.div`
       }
     }
 
-    iframe {
-      margin-right: auto;
-      margin-left: auto;
+    .se-sticker{
+      text-align: center;
     }
+
+    .se-oembed {
+      text-align: center;
+    }
+
 
     .se-section-oglink {
       width: 100%;
