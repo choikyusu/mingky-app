@@ -46,6 +46,7 @@ export function Editor() {
       if (resultData) {
         const { event } = resultData;
         setInitTitle(event.name);
+        setEditorTitleText(event.nameText);
         setInitMain(event.description);
         setEditorTitle(event.name);
         setMain(event.description);
@@ -78,6 +79,7 @@ export function Editor() {
     useRef(null);
 
   const [editorTitle, setEditorTitle] = useState<string>('');
+  const [editorTitleText, setEditorTitleText] = useState<string>('');
   const [main, setMain] = useState<string>('');
   const [summary, setSummary] = useState<string>('');
   const [value, onChange] = useState(new Date());
@@ -360,6 +362,7 @@ export function Editor() {
                   startDate: new Date(startDate),
                   endDate: new Date(endDate),
                   name: editorTitle,
+                  nameText: editorTitleText,
                   summary,
                   description: main,
                   category: category !== '' ? category : 'SAVE',
@@ -386,6 +389,7 @@ export function Editor() {
                   startDate: getYYYYMMDD(startDate),
                   endDate: getYYYYMMDD(endDate),
                   name: editorTitle,
+                  nameText: editorTitleText,
                   summary,
                   description: main,
                   category,
@@ -405,6 +409,7 @@ export function Editor() {
                   startDate: getYYYYMMDD(startDate),
                   endDate: getYYYYMMDD(endDate),
                   name: editorTitle,
+                  nameText: editorTitleText,
                   summary,
                   description: main,
                   category,
@@ -478,6 +483,7 @@ export function Editor() {
         onInput={e => {
           const target = e.target as HTMLDivElement;
           setEditorTitle(target.innerHTML);
+          setEditorTitleText(target.innerText);
         }}
         dangerouslySetInnerHTML={{
           __html: initTitle,
@@ -527,6 +533,15 @@ const Wrapper = styled.div`
     border: 1px solid #d6d6d6;
     border-radius: 4px;
     min-height: 500px;
+
+   
+
+    .se-image {
+      text-align: center;
+      .se-image-resource {
+        width : 70%;
+      }
+    }
 
     .se-text-paragraph {
       white-space: break-spaces;
