@@ -2,6 +2,7 @@ type EventItem = {
   id: string;
   category: Category;
   name: string;
+  nameText: string;
   startDate: Date;
   endDate: Date;
   description: string;

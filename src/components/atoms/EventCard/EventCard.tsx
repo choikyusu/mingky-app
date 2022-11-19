@@ -27,7 +27,7 @@ export function EventCard(props: { event: EventItem }) {
           )
         }
       >
-        <div className="event-list">{event.name}</div>
+        <div className="event-list">{event.nameText}</div>
         <div>{`${event.summary}...`}</div>
         <div
           aria-hidden
