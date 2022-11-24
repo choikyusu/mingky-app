@@ -20,7 +20,7 @@ export function eventReducer(
 
       return {
         ...state,
-        eventList: newEvent,
+        eventList: { ...newEvent },
       };
     }
     case eventAction.ADD_EVENT_ITEM: {
