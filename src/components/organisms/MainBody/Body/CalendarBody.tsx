@@ -173,7 +173,7 @@ export function CalendarBody() {
                         )
                       }
                     >
-                      {event.name} {event.status}
+                      {event.nameText} {event.status}
                     </div>
                   ))}
                 </div>
