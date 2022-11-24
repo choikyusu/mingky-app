@@ -18,7 +18,7 @@ export function CardList(props: { category: Category }) {
     });
 
     setCategoryItemList(list);
-  }, [category]);
+  }, [category, eventList]);
 
   return (
     <Wrapper>
