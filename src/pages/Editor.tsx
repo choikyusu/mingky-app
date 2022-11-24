@@ -535,12 +535,10 @@ const Wrapper = styled.div`
     border-radius: 4px;
     min-height: 500px;
 
-   
-
     .se-image {
       text-align: center;
       .se-image-resource {
-        width : 70%;
+        width: 70%;
       }
     }
 
@@ -552,21 +550,20 @@ const Wrapper = styled.div`
       text-align: center !important;
     }
 
-    .se-component-content{
-      .se-section-align-center{
+    .se-component-content {
+      .se-section-align-center {
         margin-right: auto;
         margin-left: auto;
       }
     }
 
-    .se-sticker{
+    .se-sticker {
       text-align: center;
     }
 
     .se-oembed {
       text-align: center;
     }
-
 
     .se-section-oglink {
       width: 100%;
@@ -575,7 +572,7 @@ const Wrapper = styled.div`
       .se-oglink-thumbnail {
         overflow: hidden;
         max-height: 450px;
-        border: 1px solid rgba(0,0,0,.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
 
         .se-oglink-thumbnail-resource {
           max-height: 450px;
@@ -599,9 +596,9 @@ const Wrapper = styled.div`
           right: 0;
           bottom: 0;
           left: 0;
-          border: 1px solid rgba(0,0,0,.1);
-          content: "";
-      }
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          content: '';
+        }
 
         .se-oglink-info {
           padding: 21px 26px 18px;
@@ -611,7 +608,7 @@ const Wrapper = styled.div`
           text-align: left;
           box-sizing: border-box;
           font-size: 0;
-          outline: 1px solid rgba(0,0,0,.1);
+          outline: 1px solid rgba(0, 0, 0, 0.1);
 
           .se-oglink-info-container {
             display: inline-block;
@@ -642,7 +639,6 @@ const Wrapper = styled.div`
               word-break: break-all;
               line-height: 18px;
               color: #999;
-          }
             }
             .se-oglink-url {
               white-space: nowrap;
