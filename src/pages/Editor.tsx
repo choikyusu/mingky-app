@@ -65,6 +65,8 @@ export function Editor() {
     useRef(null);
   const mainEditor: React.MutableRefObject<HTMLDivElement | null> =
     useRef(null);
+  const titleEditor: React.MutableRefObject<HTMLDivElement | null> =
+    useRef(null);
   const boldRef: React.MutableRefObject<HTMLButtonElement | null> =
     useRef(null);
   const italicRef: React.MutableRefObject<HTMLButtonElement | null> =
@@ -362,8 +364,8 @@ export function Editor() {
                   startDate: new Date(startDate),
                   endDate: new Date(endDate),
                   name: editorTitle,
-                  nameText: editorTitleText,
-                  summary,
+                  nameText: titleEditor.current?.innerText || '',
+                  summary: mainEditor.current?.innerText.slice(0, 50) || '',
                   description: main,
                   category: category !== '' ? category : 'SAVE',
                   status,
@@ -389,8 +391,8 @@ export function Editor() {
                   startDate: getYYYYMMDD(startDate),
                   endDate: getYYYYMMDD(endDate),
                   name: editorTitle,
-                  nameText: editorTitleText,
-                  summary,
+                  nameText: titleEditor.current?.innerText || '',
+                  summary: mainEditor.current?.innerText.slice(0, 50) || '',
                   description: main,
                   category,
                   status,
@@ -409,8 +411,8 @@ export function Editor() {
                   startDate: getYYYYMMDD(startDate),
                   endDate: getYYYYMMDD(endDate),
                   name: editorTitle,
-                  nameText: editorTitleText,
-                  summary,
+                  nameText: titleEditor.current?.innerText || '',
+                  summary: mainEditor.current?.innerText.slice(0, 50) || '',
                   description: main,
                   category,
                   status,
@@ -477,13 +479,13 @@ export function Editor() {
         </select>
       </div>
       <div
+        ref={titleEditor}
         id="editor-title"
         contentEditable="true"
         suppressContentEditableWarning
         onInput={e => {
           const target = e.target as HTMLDivElement;
           setEditorTitle(target.innerHTML);
-          setEditorTitleText(target.innerText);
         }}
         dangerouslySetInnerHTML={{
           __html: initTitle,
@@ -500,7 +502,6 @@ export function Editor() {
         onInput={e => {
           const target = e.target as HTMLDivElement;
           setMain(target.innerHTML);
-          setSummary(target.innerText.slice(0, 50));
         }}
         role="button"
         tabIndex={0}
