@@ -98,7 +98,7 @@ export function EventCard(props: { event: EventItem }) {
 const Wrapper = styled.div`
   .card {
     width: 402px;
-    height: 64px;
+    min-height: 64px;
     display: flex;
     .title {
       font-style: normal;

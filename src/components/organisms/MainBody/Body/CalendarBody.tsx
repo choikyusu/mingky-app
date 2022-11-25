@@ -173,7 +173,9 @@ export function CalendarBody() {
                         )
                       }
                     >
-                      {event.nameText} {event.status}
+                      <div className="event">
+                        {event.nameText} {event.status}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -200,7 +202,7 @@ const Wrapper = styled.div`
 
     .card {
       width: 402px;
-      height: 64px;
+      min-height: 64px;
       display: flex;
       .title {
         font-style: normal;
@@ -209,6 +211,10 @@ const Wrapper = styled.div`
         line-height: 24px;
         color: #8c8a8a;
         margin-right: 10px;
+      }
+
+      .event {
+        cursor: pointer;
       }
     }
   }
