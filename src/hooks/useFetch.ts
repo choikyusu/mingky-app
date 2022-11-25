@@ -14,7 +14,7 @@ function useFetch() {
     } catch (err) {
       console.log('error >>', err);
     }
-    return '';
+    return null;
   };
 
   return { callApi };
