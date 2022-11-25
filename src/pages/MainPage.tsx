@@ -3,7 +3,7 @@ import { MainBody } from '../components/organisms/MainBody/MainBody';
 import { MainHeader } from '../components/organisms/MainHeader/MainHeader';
 import stores, { RootState } from '../store/configureStore';
 import { eventActions } from '../store/modules/actions/event.action';
-import { Editor } from './Editor';
+import { EditPage } from './EditPage';
 
 export function MainPage() {
   const mode: ModeType = useSelector((state: RootState) => state.menu.mode);
@@ -16,7 +16,7 @@ export function MainPage() {
           <MainBody />
         </div>
       ) : (
-        <Editor />
+        <EditPage />
       )}
     </div>
   );
