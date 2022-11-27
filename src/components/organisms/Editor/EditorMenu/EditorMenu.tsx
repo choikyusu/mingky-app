@@ -5,6 +5,68 @@ import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { getYYYYMMDD } from '../../../../utils/date.util';
 
+const fontColorList = [
+  {
+    value: '#000000',
+    fontColor: '검정',
+  },
+  {
+    value: '#FFFFFF',
+    fontColor: '흰색',
+  },
+  {
+    value: '#CCCCCC',
+    fontColor: '회색',
+  },
+  {
+    value: '#F03E3E',
+    fontColor: '빨강',
+  },
+  {
+    value: '#1971C2',
+    fontColor: '파랑',
+  },
+  {
+    value: '#37B24D',
+    fontColor: '녹색',
+  },
+];
+
+const fontSizeList = [
+  {
+    value: '',
+    fontSize: '폰트 사이즈',
+  },
+  {
+    value: '1',
+    fontSize: '10px',
+  },
+  {
+    value: '2',
+    fontSize: '13px',
+  },
+  {
+    value: '3',
+    fontSize: '16px',
+  },
+  {
+    value: '4',
+    fontSize: '18px',
+  },
+  {
+    value: '5',
+    fontSize: '24px',
+  },
+  {
+    value: '6',
+    fontSize: '32px',
+  },
+  {
+    value: '7',
+    fontSize: '48px',
+  },
+];
+
 export const EditorMenu = forwardRef(
   (props: {
     selectedDate: string;
@@ -59,8 +121,6 @@ export const EditorMenu = forwardRef(
       useRef(null);
     const unorderListRef: React.MutableRefObject<HTMLButtonElement | null> =
       useRef(null);
-
-    const fontSizeList = [10, 13, 16, 18, 24, 32, 48];
 
     function checkStyle() {
       reportFont();
@@ -130,7 +190,7 @@ export const EditorMenu = forwardRef(
       // }
 
       if (containerEl) {
-        const fontSize = getComputedStyleProperty(
+        const usedFontSize = getComputedStyleProperty(
           containerEl as HTMLElement,
           'fontSize',
         );
@@ -143,9 +203,12 @@ export const EditorMenu = forwardRef(
           containerEl as HTMLElement,
           'backgroundColor',
         );
-        const size = parseInt(fontSize.replace('px', ''), 10);
 
-        setFontSize(fontSizeList.findIndex(value => value === size) + 1);
+        setFontSize(
+          fontSizeList.findIndex(
+            fontSize => fontSize.fontSize === usedFontSize,
+          ),
+        );
         setFontColor(rgbToHex(fontColor).toUpperCase());
 
         if (backgroundColor === 'rgba(0, 0, 0, 0)') {
@@ -273,14 +336,9 @@ export const EditorMenu = forwardRef(
           }}
           value={fontSize}
         >
-          <option value="">폰트 사이즈</option>
-          <option value="1">10px</option>
-          <option value="2">13px</option>
-          <option value="3">16px</option>
-          <option value="4">18px</option>
-          <option value="5">24px</option>
-          <option value="6">32px</option>
-          <option value="7">48px</option>
+          {fontSizeList.map(fontSize => (
+            <option value={fontSize.value}>{fontSize.fontSize}</option>
+          ))}
         </select>
         <select
           id="select-font-color"
@@ -290,12 +348,9 @@ export const EditorMenu = forwardRef(
           value={fontColor}
         >
           <option value="">폰트 색상</option>
-          <option value="#000000">검정</option>
-          <option value="#FFFFFF">흰색</option>
-          <option value="#CCCCCC">회색</option>
-          <option value="#F03E3E">빨강</option>
-          <option value="#1971C2">파랑</option>
-          <option value="#37B24D">녹색</option>
+          {fontColorList.map(color => (
+            <option value={color.value}>{color.fontColor}</option>
+          ))}
         </select>
         <select
           id="select-font-background"
@@ -305,12 +360,9 @@ export const EditorMenu = forwardRef(
           value={bgColor}
         >
           <option value="rgba(0, 0, 0, 0)">폰트 백그라운드</option>
-          <option value="#000000">검정</option>
-          <option value="#FFFFFF">흰색</option>
-          <option value="#CCCCCC">회색</option>
-          <option value="#F03E3E">빨강</option>
-          <option value="#1971C2">파랑</option>
-          <option value="#37B24D">녹색</option>
+          {fontColorList.map(color => (
+            <option value={color.value}>{color.fontColor}</option>
+          ))}
         </select>
         <button
           type="button"
