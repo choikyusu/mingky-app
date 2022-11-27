@@ -39,7 +39,7 @@ export function EditorBody(props: {
         id="editor-main"
         contentEditable="true"
         suppressContentEditableWarning
-        onMouseDown={e => {
+        onMouseUp={e => {
           checkStyle();
         }}
         onInput={e => {
