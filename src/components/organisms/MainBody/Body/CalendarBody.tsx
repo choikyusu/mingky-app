@@ -158,8 +158,31 @@ export function CalendarBody() {
 
   const mouseUp = (e: MouseEvent) => {
     setMouseDown(false);
+
+    let clientX = 0;
+    const width = flickCameraRef.current?.scrollWidth || 0;
+    const viewPortWidth = window.visualViewport?.width || 0;
+    if (cameraPosition.clientX + (e.clientX - clientPosition.clientX) > 0) {
+      clientX = 0;
+    } else if (
+      cameraPosition.clientX +
+        (e.clientX - clientPosition.clientX) +
+        width -
+        viewPortWidth <
+      0
+    ) {
+      clientX = -width + viewPortWidth - 30;
+    } else {
+      clientX = cameraPosition.clientX + (e.clientX - clientPosition.clientX);
+    }
+
+    if (mouseDown && flickCameraRef.current) {
+      const camera = flickCameraRef.current;
+      camera.style.transform = `translate3d(${clientX}px, 0px, 0px)`;
+    }
+
     setCameraPosition({
-      clientX: cameraPosition.clientX + (e.clientX - clientPosition.clientX),
+      clientX,
       clientY: 0,
     });
   };
