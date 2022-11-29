@@ -7,6 +7,7 @@ import { modalActions } from '../../../../store/modules/actions/modal.action';
 import { eventActions } from '../../../../store/modules/actions/event.action';
 import { API } from '../../../../constants/api.constant';
 import useFetch from '../../../../hooks/useFetch';
+import { CalendarCard } from './CalendarCard';
 
 export function CalendarBody() {
   // const eventList: { [id: string]: EventItem } = useSelector(
@@ -659,12 +660,15 @@ export function CalendarBody() {
           </div>
         </div>
       </CandendarTab>
+      <CalendarCard />
     </Wrapper>
   );
 }
 
 const CandendarTab = styled.div`
   z-index: 10000;
+  background-color: #fff;
+  position: fixed;
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.6));
   .CalendarTab_inner {
     position: relative;
@@ -783,36 +787,5 @@ const CandendarTab = styled.div`
 const Wrapper = styled.div`
   position: relative;
   text-align: center;
-  display: flex;
   justify-content: center;
-
-  .body {
-    background: #f7f7f7;
-    max-width: 450px;
-    width: 100%;
-    height: 80vh;
-    overflow: auto;
-
-    .card {
-      width: 402px;
-      min-height: 64px;
-      display: flex;
-      .title {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 24px;
-        color: #8c8a8a;
-        margin-right: 10px;
-      }
-
-      .event {
-        cursor: pointer;
-      }
-    }
-  }
-
-  hr {
-    border: 1px solid #c8c8c8;
-  }
 `;
