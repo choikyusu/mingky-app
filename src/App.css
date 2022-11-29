@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+:root {
+  --color-schedule-game-date: #000;
+  --color-schedule-date: #000;
+  --color-schedule-box-border: #ebebeb;
+  --color-schedule-box: #fff;
+  --color-schedule-game-info: #404040;
+  --color-schedule-team: #181818;
+  --color-schedule-record: #a0a0a0;
+  --color-schedule-score-info: #a8a8a8;
+  --color-schedule-score-info-live: #000;
+  --color-schedule-status: #7d7d7d;
+  --color-schedule-history-box: #fdf8f0;
+  --color-schedule-history-box-border: #eae4db;
+  --color-schedule-history-player: #a0a0a0;
+  --color-schedule-history-time: #8c8c8c;
+}
