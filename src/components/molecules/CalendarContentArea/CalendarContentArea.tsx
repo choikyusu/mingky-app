@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 import { CalendarContent } from './CalendarContent/CalendarContent';
 
@@ -6,15 +7,19 @@ export function CalendarContentArea(props: {
     date: Date;
     eventList: EventItem[];
   }[];
+  dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[];
 }) {
-  const { dayList } = props;
+  const { dayList, dayCardRefList } = props;
   return (
     <Content>
       <div className="content_area" role="tabpanel">
         <div className="ScheduleAllType_container__1TcBO">
-          {dayList.map(day => (
-            <CalendarContent day={day} />
-          ))}
+          {dayList.map(day => {
+            const dayCardRef: React.MutableRefObject<HTMLDivElement | null> =
+              useRef(null);
+            dayCardRefList.push(dayCardRef);
+            return <CalendarContent day={day} dayCardRef={dayCardRef} />;
+          })}
         </div>
       </div>
     </Content>

@@ -6,11 +6,12 @@ export function CalendarContent(props: {
     date: Date;
     eventList: EventItem[];
   };
+  dayCardRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
-  const { day } = props;
+  const { day, dayCardRef } = props;
 
   return (
-    <Wrapper>
+    <Wrapper ref={dayCardRef}>
       <div className="ScheduleAllType_game_date__1B_hR" aria-hidden>
         <em className="ScheduleAllType_date__1NfTN">
           {day.date.getMonth() + 1}.{day.date.getDate()}
