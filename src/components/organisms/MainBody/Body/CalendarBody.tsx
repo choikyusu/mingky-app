@@ -12,6 +12,8 @@ import { CalendarContentArea } from '../../../molecules/CalendarContentArea/Cale
 
 export function CalendarBody() {
   const dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[] = [];
+  const dayButtonRefList: React.MutableRefObject<HTMLButtonElement | null>[] =
+    [];
   const eventList: { [id: string]: EventItem } = useSelector(
     (state: RootState) => state.event.eventList,
   );
@@ -91,7 +93,7 @@ export function CalendarBody() {
         viewPortWidth <
       0
     ) {
-      clientX = -width + viewPortWidth - 30;
+      clientX = -width + viewPortWidth - 40;
     } else {
       clientX = cameraPosition.clientX + (e.clientX - clientPosition.clientX);
     }
@@ -147,6 +149,7 @@ export function CalendarBody() {
         flickCameraRef={flickCameraRef}
         dayList={dayList}
         dayCardRefList={dayCardRefList}
+        dayButtonRefList={dayButtonRefList}
       />
       <CalendarContentArea dayList={dayList} dayCardRefList={dayCardRefList} />
     </Wrapper>
@@ -157,4 +160,11 @@ const Wrapper = styled.div`
   position: relative;
   text-align: center;
   justify-content: center;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.25;
+  }
 `;

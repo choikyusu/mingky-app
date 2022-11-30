@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
+import { searchUpperElementIsTagName } from '../../../utils/element.util';
 
 export function CalendarTabItem(props: {
   day: {
@@ -7,22 +9,39 @@ export function CalendarTabItem(props: {
   };
   index: number;
   dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[];
+  dayButtonRefList: React.MutableRefObject<HTMLButtonElement | null>[];
   isFixed: boolean;
 }) {
-  const { day, index, dayCardRefList, isFixed } = props;
+  const { day, index, dayCardRefList, isFixed, dayButtonRefList } = props;
+
+  const buttonRef: React.MutableRefObject<HTMLButtonElement | null> =
+    useRef(null);
+
+  dayButtonRefList.push(buttonRef);
+
   return (
     <Wrapper
       role="presentation"
       style={{ position: 'absolute', left: `${index * 73}px` }}
     >
       <button
+        ref={buttonRef}
         type="button"
         className="CalendarTab_tab_button"
         role="tab"
         aria-selected="false"
-        onClick={() => {
+        onClick={e => {
           const offsetTop = dayCardRefList[index].current?.offsetTop;
           if (offsetTop) {
+            dayButtonRefList.forEach(button => {
+              if (button.current) button.current.removeAttribute('selected');
+            });
+            const button = searchUpperElementIsTagName(
+              e.target as HTMLElement,
+              'BUTTON',
+            );
+            if (button) button.setAttribute('selected', 'true');
+
             const fixedY = isFixed ? 113 : 0;
 
             const currentPosition = offsetTop + fixedY - 49;
@@ -39,7 +58,7 @@ export function CalendarTabItem(props: {
             <span className="CalendarTab_day">일</span>
           </span>
           <span className="CalendarTab_game_number">
-            {day.eventList.map(item => (
+            {day.eventList.map(() => (
               <span className="CalendarTab_mark" aria-hidden="true" />
             ))}
           </span>
@@ -54,6 +73,11 @@ const Wrapper = styled.li`
   flex-shrink: 0;
   border-radius: 5px;
   background-color: #f5f5f5;
+
+  .CalendarTab_tab_button[selected='true'] {
+    background-color: #5b002f;
+  }
+
   .CalendarTab_tab_button {
     width: 67px;
     height: 64px;
@@ -114,14 +138,6 @@ const Wrapper = styled.li`
         border-color: #00aa9e #00aa9e transparent transparent;
         border-style: solid;
         border-width: 10px;
-      }
-      .blind {
-        position: absolute;
-        clip: rect(0 0 0 0);
-        width: 1px;
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
       }
     }
   }
