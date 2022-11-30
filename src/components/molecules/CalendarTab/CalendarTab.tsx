@@ -17,6 +17,7 @@ export function CalendarMenu(props: {
     eventList: EventItem[];
   }[];
   dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[];
+  dayButtonRefList: React.MutableRefObject<HTMLButtonElement | null>[];
 }) {
   const {
     isFixed,
@@ -25,6 +26,7 @@ export function CalendarMenu(props: {
     flickCameraRef,
     dayList,
     dayCardRefList,
+    dayButtonRefList,
   } = props;
 
   return (
@@ -45,6 +47,7 @@ export function CalendarMenu(props: {
                   day={day}
                   index={idx}
                   dayCardRefList={dayCardRefList}
+                  dayButtonRefList={dayButtonRefList}
                   isFixed={isFixed}
                 />
               ))}
@@ -85,7 +88,7 @@ const CaldendarTab = styled.div<{ isFixed: boolean }>`
         .eg-flick-camera {
           width: 100%;
           height: 100%;
-          well-change: transform;
+          will-change: transform;
           transform: translate3d(0px, 0px, 0px);
         }
       }
