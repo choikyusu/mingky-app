@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 import { CalendarTabItem } from '../../atoms/CalendarTabItem/CalendarTabItem';
 
@@ -15,9 +16,16 @@ export function CalendarMenu(props: {
     date: Date;
     eventList: EventItem[];
   }[];
+  dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[];
 }) {
-  const { isFixed, setMouseDown, setClientPosition, flickCameraRef, dayList } =
-    props;
+  const {
+    isFixed,
+    setMouseDown,
+    setClientPosition,
+    flickCameraRef,
+    dayList,
+    dayCardRefList,
+  } = props;
 
   return (
     <CaldendarTab isFixed={isFixed}>
@@ -33,7 +41,12 @@ export function CalendarMenu(props: {
           >
             <ul ref={flickCameraRef} className="eg-flick-camera">
               {dayList.map((day, idx) => (
-                <CalendarTabItem day={day} index={idx} />
+                <CalendarTabItem
+                  day={day}
+                  index={idx}
+                  dayCardRefList={dayCardRefList}
+                  isFixed={isFixed}
+                />
               ))}
             </ul>
           </div>

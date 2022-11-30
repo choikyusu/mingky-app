@@ -11,6 +11,7 @@ import { CalendarMenu } from '../../../molecules/CalendarTab/CalendarTab';
 import { CalendarContentArea } from '../../../molecules/CalendarContentArea/CalendarContentArea';
 
 export function CalendarBody() {
+  const dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[] = [];
   const eventList: { [id: string]: EventItem } = useSelector(
     (state: RootState) => state.event.eventList,
   );
@@ -127,8 +128,6 @@ export function CalendarBody() {
   const flickCameraRef: React.MutableRefObject<HTMLUListElement | null> =
     useRef(null);
 
-  const date: React.MutableRefObject<HTMLDivElement | null> = useRef(null);
-
   const [mouseDown, setMouseDown] = useState(false);
   const [clientPosition, setClientPosition] = useState({
     clientX: 0,
@@ -147,8 +146,9 @@ export function CalendarBody() {
         setClientPosition={setClientPosition}
         flickCameraRef={flickCameraRef}
         dayList={dayList}
+        dayCardRefList={dayCardRefList}
       />
-      <CalendarContentArea dayList={dayList} />
+      <CalendarContentArea dayList={dayList} dayCardRefList={dayCardRefList} />
     </Wrapper>
   );
 }

@@ -6,8 +6,10 @@ export function CalendarTabItem(props: {
     eventList: EventItem[];
   };
   index: number;
+  dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[];
+  isFixed: boolean;
 }) {
-  const { day, index } = props;
+  const { day, index, dayCardRefList, isFixed } = props;
   return (
     <Wrapper
       role="presentation"
@@ -19,7 +21,15 @@ export function CalendarTabItem(props: {
         role="tab"
         aria-selected="false"
         onClick={() => {
-          window.scrollTo({ top: 0 });
+          const offsetTop = dayCardRefList[index].current?.offsetTop;
+          if (offsetTop) {
+            const fixedY = isFixed ? 113 : 0;
+
+            const currentPosition = offsetTop + fixedY - 49;
+
+            if (currentPosition - 113 < 130) window.scrollTo({ top: 0 });
+            else window.scrollTo({ top: currentPosition - 113 });
+          }
         }}
       >
         <span className="CalendarTab_tab_text">
