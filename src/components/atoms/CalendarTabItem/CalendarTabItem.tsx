@@ -10,17 +10,28 @@ export function CalendarTabItem(props: {
   index: number;
   dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[];
   dayButtonRefList: React.MutableRefObject<HTMLButtonElement | null>[];
+  flickCameraRef: React.MutableRefObject<HTMLUListElement | null>;
   isFixed: boolean;
 }) {
-  const { day, index, dayCardRefList, isFixed, dayButtonRefList } = props;
+  const {
+    day,
+    index,
+    dayCardRefList,
+    isFixed,
+    dayButtonRefList,
+    flickCameraRef,
+  } = props;
 
   const buttonRef: React.MutableRefObject<HTMLButtonElement | null> =
+    useRef(null);
+  const buttonWrapperRef: React.MutableRefObject<HTMLLIElement | null> =
     useRef(null);
 
   dayButtonRefList.push(buttonRef);
 
   return (
     <Wrapper
+      ref={buttonWrapperRef}
       role="presentation"
       style={{ position: 'absolute', left: `${index * 73}px` }}
     >
@@ -31,6 +42,7 @@ export function CalendarTabItem(props: {
         role="tab"
         aria-selected="false"
         onClick={e => {
+          console.log(buttonWrapperRef);
           const offsetTop = dayCardRefList[index].current?.offsetTop;
           if (offsetTop) {
             dayButtonRefList.forEach(button => {
@@ -48,6 +60,33 @@ export function CalendarTabItem(props: {
 
             if (currentPosition - 113 < 130) window.scrollTo({ top: 0 });
             else window.scrollTo({ top: currentPosition - 113 });
+
+            const width = flickCameraRef.current?.scrollWidth || 0;
+            const viewPortWidth = window.visualViewport?.width || 0;
+            if (flickCameraRef.current && buttonWrapperRef.current) {
+              let clientX = 0;
+
+              if (
+                flickCameraRef.current.clientWidth / 2 -
+                  buttonWrapperRef.current.offsetLeft >
+                0
+              ) {
+                clientX = 0;
+              } else if (
+                flickCameraRef.current.scrollWidth -
+                  buttonWrapperRef.current.offsetLeft <
+                viewPortWidth / 2
+              ) {
+                clientX = -width + viewPortWidth - 40;
+              } else {
+                clientX =
+                  flickCameraRef.current.clientWidth / 2 -
+                  buttonWrapperRef.current.offsetLeft;
+              }
+
+              const camera = flickCameraRef.current;
+              camera.style.transform = `translate3d(${clientX}px, 0px, 0px)`;
+            }
           }
         }}
       >
