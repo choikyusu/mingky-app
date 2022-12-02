@@ -48,6 +48,7 @@ export function CalendarMenu(props: {
                   index={idx}
                   dayCardRefList={dayCardRefList}
                   dayButtonRefList={dayButtonRefList}
+                  flickCameraRef={flickCameraRef}
                   isFixed={isFixed}
                 />
               ))}

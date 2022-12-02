@@ -112,8 +112,8 @@ export function CalendarBody() {
   const [isFixed, setIsFixed] = useState(false);
 
   const scroll = (e: Event) => {
-    if (!isFixed && window.scrollY >= 130) setIsFixed(true);
-    else if (isFixed && window.scrollY <= 41) setIsFixed(false);
+    if (window.scrollY >= 130) setIsFixed(true);
+    else setIsFixed(false);
   };
 
   useEffect(() => {
