@@ -12,6 +12,12 @@ export function CalendarTabItem(props: {
   dayButtonRefList: React.MutableRefObject<HTMLButtonElement | null>[];
   flickCameraRef: React.MutableRefObject<HTMLUListElement | null>;
   isFixed: boolean;
+  setCameraPosition: React.Dispatch<
+    React.SetStateAction<{
+      clientX: number;
+      clientY: number;
+    }>
+  >;
 }) {
   const {
     day,
@@ -20,6 +26,7 @@ export function CalendarTabItem(props: {
     isFixed,
     dayButtonRefList,
     flickCameraRef,
+    setCameraPosition,
   } = props;
 
   const buttonRef: React.MutableRefObject<HTMLButtonElement | null> =
@@ -86,6 +93,11 @@ export function CalendarTabItem(props: {
 
               const camera = flickCameraRef.current;
               camera.style.transform = `translate3d(${clientX}px, 0px, 0px)`;
+
+              setCameraPosition({
+                clientX,
+                clientY: 0,
+              });
             }
           }
         }}

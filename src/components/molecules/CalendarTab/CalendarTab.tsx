@@ -18,6 +18,12 @@ export function CalendarMenu(props: {
   }[];
   dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[];
   dayButtonRefList: React.MutableRefObject<HTMLButtonElement | null>[];
+  setCameraPosition: React.Dispatch<
+    React.SetStateAction<{
+      clientX: number;
+      clientY: number;
+    }>
+  >;
 }) {
   const {
     isFixed,
@@ -27,6 +33,7 @@ export function CalendarMenu(props: {
     dayList,
     dayCardRefList,
     dayButtonRefList,
+    setCameraPosition,
   } = props;
 
   return (
@@ -50,6 +57,7 @@ export function CalendarMenu(props: {
                   dayButtonRefList={dayButtonRefList}
                   flickCameraRef={flickCameraRef}
                   isFixed={isFixed}
+                  setCameraPosition={setCameraPosition}
                 />
               ))}
             </ul>

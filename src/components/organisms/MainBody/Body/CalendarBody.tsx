@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import React, { useEffect, useRef, useState } from 'react';
 import stores, { RootState } from '../../../../store/configureStore';
 import { useSelector } from 'react-redux';
-import { getToday } from '../../../../utils/date.util';
+import { getToday, isSameDate } from '../../../../utils/date.util';
 import { modalActions } from '../../../../store/modules/actions/modal.action';
 import { eventActions } from '../../../../store/modules/actions/event.action';
 import { API } from '../../../../constants/api.constant';
@@ -55,10 +55,7 @@ export function CalendarBody() {
       };
 
       Object.values(eventList).forEach(item => {
-        if (
-          item.startDate <= dateEvent.date &&
-          dateEvent.date <= item.endDate
-        ) {
+        if (isSameDate(item.startDate, dateEvent.date)) {
           dateEvent.eventList.push(item);
         }
       });
@@ -150,6 +147,7 @@ export function CalendarBody() {
         dayList={dayList}
         dayCardRefList={dayCardRefList}
         dayButtonRefList={dayButtonRefList}
+        setCameraPosition={setCameraPosition}
       />
       <CalendarContentArea dayList={dayList} dayCardRefList={dayCardRefList} />
     </Wrapper>
