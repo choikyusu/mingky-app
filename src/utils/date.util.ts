@@ -5,7 +5,9 @@ export function getToday() {
   const month = today.getMonth() + 1; // 월
   const day = today.getDate(); // 날짜
 
-  return new Date(`${year}-${month}-${day}`);
+  return new Date(
+    `${year}/${month < 10 ? `0${month}` : month}/${day < 10 ? `0${day}` : day}`,
+  );
 }
 
 export function getYYYYMMDD(date: Date) {
@@ -13,7 +15,9 @@ export function getYYYYMMDD(date: Date) {
   const month = date.getMonth() + 1; // 월
   const day = date.getDate(); // 날짜
 
-  return `${year}-${month}-${day}`;
+  return `${year}/${month < 10 ? `0${month}` : month}/${
+    day < 10 ? `0${day}` : day
+  }`;
 }
 
 export function isSameDate(date1: Date, date2: Date) {
