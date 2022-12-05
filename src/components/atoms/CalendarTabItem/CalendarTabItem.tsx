@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import styled from 'styled-components';
+import { isSameDate } from '../../../utils/date.util';
 import { searchUpperElementIsTagName } from '../../../utils/element.util';
 
 export function CalendarTabItem(props: {
@@ -41,6 +42,7 @@ export function CalendarTabItem(props: {
       ref={buttonWrapperRef}
       role="presentation"
       style={{ position: 'absolute', left: `${index * 73}px` }}
+      data-today={isSameDate(day.date, new Date()) ? 'true' : 'false'}
     >
       <button
         ref={buttonRef}
@@ -124,6 +126,19 @@ const Wrapper = styled.li`
   flex-shrink: 0;
   border-radius: 5px;
   background-color: #f5f5f5;
+
+  &[data-today='true'] {
+    &:before {
+      content: '';
+      width: 25px;
+      height: 25px;
+      top: -12px;
+      right: -12px;
+      background-color: #48dad2;
+      position: absolute;
+      transform: rotate(45deg);
+    }
+  }
 
   .CalendarTab_tab_button[selected='true'] {
     background-color: #5b002f;
