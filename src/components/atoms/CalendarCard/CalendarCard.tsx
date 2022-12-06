@@ -6,7 +6,7 @@ import { editActions } from '../../../store/modules/actions/edit.action';
 import { eventActions } from '../../../store/modules/actions/event.action';
 import { menuActions } from '../../../store/modules/actions/menu.action';
 import { getToday, getYYYYMMDD } from '../../../utils/date.util';
-
+import { toast } from 'react-toastify';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { GrFormAdd, GrFormClose } from 'react-icons/gr';
 import {
@@ -65,6 +65,8 @@ export function CalendarCard(props: { event: EventItem }) {
           const newEvent = { ...event, hidden: !hidden };
           dispatch(eventActions.updateEventItem({ event: newEvent }));
           setHidden(!hidden);
+          if (hidden) toast('이벤트가 보입니다.');
+          else toast('이벤트가 보이지 않습니다.');
         }
         break;
       case 'BOLD':
@@ -73,7 +75,8 @@ export function CalendarCard(props: { event: EventItem }) {
           const newEvent = { ...event, bold: !emphasis };
           dispatch(eventActions.updateEventItem({ event: newEvent }));
           setEmphasis(!emphasis);
-          console.log('click', emphasis);
+          if (emphasis) toast('이벤트를 강조하지않습니다.');
+          else toast('이벤트를 강조합니다.');
         }
         break;
       case 'ONGOING':
@@ -84,6 +87,8 @@ export function CalendarCard(props: { event: EventItem }) {
           const newEvent = { ...event, status: nextStatus };
           dispatch(eventActions.updateEventItem({ event: newEvent }));
           setStatus(nextStatus);
+          if (status === 'COMPLETE') toast('이벤트가 진행중입니다.');
+          else toast('이벤트가 조기종료되었습니다.');
         }
         break;
       case 'CHECK':
@@ -92,6 +97,8 @@ export function CalendarCard(props: { event: EventItem }) {
           const newEvent = { ...event, check: !check };
           dispatch(eventActions.updateEventItem({ event: newEvent }));
           setCheck(!check);
+          if (check) toast('이벤트를 아직 미확인했습니다.');
+          else toast('이벤트를 확인했습니다.');
         }
         break;
       default:
@@ -130,7 +137,7 @@ export function CalendarCard(props: { event: EventItem }) {
             onClick={e => click(e)}
           />
           {hidden ? (
-            <BsEye
+            <BsEyeSlash
               title="보이기"
               id="SHOW"
               className="icon"
@@ -138,7 +145,7 @@ export function CalendarCard(props: { event: EventItem }) {
               onClick={e => click(e)}
             />
           ) : (
-            <BsEyeSlash
+            <BsEye
               title="숨기기"
               id="HIDE"
               className="icon"
