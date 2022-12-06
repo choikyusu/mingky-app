@@ -1,3 +1,4 @@
+import { CATEGORY_LIST } from '../../../constants/category.constant';
 import { menuAction } from '../actions/menu.action';
 
 const initialState: {
@@ -7,7 +8,7 @@ const initialState: {
 } = {
   mode: 'NORMAL',
   selectedMenu: 'HOME_MENU',
-  selectedCategory: 'SAVE',
+  selectedCategory: CATEGORY_LIST[0].id,
 };
 
 export function menuReducer(
