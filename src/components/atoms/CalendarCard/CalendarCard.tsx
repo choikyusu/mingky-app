@@ -1,10 +1,34 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { CATEGORY_LIST } from '../../../constants/category.constant';
+import { editActions } from '../../../store/modules/actions/edit.action';
+import { eventActions } from '../../../store/modules/actions/event.action';
+import { menuActions } from '../../../store/modules/actions/menu.action';
 import { getToday, getYYYYMMDD } from '../../../utils/date.util';
+
+import { HiOutlinePencil } from 'react-icons/hi';
+import { GrFormAdd, GrFormClose } from 'react-icons/gr';
+import {
+  BsEye,
+  BsEyeSlash,
+  BsBookmark,
+  BsBookmarkCheck,
+  BsExclamationCircle,
+  BsExclamationCircleFill,
+} from 'react-icons/bs';
 
 const TODAY = 'Today';
 
 export function CalendarCard(props: { event: EventItem }) {
+  const dispatch = useDispatch();
   const { event } = props;
+
+  const [status, setStatus] = useState<string>(event.status);
+  const [hidden, setHidden] = useState<boolean>(event.hidden);
+  const [emphasis, setEmphasis] = useState<boolean>(event.bold);
+  const [check, setCheck] = useState<boolean>(event.check);
+
   const dDay = (() => {
     const today = getToday();
 
@@ -25,6 +49,56 @@ export function CalendarCard(props: { event: EventItem }) {
     return `종료`;
   })();
 
+  const click = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
+    const icon = e.currentTarget as SVGElement;
+    e.stopPropagation();
+    console.log('click', icon.id, emphasis);
+    switch (icon.id) {
+      case 'EDIT':
+        dispatch(editActions.setEditId({ editId: event.id }));
+        dispatch(editActions.setContents({ title: '', contents: '' }));
+        dispatch(menuActions.setMode({ mode: 'EDIT' }));
+        break;
+      case 'SHOW':
+      case 'HIDE':
+        {
+          const newEvent = { ...event, hidden: !hidden };
+          dispatch(eventActions.updateEventItem({ event: newEvent }));
+          setHidden(!hidden);
+        }
+        break;
+      case 'BOLD':
+      case 'NORMAL':
+        {
+          const newEvent = { ...event, bold: !emphasis };
+          dispatch(eventActions.updateEventItem({ event: newEvent }));
+          setEmphasis(!emphasis);
+          console.log('click', emphasis);
+        }
+        break;
+      case 'ONGOING':
+      case 'COMPLETE':
+        {
+          const nextStatus = status === 'COMPLETE' ? 'ONGOING' : 'COMPLETE';
+          setStatus(nextStatus);
+          const newEvent = { ...event, status: nextStatus };
+          dispatch(eventActions.updateEventItem({ event: newEvent }));
+          setStatus(nextStatus);
+        }
+        break;
+      case 'CHECK':
+      case 'UNCHECK':
+        {
+          const newEvent = { ...event, check: !check };
+          dispatch(eventActions.updateEventItem({ event: newEvent }));
+          setCheck(!check);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Wrapper className="ScheduleGameBox_game_box__23m0b">
       {/* <div className="icon">
@@ -34,7 +108,9 @@ export function CalendarCard(props: { event: EventItem }) {
         {dDay}
       </div>
       <div>
-        <div className="category">{event.category}</div>
+        <div className="category">
+          {CATEGORY_LIST.find(category => category.id === event.category)?.name}
+        </div>
         <strong className="title">{event.nameText}</strong>
         <div className="date">
           {getYYYYMMDD(event.startDate)}
@@ -44,6 +120,88 @@ export function CalendarCard(props: { event: EventItem }) {
         </div>
       </div>
       <div className="content">{event.summary}</div>
+      <div className="sub-menu">
+        <div>
+          <HiOutlinePencil
+            title="편집"
+            id="EDIT"
+            className="icon"
+            size={24}
+            onClick={e => click(e)}
+          />
+          {hidden ? (
+            <BsEye
+              title="보이기"
+              id="SHOW"
+              className="icon"
+              size={24}
+              onClick={e => click(e)}
+            />
+          ) : (
+            <BsEyeSlash
+              title="숨기기"
+              id="HIDE"
+              className="icon"
+              size={24}
+              onClick={e => click(e)}
+            />
+          )}
+          {emphasis ? (
+            <BsExclamationCircleFill
+              title="일반"
+              id="NORMAL"
+              className="icon"
+              size={24}
+              onClick={e => click(e)}
+            />
+          ) : (
+            <BsExclamationCircle
+              title="강조"
+              id="BOLD"
+              className="icon"
+              size={24}
+              onClick={e => {
+                click(e);
+                console.log('b');
+              }}
+            />
+          )}
+          {status === 'COMPLETE' ? (
+            <GrFormAdd
+              title="진행중"
+              id="ONGOING"
+              className="icon"
+              size={24}
+              onClick={e => click(e)}
+            />
+          ) : (
+            <GrFormClose
+              title="종료"
+              id="COMPLETE"
+              className="icon"
+              size={24}
+              onClick={e => click(e)}
+            />
+          )}
+          {check ? (
+            <BsBookmarkCheck
+              title="미확인"
+              id="UNCHECK"
+              className="icon"
+              size={24}
+              onClick={e => click(e)}
+            />
+          ) : (
+            <BsBookmark
+              title="확인"
+              id="CHECK"
+              className="icon"
+              size={24}
+              onClick={e => click(e)}
+            />
+          )}
+        </div>
+      </div>
     </Wrapper>
   );
 }
@@ -54,7 +212,7 @@ const Wrapper = styled.div`
       margin-top: 10px;
     }
 
-    padding: 24px;
+    padding: 24px 24px 8px 24px;
     justify-content: left;
     text-align: left;
     position: relative;
@@ -76,19 +234,20 @@ const Wrapper = styled.div`
       color: #ffffff;
     }
 
-    .icon {
-      top: 0;
-      right: 0;
-      padding: 4px;
-      border-radius: 0 0 0 20px;
-      background-color: #c8c8c8;
-      position: absolute;
-    }
+    // .icon {
+    //   top: 0;
+    //   right: 0;
+    //   padding: 4px;
+    //   border-radius: 0 0 0 20px;
+    //   background-color: #c8c8c8;
+    //   position: absolute;
+    // }
 
     .category {
       color: #868be6;
       font-weight: 800;
       font-size: 16px;
+      margin-bottom: 4px;
     }
 
     .title {
@@ -102,6 +261,7 @@ const Wrapper = styled.div`
       position: relative;
       padding-top: 7px;
       margin-top: 7px;
+      color: #4d4c4c;
 
       &:before {
         position: absolute;
@@ -111,6 +271,15 @@ const Wrapper = styled.div`
         left: 0;
         border-top: 1px solid #cccccc;
         content: '';
+      }
+    }
+
+    .sub-menu {
+      margin-top: 16px;
+      display: flex;
+
+      .icon {
+        margin: 4px;
       }
     }
   }

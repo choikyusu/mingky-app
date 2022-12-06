@@ -4,6 +4,7 @@ import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { getYYYYMMDD } from '../../../../utils/date.util';
+import { CATEGORY_LIST } from '../../../../constants/category.constant';
 
 const fontColorList = [
   {
@@ -400,11 +401,9 @@ export const EditorMenu = forwardRef(
           value={category}
         >
           <option value="">카테고리</option>
-          <option value="SAVE">절약</option>
-          <option value="INCOME">부수입</option>
-          <option value="RAFFLE">추첨</option>
-          <option value="TIP">꿀팁</option>
-          <option value="UNUSED">사용안함</option>
+          {CATEGORY_LIST.map(category => (
+            <option value={category.id}>{category.name}</option>
+          ))}
         </select>
         <select
           id="select-status"
