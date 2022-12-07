@@ -4,6 +4,7 @@ import { isSameDate } from '../../../utils/date.util';
 import { searchUpperElementIsTagName } from '../../../utils/element.util';
 
 export function CalendarTabItem(props: {
+  isMouseClick: boolean;
   day: {
     date: Date;
     eventList: EventItem[];
@@ -21,6 +22,7 @@ export function CalendarTabItem(props: {
   >;
 }) {
   const {
+    isMouseClick,
     day,
     index,
     dayCardRefList,
@@ -51,7 +53,8 @@ export function CalendarTabItem(props: {
         role="tab"
         aria-selected="false"
         onClick={e => {
-          console.log(buttonWrapperRef);
+          if (!isMouseClick) return;
+
           const offsetTop = dayCardRefList[index].current?.offsetTop;
           if (offsetTop) {
             dayButtonRefList.forEach(button => {

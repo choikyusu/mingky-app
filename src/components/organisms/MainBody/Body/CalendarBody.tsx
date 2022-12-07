@@ -66,39 +66,46 @@ export function CalendarBody() {
     setDayList([...list]);
   }, [eventList]);
 
-  const mouseMove = (e: MouseEvent) => {
+  const mouseMove = (e: TouchEvent | MouseEvent) => {
+    const event = e instanceof TouchEvent ? e.touches[0] : e;
+
     if (mouseDown && flickCameraRef.current) {
       const camera = flickCameraRef.current;
       camera.style.transform = `translate3d(${
-        cameraPosition.clientX + (e.clientX - clientPosition.clientX)
+        cameraPosition.clientX + (event.clientX - clientPosition.clientX)
       }px, 0px, 0px)`;
     }
   };
 
-  const mouseUp = (e: MouseEvent) => {
+  const mouseUp = (e: TouchEvent | MouseEvent) => {
+    const event = e instanceof TouchEvent ? e.changedTouches[0] : e;
     setMouseDown(false);
 
     let clientX = 0;
     const width = flickCameraRef.current?.scrollWidth || 0;
     const viewPortWidth = window.visualViewport?.width || 0;
-    if (cameraPosition.clientX + (e.clientX - clientPosition.clientX) > 0) {
+    if (cameraPosition.clientX + (event.clientX - clientPosition.clientX) > 0) {
       clientX = 0;
     } else if (
       cameraPosition.clientX +
-        (e.clientX - clientPosition.clientX) +
+        (event.clientX - clientPosition.clientX) +
         width -
         viewPortWidth <
       0
     ) {
       clientX = -width + viewPortWidth - 40;
     } else {
-      clientX = cameraPosition.clientX + (e.clientX - clientPosition.clientX);
+      clientX =
+        cameraPosition.clientX + (event.clientX - clientPosition.clientX);
     }
 
     if (mouseDown && flickCameraRef.current) {
       const camera = flickCameraRef.current;
       camera.style.transform = `translate3d(${clientX}px, 0px, 0px)`;
     }
+
+    if (Math.abs(event.clientX - clientPosition.clientX) < 3)
+      setIsMouseClick(true);
 
     setCameraPosition({
       clientX,
@@ -108,7 +115,7 @@ export function CalendarBody() {
 
   const [isFixed, setIsFixed] = useState(false);
 
-  const scroll = (e: Event) => {
+  const scroll = () => {
     if (!isFixed && window.scrollY >= 130) setIsFixed(true);
     else if (isFixed && window.scrollY < 41) setIsFixed(false);
   };
@@ -116,10 +123,14 @@ export function CalendarBody() {
   useEffect(() => {
     window.document.addEventListener('mousemove', mouseMove);
     window.document.addEventListener('mouseup', mouseUp);
+    window.document.addEventListener('touchmove', mouseMove);
+    window.document.addEventListener('touchend', mouseUp);
     window.document.addEventListener('scroll', scroll);
     return () => {
       window.document.removeEventListener('mousemove', mouseMove);
       window.document.removeEventListener('mouseup', mouseUp);
+      window.document.removeEventListener('touchmove', mouseMove);
+      window.document.removeEventListener('touchend', mouseUp);
       window.document.removeEventListener('scroll', scroll);
     };
   }, [mouseMove]);
@@ -128,6 +139,7 @@ export function CalendarBody() {
     useRef(null);
 
   const [mouseDown, setMouseDown] = useState(false);
+  const [isMouseClick, setIsMouseClick] = useState(false);
   const [clientPosition, setClientPosition] = useState({
     clientX: 0,
     clientY: 0,
@@ -142,6 +154,8 @@ export function CalendarBody() {
       <CalendarMenu
         isFixed={isFixed}
         setMouseDown={setMouseDown}
+        isMouseClick={isMouseClick}
+        setIsMouseClick={setIsMouseClick}
         setClientPosition={setClientPosition}
         flickCameraRef={flickCameraRef}
         dayList={dayList}

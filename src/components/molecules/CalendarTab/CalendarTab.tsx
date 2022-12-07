@@ -5,6 +5,8 @@ import { CalendarTabItem } from '../../atoms/CalendarTabItem/CalendarTabItem';
 export function CalendarMenu(props: {
   isFixed: boolean;
   setMouseDown: React.Dispatch<React.SetStateAction<boolean>>;
+  isMouseClick: boolean;
+  setIsMouseClick: React.Dispatch<React.SetStateAction<boolean>>;
   setClientPosition: React.Dispatch<
     React.SetStateAction<{
       clientX: number;
@@ -27,6 +29,8 @@ export function CalendarMenu(props: {
 }) {
   const {
     isFixed,
+    isMouseClick,
+    setIsMouseClick,
     setMouseDown,
     setClientPosition,
     flickCameraRef,
@@ -42,15 +46,28 @@ export function CalendarMenu(props: {
         <div className="CalendarTab_tab_list" role="tablist">
           <div
             className="eg-flick-viewport"
-            onMouseDown={e => {
+            onTouchStart={e => {
               setMouseDown(true);
-              setClientPosition({ clientX: e.clientX, clientY: e.clientY });
+              setIsMouseClick(true);
+              setClientPosition({
+                clientX: e.touches[0].clientX,
+                clientY: e.touches[0].clientY,
+              });
+            }}
+            onMouseDown={e => {
+              setIsMouseClick(false);
+              setMouseDown(true);
+              setClientPosition({
+                clientX: e.clientX,
+                clientY: e.clientY,
+              });
             }}
             aria-hidden
           >
             <ul ref={flickCameraRef} className="eg-flick-camera">
               {dayList.map((day, idx) => (
                 <CalendarTabItem
+                  isMouseClick={isMouseClick}
                   day={day}
                   index={idx}
                   dayCardRefList={dayCardRefList}
