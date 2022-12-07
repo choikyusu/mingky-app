@@ -131,7 +131,11 @@ export function CalendarCard(props: { event: EventItem }) {
             : ''}
         </div>
       </div>
-      <div className="content">{event.summary}</div>
+      {check ? (
+        <div className="content check">확인함</div>
+      ) : (
+        <div className="content">{event.summary}</div>
+      )}
       <div className="sub-menu">
         <div>
           <HiOutlinePencil
@@ -309,6 +313,11 @@ const Wrapper = styled.div`
         left: 0;
         border-top: 1px solid #cccccc;
         content: '';
+      }
+
+      &.check {
+        font-weight: 800;
+        color: #b22222;
       }
     }
 
