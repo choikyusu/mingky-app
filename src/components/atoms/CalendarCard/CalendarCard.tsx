@@ -16,6 +16,7 @@ import {
   BsBookmarkCheck,
   BsExclamationCircle,
   BsExclamationCircleFill,
+  BsTrash,
 } from 'react-icons/bs';
 
 const TODAY = 'Today';
@@ -107,7 +108,11 @@ export function CalendarCard(props: { event: EventItem }) {
   };
 
   return (
-    <Wrapper className="ScheduleGameBox_game_box__23m0b">
+    <Wrapper
+      className="ScheduleGameBox_game_box__23m0b"
+      data-closed={status === 'COMPLETE'}
+      data-emphasis={emphasis}
+    >
       {/* <div className="icon">
         <div>{event.category}</div>
       </div> */}
@@ -207,6 +212,13 @@ export function CalendarCard(props: { event: EventItem }) {
               onClick={e => click(e)}
             />
           )}
+          <BsTrash
+            title="휴지통"
+            id="TRASH"
+            className="icon"
+            size={24}
+            onClick={e => click(e)}
+          />
         </div>
       </div>
     </Wrapper>
@@ -214,6 +226,25 @@ export function CalendarCard(props: { event: EventItem }) {
 }
 
 const Wrapper = styled.div`
+  &[data-closed='true'] {
+    &:after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -100%;
+      bottom: -100%;
+      background-image: url('closed.png');
+      transform: rotate(-30deg);
+      opacity: 0.3;
+    }
+  }
+
+  &[data-emphasis='true'] {
+    border: 1px solid #cd1039 !important;
+    background-color: #ffe6eb !important;
+  }
+
   &.ScheduleGameBox_game_box__23m0b {
     &.ScheduleGameBox_game_box__23m0b {
       margin-top: 10px;
@@ -282,8 +313,10 @@ const Wrapper = styled.div`
     }
 
     .sub-menu {
+      z-index: 5;
       margin-top: 16px;
       display: flex;
+      position: relative;
 
       .icon {
         margin: 4px;
