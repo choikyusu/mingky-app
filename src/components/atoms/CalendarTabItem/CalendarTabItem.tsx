@@ -145,6 +145,15 @@ const Wrapper = styled.li`
 
   .CalendarTab_tab_button[selected='true'] {
     background-color: #5b002f;
+    .CalendarTab_month {
+      color: #ffffff !important;
+    }
+    .CalendarTab_date {
+      color: #ffffff !important;
+    }
+    .CalendarTab_day {
+      color: #ffffff !important;
+    }
   }
 
   .CalendarTab_tab_button {
