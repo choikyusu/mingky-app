@@ -248,10 +248,43 @@ export const EditorMenu = forwardRef(
 
     return (
       <Wrapper>
+        <div className="header">
+          <div>타이틀</div>
+          <div className="header-menu">
+            <div className="header-button-container">
+              <button className="publish-button" type="button">
+                발행
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="section-layer-toolbar">
           <ul className="section-toolbar">
             <li className="section-toolbar-item">
-              <div className="section-toolbar-labe-select-container">
+              <div className="section-toolbar-label-select-container">
+                <button
+                  className="section-font-size-toolbar-button"
+                  type="button"
+                >
+                  <span className="section-toolbar-label">카테고리</span>
+                </button>
+              </div>
+            </li>
+            <li className="section-toolbar-item">
+              <div className="section-toolbar-label-select-container">
+                <button
+                  className="section-font-size-toolbar-button"
+                  type="button"
+                >
+                  <span className="section-toolbar-label">상태</span>
+                </button>
+              </div>
+            </li>
+            <li className="section-toolbar-item-separator-bar">
+              <div className="separator-bar" />
+            </li>
+            <li className="section-toolbar-item">
+              <div className="section-toolbar-label-select-container">
                 <button
                   className="section-font-size-toolbar-button"
                   type="button"
@@ -263,23 +296,59 @@ export const EditorMenu = forwardRef(
             <li className="section-toolbar-item-separator-bar">
               <div className="separator-bar" />
             </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
+            <li
+              className="section-toolbar-item"
+              onClick={e => {
+                document.execCommand('bold');
+              }}
+            >
+              <button
+                className="section-toolbar-item-button"
+                type="button"
+                ref={boldRef}
+              >
                 <BsTypeBold className="section-toolbar-icon" />
               </button>
             </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
+            <li
+              className="section-toolbar-item"
+              onClick={e => {
+                document.execCommand('italic');
+              }}
+            >
+              <button
+                className="section-toolbar-item-button"
+                type="button"
+                ref={italicRef}
+              >
                 <BsTypeItalic className="section-toolbar-icon" />
               </button>
             </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
+            <li
+              className="section-toolbar-item"
+              onClick={e => {
+                document.execCommand('underline');
+              }}
+            >
+              <button
+                ref={underlineRef}
+                className="section-toolbar-item-button"
+                type="button"
+              >
                 <BsTypeUnderline className="section-toolbar-icon" />
               </button>
             </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
+            <li
+              className="section-toolbar-item"
+              onClick={e => {
+                document.execCommand('strikeThrough');
+              }}
+            >
+              <button
+                ref={strikeRef}
+                className="section-toolbar-item-button"
+                type="button"
+              >
                 <BsTypeStrikethrough className="section-toolbar-icon" />
               </button>
             </li>
@@ -301,13 +370,31 @@ export const EditorMenu = forwardRef(
                 <BiAlignLeft className="section-toolbar-icon" />
               </button>
             </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
+            <li
+              className="section-toolbar-item"
+              onClick={e => {
+                document.execCommand('insertOrderedList');
+              }}
+            >
+              <button
+                className="section-toolbar-item-button"
+                type="button"
+                ref={orderListRef}
+              >
                 <BsListOl className="section-toolbar-icon" />
               </button>
             </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
+            <li
+              className="section-toolbar-item"
+              onClick={e => {
+                document.execCommand('insertUnorderedList');
+              }}
+            >
+              <button
+                className="section-toolbar-item-button"
+                type="button"
+                ref={unorderListRef}
+              >
                 <BsListUl className="section-toolbar-icon" />
               </button>
             </li>
@@ -319,62 +406,39 @@ export const EditorMenu = forwardRef(
                 <AiOutlinePicture className="section-toolbar-icon" />
               </button>
             </li>
+            <li className="section-toolbar-item-separator-bar">
+              <div className="separator-bar" />
+            </li>
+            <li className="section-toolbar-item">
+              <div className="section-toolbar-label-select-container">
+                <button
+                  className="section-font-size-toolbar-button"
+                  type="button"
+                >
+                  <span className="section-toolbar-label">2022-12-01</span>
+                </button>
+              </div>
+            </li>
+            <li className="section-toolbar-item">
+              <div className="section-toolbar-label-select-container">
+                <span className="section-toolbar-label">~</span>
+              </div>
+            </li>
+            <li className="section-toolbar-item">
+              <div className="section-toolbar-label-select-container">
+                <button
+                  className="section-font-size-toolbar-button"
+                  type="button"
+                >
+                  <span className="section-toolbar-label">2022-12-02</span>
+                </button>
+              </div>
+            </li>
           </ul>
         </div>
-        <button
-          ref={boldRef}
-          type="button"
-          onClick={e => {
-            document.execCommand('bold');
-          }}
-        >
-          Bold
-        </button>
-        <button
-          ref={italicRef}
-          type="button"
-          onClick={e => {
-            document.execCommand('italic');
-          }}
-        >
-          Italic
-        </button>
-        <button
-          ref={underlineRef}
-          type="button"
-          onClick={e => {
-            document.execCommand('underline');
-          }}
-        >
-          Underline
-        </button>
-        <button
-          ref={strikeRef}
-          type="button"
-          onClick={e => {
-            document.execCommand('strikeThrough');
-          }}
-        >
-          Strike
-        </button>
-        <button
-          ref={orderListRef}
-          type="button"
-          onClick={e => {
-            document.execCommand('insertOrderedList');
-          }}
-        >
-          OL
-        </button>
-        <button
-          ref={unorderListRef}
-          type="button"
-          onClick={e => {
-            document.execCommand('insertUnorderedList');
-          }}
-        >
-          UL
-        </button>
+
+        <button type="button">OL</button>
+        <button type="button">UL</button>
         <button
           type="button"
           onClick={e => {
@@ -512,8 +576,38 @@ export const EditorMenu = forwardRef(
 );
 
 const Wrapper = styled.div`
+  .header {
+    height: 44px;
+    position: relative;
+    display: flex;
+    flex: 1;
+    .header-menu {
+      right: 0;
+      position: absolute;
+      .publish-button {
+        background-color: #00c73c;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+        color: #fff;
+        height: 30px;
+        line-height: 28px;
+        margin-left: 6px;
+        padding-left: 13px;
+        padding-right: 15px;
+      }
+    }
+  }
   ul {
     &:before {
+      border-top: 1px solid #e5e5e5;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 20;
+    }
+    &:after {
       border-top: 1px solid #e5e5e5;
       content: '';
       left: 0;
@@ -573,7 +667,7 @@ const Wrapper = styled.div`
       padding-right: 7px;
       height: 33px;
 
-      .section-toolbar-labe-select-container {
+      .section-toolbar-label-select-container {
         position: relative;
 
         .section-font-size-toolbar-button {
@@ -605,6 +699,9 @@ const Wrapper = styled.div`
       }
 
       .section-toolbar-item-button {
+        &.active {
+          color: #3cc83c;
+        }
         padding: 0;
         background-color: transparent;
         border: 0;
@@ -614,6 +711,7 @@ const Wrapper = styled.div`
         outline: 0;
         box-sizing: border-box;
         .section-toolbar-icon {
+          color: inherit;
           width: 21px;
           height: 21px;
           display: inline-block;
