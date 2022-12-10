@@ -5,6 +5,16 @@ import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { getYYYYMMDD } from '../../../../utils/date.util';
 import { CATEGORY_LIST } from '../../../../constants/category.constant';
+import {
+  BsTypeBold,
+  BsTypeItalic,
+  BsTypeUnderline,
+  BsTypeStrikethrough,
+  BsListUl,
+  BsListOl,
+} from 'react-icons/bs';
+import { BiFontColor, BiColorFill, BiAlignLeft } from 'react-icons/bi';
+import { AiOutlinePicture } from 'react-icons/ai';
 
 const fontColorList = [
   {
@@ -238,6 +248,79 @@ export const EditorMenu = forwardRef(
 
     return (
       <Wrapper>
+        <div className="section-layer-toolbar">
+          <ul className="section-toolbar">
+            <li className="section-toolbar-item">
+              <div className="section-toolbar-labe-select-container">
+                <button
+                  className="section-font-size-toolbar-button"
+                  type="button"
+                >
+                  <span className="section-toolbar-label">15</span>
+                </button>
+              </div>
+            </li>
+            <li className="section-toolbar-item-separator-bar">
+              <div className="separator-bar" />
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BsTypeBold className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BsTypeItalic className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BsTypeUnderline className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BsTypeStrikethrough className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BiFontColor className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BiColorFill className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item-separator-bar">
+              <div className="separator-bar" />
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BiAlignLeft className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BsListOl className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <BsListUl className="section-toolbar-icon" />
+              </button>
+            </li>
+            <li className="section-toolbar-item-separator-bar">
+              <div className="separator-bar" />
+            </li>
+            <li className="section-toolbar-item">
+              <button className="section-toolbar-item-button" type="button">
+                <AiOutlinePicture className="section-toolbar-icon" />
+              </button>
+            </li>
+          </ul>
+        </div>
         <button
           ref={boldRef}
           type="button"
@@ -429,6 +512,119 @@ export const EditorMenu = forwardRef(
 );
 
 const Wrapper = styled.div`
+  ul {
+    &:before {
+      border-top: 1px solid #e5e5e5;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      z-index: 20;
+    }
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+  }
+
+  button {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    font: inherit;
+    border-radius: 0;
+    outline: 0;
+    box-sizing: border-box;
+  }
+
+  .section-toolbar {
+    display: flex;
+    height: 33px;
+    padding-left: 7px;
+    background-color: #fff;
+    align-items: center;
+
+    .section-toolbar-item-separator-bar {
+      padding-left: 7px;
+      padding-right: 14px;
+
+      .separator-bar {
+        &:before {
+          content: '';
+          display: inline-block;
+          width: 1px;
+          height: 15px;
+          background-color: #e5e5e5;
+        }
+      }
+    }
+
+    .section-toolbar-item {
+      display: flex;
+      align-items: center;
+      position: relative;
+      flex: 0 0 auto;
+      height: 100%;
+      padding-right: 7px;
+      height: 33px;
+
+      .section-toolbar-labe-select-container {
+        position: relative;
+
+        .section-font-size-toolbar-button {
+          min-width: 55px;
+          position: relative;
+          height: 33px;
+          padding-right: 32px;
+          padding-left: 10px;
+          text-align: left;
+
+          &:after {
+            width: 1px;
+            height: 1px;
+            box-shadow: 0 2px 0 0 #999, -4px -2px 0 0 #999, 4px -2px 0 0 #999,
+              -3px -1px 0 0 #999, 3px -1px 0 0 #999, -2px 0 0 0 #999,
+              2px 0 0 0 #999, -1px 1px 0 0 #999, 1px 1px 0 0 #999,
+              0 2px 0 0 #999, 0 2px 0 0 #999;
+            content: '';
+            position: absolute;
+            top: 16px;
+            right: 14px;
+            margin: auto;
+          }
+
+          .section-toolbar-label {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .section-toolbar-item-button {
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        font: inherit;
+        border-radius: 0;
+        outline: 0;
+        box-sizing: border-box;
+        .section-toolbar-icon {
+          width: 21px;
+          height: 21px;
+          display: inline-block;
+          &:hover {
+            color: #3cc83c;
+          }
+        }
+      }
+    }
+  }
+
   #editor-menu {
     display: flex;
   }
