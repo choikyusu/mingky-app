@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { eventActions } from '../../../../store/modules/actions/event.action';
 import useFetch from '../../../../hooks/useFetch';
 import { API } from '../../../../constants/api.constant';
-import { CATEGORY_LIST } from '../../../../constants/category.constant';
+import { categoryList } from '../../../../constants/category.constant';
 
 export function HomeBody() {
   const selectedCategory: Category = useSelector(
@@ -41,13 +41,15 @@ export function HomeBody() {
     <Wrapper>
       <div>
         <div className="icons">
-          {CATEGORY_LIST.filter(category => !category.hidden).map(category => (
-            <EventCategoryIcon
-              icon={category.icon}
-              title={category.name}
-              category={category.id}
-            />
-          ))}
+          {categoryList.list
+            .filter(category => !category.hidden)
+            .map(category => (
+              <EventCategoryIcon
+                icon={category.icon}
+                title={category.name}
+                category={category.id}
+              />
+            ))}
         </div>
         <CardList category={selectedCategory} />
       </div>
