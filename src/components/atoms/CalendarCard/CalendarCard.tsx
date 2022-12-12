@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { CATEGORY_LIST } from '../../../constants/category.constant';
+import { categoryList } from '../../../constants/category.constant';
 import { editActions } from '../../../store/modules/actions/edit.action';
 import { eventActions } from '../../../store/modules/actions/event.action';
 import { menuActions } from '../../../store/modules/actions/menu.action';
@@ -121,7 +121,10 @@ export function CalendarCard(props: { event: EventItem }) {
       </div>
       <div>
         <div className="category">
-          {CATEGORY_LIST.find(category => category.id === event.category)?.name}
+          {
+            categoryList.list.find(category => category.id === event.category)
+              ?.name
+          }
         </div>
         <strong className="title">{event.nameText}</strong>
         <div className="date">

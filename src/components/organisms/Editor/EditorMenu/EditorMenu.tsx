@@ -4,79 +4,77 @@ import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { getYYYYMMDD } from '../../../../utils/date.util';
-import { CATEGORY_LIST } from '../../../../constants/category.constant';
 import {
-  BsTypeBold,
-  BsTypeItalic,
-  BsTypeUnderline,
-  BsTypeStrikethrough,
-  BsListUl,
-  BsListOl,
-} from 'react-icons/bs';
-import { BiFontColor, BiColorFill, BiAlignLeft } from 'react-icons/bi';
-import { AiOutlinePicture } from 'react-icons/ai';
+  categoryList,
+  statusList,
+} from '../../../../constants/category.constant';
 
-const fontColorList = [
-  {
-    value: '#000000',
-    fontColor: '검정',
-  },
-  {
-    value: '#FFFFFF',
-    fontColor: '흰색',
-  },
-  {
-    value: '#CCCCCC',
-    fontColor: '회색',
-  },
-  {
-    value: '#F03E3E',
-    fontColor: '빨강',
-  },
-  {
-    value: '#1971C2',
-    fontColor: '파랑',
-  },
-  {
-    value: '#37B24D',
-    fontColor: '녹색',
-  },
-];
+import { ToolbarItem } from './ToolbarItem/ToolbarItem';
+import { SeparatorBar } from './ToolbarItem/SeparatorBar/SeparatorBar';
 
-const fontSizeList = [
-  {
-    value: '',
-    fontSize: '폰트 사이즈',
-  },
-  {
-    value: '1',
-    fontSize: '10px',
-  },
-  {
-    value: '2',
-    fontSize: '13px',
-  },
-  {
-    value: '3',
-    fontSize: '16px',
-  },
-  {
-    value: '4',
-    fontSize: '18px',
-  },
-  {
-    value: '5',
-    fontSize: '24px',
-  },
-  {
-    value: '6',
-    fontSize: '32px',
-  },
-  {
-    value: '7',
-    fontSize: '48px',
-  },
-];
+const fontColorList: FontColor = {
+  type: 'FONT_COLOR',
+  list: [
+    {
+      value: '#000000',
+      fontColor: '검정',
+    },
+    {
+      value: '#FFFFFF',
+      fontColor: '흰색',
+    },
+    {
+      value: '#CCCCCC',
+      fontColor: '회색',
+    },
+    {
+      value: '#F03E3E',
+      fontColor: '빨강',
+    },
+    {
+      value: '#1971C2',
+      fontColor: '파랑',
+    },
+    {
+      value: '#37B24D',
+      fontColor: '녹색',
+    },
+  ],
+};
+
+const fontSizeList: FontSizeList = {
+  type: 'FONT_SIZE',
+  list: [
+    {
+      value: 1,
+      fontSize: '10px',
+    },
+    {
+      value: 2,
+      fontSize: '13px',
+    },
+    {
+      value: 3,
+      fontSize: '16px',
+    },
+    {
+      value: 4,
+      fontSize: '18px',
+    },
+    {
+      value: 5,
+      fontSize: '24px',
+    },
+    {
+      value: 6,
+      fontSize: '32px',
+    },
+    {
+      value: 7,
+      fontSize: '48px',
+    },
+  ],
+};
 
 export const EditorMenu = forwardRef(
   (props: {
@@ -113,7 +111,7 @@ export const EditorMenu = forwardRef(
       checkStyle,
     }));
 
-    const [fontSize, setFontSize] = useState<number>(0);
+    const [fontSize, setFontSize] = useState<number>(3);
     const [fontColor, setFontColor] = useState<string>('');
     const [bgColor, setBgColor] = useState<string>('');
     const [value, onChange] = useState(new Date());
@@ -216,7 +214,7 @@ export const EditorMenu = forwardRef(
         );
 
         setFontSize(
-          fontSizeList.findIndex(
+          fontSizeList.list.findIndex(
             fontSize => fontSize.fontSize === usedFontSize,
           ),
         );
@@ -260,193 +258,134 @@ export const EditorMenu = forwardRef(
         </div>
         <div className="section-layer-toolbar">
           <ul className="section-toolbar">
-            <li className="section-toolbar-item">
-              <div className="section-toolbar-label-select-container">
-                <button
-                  className="section-font-size-toolbar-button"
-                  type="button"
-                >
-                  <span className="section-toolbar-label">카테고리</span>
-                </button>
-              </div>
-            </li>
-            <li className="section-toolbar-item">
-              <div className="section-toolbar-label-select-container">
-                <button
-                  className="section-font-size-toolbar-button"
-                  type="button"
-                >
-                  <span className="section-toolbar-label">상태</span>
-                </button>
-              </div>
-            </li>
-            <li className="section-toolbar-item-separator-bar">
-              <div className="separator-bar" />
-            </li>
-            <li className="section-toolbar-item">
-              <div className="section-toolbar-label-select-container">
-                <button
-                  className="section-font-size-toolbar-button"
-                  type="button"
-                >
-                  <span className="section-toolbar-label">15</span>
-                </button>
-              </div>
-            </li>
-            <li className="section-toolbar-item-separator-bar">
-              <div className="separator-bar" />
-            </li>
-            <li
-              className="section-toolbar-item"
-              onClick={e => {
+            <ToolbarItem
+              name={category === '' ? '카테고리' : category}
+              type="LabelButton"
+              onClick={(e, value) => {
+                if (typeof value === 'string') setCategory(value as Category);
+              }}
+              optionList={categoryList}
+              selectedValue={category}
+            />
+            <ToolbarItem
+              name={status === '' ? '상태' : status}
+              type="LabelButton"
+              onClick={(e, value) => {
+                if (typeof value === 'string') setStatus(value);
+              }}
+              optionList={statusList}
+              selectedValue={status}
+            />
+            <SeparatorBar />
+            <ToolbarItem
+              name={String(fontSize)}
+              type="LabelButton"
+              onClick={(e, value) => {
+                if (typeof value === 'number') {
+                  setFontSize(value);
+                  document.execCommand('fontSize', false, String(value));
+                }
+              }}
+              optionList={fontSizeList}
+              selectedValue={fontSize}
+            />
+            <SeparatorBar />
+            <ToolbarItem
+              name="BOLD"
+              type="NormalButton"
+              buttonRef={boldRef}
+              onClick={() => {
                 document.execCommand('bold');
               }}
-            >
-              <button
-                className="section-toolbar-item-button"
-                type="button"
-                ref={boldRef}
-              >
-                <BsTypeBold className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li
-              className="section-toolbar-item"
-              onClick={e => {
+            />
+            <ToolbarItem
+              name="ITALIC"
+              type="NormalButton"
+              buttonRef={italicRef}
+              onClick={() => {
                 document.execCommand('italic');
               }}
-            >
-              <button
-                className="section-toolbar-item-button"
-                type="button"
-                ref={italicRef}
-              >
-                <BsTypeItalic className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li
-              className="section-toolbar-item"
-              onClick={e => {
+            />
+            <ToolbarItem
+              name="UNDERLINE"
+              type="NormalButton"
+              buttonRef={underlineRef}
+              onClick={() => {
                 document.execCommand('underline');
               }}
-            >
-              <button
-                ref={underlineRef}
-                className="section-toolbar-item-button"
-                type="button"
-              >
-                <BsTypeUnderline className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li
-              className="section-toolbar-item"
-              onClick={e => {
+            />
+            <ToolbarItem
+              name="STRIKE"
+              type="NormalButton"
+              buttonRef={strikeRef}
+              onClick={() => {
                 document.execCommand('strikeThrough');
               }}
-            >
-              <button
-                ref={strikeRef}
-                className="section-toolbar-item-button"
-                type="button"
-              >
-                <BsTypeStrikethrough className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
-                <BiFontColor className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
-                <BiColorFill className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li className="section-toolbar-item-separator-bar">
-              <div className="separator-bar" />
-            </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
-                <BiAlignLeft className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li
-              className="section-toolbar-item"
-              onClick={e => {
+            />
+            <ToolbarItem
+              name="FONTCOLOR"
+              type="NormalButton"
+              onClick={() => {
+                document.execCommand('strikeThrough');
+              }}
+            />
+            <ToolbarItem
+              name="BACKGROUND_COLOR"
+              type="NormalButton"
+              onClick={() => {
+                document.execCommand('strikeThrough');
+              }}
+            />
+            <SeparatorBar />
+            <ToolbarItem
+              name="ALIGN_LEFT"
+              type="NormalButton"
+              buttonRef={italicRef}
+              onClick={() => {
+                document.execCommand('strikeThrough');
+              }}
+            />
+            <ToolbarItem
+              name="OL"
+              type="NormalButton"
+              buttonRef={orderListRef}
+              onClick={() => {
                 document.execCommand('insertOrderedList');
               }}
-            >
-              <button
-                className="section-toolbar-item-button"
-                type="button"
-                ref={orderListRef}
-              >
-                <BsListOl className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li
-              className="section-toolbar-item"
-              onClick={e => {
+            />
+            <ToolbarItem
+              name="UL"
+              type="NormalButton"
+              buttonRef={unorderListRef}
+              onClick={() => {
                 document.execCommand('insertUnorderedList');
               }}
-            >
-              <button
-                className="section-toolbar-item-button"
-                type="button"
-                ref={unorderListRef}
-              >
-                <BsListUl className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li className="section-toolbar-item-separator-bar">
-              <div className="separator-bar" />
-            </li>
-            <li className="section-toolbar-item">
-              <button className="section-toolbar-item-button" type="button">
-                <AiOutlinePicture className="section-toolbar-icon" />
-              </button>
-            </li>
-            <li className="section-toolbar-item-separator-bar">
-              <div className="separator-bar" />
-            </li>
-            <li className="section-toolbar-item">
-              <div className="section-toolbar-label-select-container">
-                <button
-                  className="section-font-size-toolbar-button"
-                  type="button"
-                >
-                  <span className="section-toolbar-label">2022-12-01</span>
-                </button>
-              </div>
-            </li>
-            <li className="section-toolbar-item">
-              <div className="section-toolbar-label-select-container">
-                <span className="section-toolbar-label">~</span>
-              </div>
-            </li>
-            <li className="section-toolbar-item">
-              <div className="section-toolbar-label-select-container">
-                <button
-                  className="section-font-size-toolbar-button"
-                  type="button"
-                >
-                  <span className="section-toolbar-label">2022-12-02</span>
-                </button>
-              </div>
-            </li>
+            />
+            <SeparatorBar />
+            <ToolbarItem
+              name="PICTURE"
+              type="NormalButton"
+              onClick={() => {
+                if (imgSelector) imgSelector.current?.click();
+              }}
+            />
+            <SeparatorBar />
+            <ToolbarItem
+              name={getYYYYMMDD(startDate)}
+              type="LabelButton"
+              onClick={() => {
+                setSelectedDate('start');
+              }}
+            />
+            ~
+            <ToolbarItem
+              name={getYYYYMMDD(endDate)}
+              type="LabelButton"
+              onClick={() => setSelectedDate('end')}
+            />
           </ul>
         </div>
 
-        <button type="button">OL</button>
-        <button type="button">UL</button>
-        <button
-          type="button"
-          onClick={e => {
-            if (imgSelector) imgSelector.current?.click();
-          }}
-        >
-          IMG
-        </button>
         <input
           ref={imgSelector}
           id="img-selector"
@@ -477,17 +416,7 @@ export const EditorMenu = forwardRef(
             }
           }}
         />
-        <select
-          id="select-font-size"
-          onChange={e => {
-            document.execCommand('fontSize', false, e.target.value);
-          }}
-          value={fontSize}
-        >
-          {fontSizeList.map(fontSize => (
-            <option value={fontSize.value}>{fontSize.fontSize}</option>
-          ))}
-        </select>
+
         <select
           id="select-font-color"
           onChange={e => {
@@ -496,7 +425,7 @@ export const EditorMenu = forwardRef(
           value={fontColor}
         >
           <option value="">폰트 색상</option>
-          {fontColorList.map(color => (
+          {fontColorList.list.map(color => (
             <option value={color.value}>{color.fontColor}</option>
           ))}
         </select>
@@ -508,7 +437,7 @@ export const EditorMenu = forwardRef(
           value={bgColor}
         >
           <option value="rgba(0, 0, 0, 0)">폰트 백그라운드</option>
-          {fontColorList.map(color => (
+          {fontColorList.list.map(color => (
             <option value={color.value}>{color.fontColor}</option>
           ))}
         </select>
@@ -528,41 +457,7 @@ export const EditorMenu = forwardRef(
         >
           HOME
         </button>
-        <div onClick={() => setSelectedDate('start')} aria-hidden>
-          시작일자
-        </div>
-        <div onClick={() => setSelectedDate('start')} aria-hidden>
-          {getYYYYMMDD(startDate)}
-        </div>
-        <div onClick={() => setSelectedDate('end')} aria-hidden>
-          종료일자
-        </div>
-        <div onClick={() => setSelectedDate('end')} aria-hidden>
-          {getYYYYMMDD(endDate)}
-        </div>
-        <select
-          id="select-category"
-          onChange={e => {
-            setCategory(e.target.value as Category);
-          }}
-          value={category}
-        >
-          <option value="">카테고리</option>
-          {CATEGORY_LIST.map(category => (
-            <option value={category.id}>{category.name}</option>
-          ))}
-        </select>
-        <select
-          id="select-status"
-          onChange={e => {
-            setStatus(e.target.value);
-          }}
-          value={status}
-        >
-          <option value="">상태</option>
-          <option value="COMPLETE">완료</option>
-          <option value="ONGOING">진행중</option>
-        </select>
+
         <Calendar
           onChange={(value: Date) => {
             if (selectedDate === 'start') setStartDate(value);
@@ -657,70 +552,6 @@ const Wrapper = styled.div`
         }
       }
     }
-
-    .section-toolbar-item {
-      display: flex;
-      align-items: center;
-      position: relative;
-      flex: 0 0 auto;
-      height: 100%;
-      padding-right: 7px;
-      height: 33px;
-
-      .section-toolbar-label-select-container {
-        position: relative;
-
-        .section-font-size-toolbar-button {
-          min-width: 55px;
-          position: relative;
-          height: 33px;
-          padding-right: 32px;
-          padding-left: 10px;
-          text-align: left;
-
-          &:after {
-            width: 1px;
-            height: 1px;
-            box-shadow: 0 2px 0 0 #999, -4px -2px 0 0 #999, 4px -2px 0 0 #999,
-              -3px -1px 0 0 #999, 3px -1px 0 0 #999, -2px 0 0 0 #999,
-              2px 0 0 0 #999, -1px 1px 0 0 #999, 1px 1px 0 0 #999,
-              0 2px 0 0 #999, 0 2px 0 0 #999;
-            content: '';
-            position: absolute;
-            top: 16px;
-            right: 14px;
-            margin: auto;
-          }
-
-          .section-toolbar-label {
-            font-size: 12px;
-          }
-        }
-      }
-
-      .section-toolbar-item-button {
-        &.active {
-          color: #3cc83c;
-        }
-        padding: 0;
-        background-color: transparent;
-        border: 0;
-        cursor: pointer;
-        font: inherit;
-        border-radius: 0;
-        outline: 0;
-        box-sizing: border-box;
-        .section-toolbar-icon {
-          color: inherit;
-          width: 21px;
-          height: 21px;
-          display: inline-block;
-          &:hover {
-            color: #3cc83c;
-          }
-        }
-      }
-    }
   }
 
   #editor-menu {
@@ -728,6 +559,7 @@ const Wrapper = styled.div`
   }
 
   #img-selector {
+    display: none;
   }
   button.active {
     background-color: purple;
