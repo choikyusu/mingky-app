@@ -1,4 +1,3 @@
-import { GiConsoleController } from 'react-icons/gi';
 import styled from 'styled-components';
 
 export const ListOption = (props: {
@@ -8,7 +7,7 @@ export const ListOption = (props: {
     value?: string | number,
   ) => void;
   selectedValue?: string | Category | number;
-  setIsOptionShow: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOptionShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { optionList, onClick, selectedValue, setIsOptionShow } = props;
 
@@ -61,7 +60,7 @@ export const ListOption = (props: {
           }`}
           onClick={e => {
             e.stopPropagation();
-            setIsOptionShow(false);
+            if (setIsOptionShow) setIsOptionShow(false);
             onClick(e, item.value);
           }}
         >

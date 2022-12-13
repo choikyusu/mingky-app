@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { useRef, forwardRef, useImperativeHandle, useState } from 'react';
+import {
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+  useState,
+  SetStateAction,
+} from 'react';
 import Calendar from 'react-calendar';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
@@ -11,6 +17,8 @@ import {
 
 import { ToolbarItem } from './ToolbarItem/ToolbarItem';
 import { SeparatorBar } from './ToolbarItem/SeparatorBar/SeparatorBar';
+import { ListOption } from './ToolbarItem/ToolbarButton/LabelButtonOption/ListOption';
+import { CalendarOption } from './ToolbarItem/ToolbarButton/LabelButtonOption/CalendarOption';
 
 const fontColorList: FontColor = {
   type: 'FONT_COLOR',
@@ -261,34 +269,40 @@ export const EditorMenu = forwardRef(
             <ToolbarItem
               name={category === '' ? '카테고리' : category}
               type="LabelButton"
-              onClick={(e, value) => {
-                if (typeof value === 'string') setCategory(value as Category);
-              }}
-              optionList={categoryList}
-              selectedValue={category}
-            />
+            >
+              <ListOption
+                optionList={categoryList}
+                onClick={(e, value) => {
+                  if (typeof value === 'string') setCategory(value as Category);
+                }}
+                selectedValue={category}
+              />
+            </ToolbarItem>
             <ToolbarItem
               name={status === '' ? '상태' : status}
               type="LabelButton"
-              onClick={(e, value) => {
-                if (typeof value === 'string') setStatus(value);
-              }}
-              optionList={statusList}
-              selectedValue={status}
-            />
+            >
+              <ListOption
+                optionList={statusList}
+                onClick={(e, value) => {
+                  if (typeof value === 'string') setStatus(value);
+                }}
+                selectedValue={status}
+              />
+            </ToolbarItem>
             <SeparatorBar />
-            <ToolbarItem
-              name={String(fontSize)}
-              type="LabelButton"
-              onClick={(e, value) => {
-                if (typeof value === 'number') {
-                  setFontSize(value);
-                  document.execCommand('fontSize', false, String(value));
-                }
-              }}
-              optionList={fontSizeList}
-              selectedValue={fontSize}
-            />
+            <ToolbarItem name={String(fontSize)} type="LabelButton">
+              <ListOption
+                optionList={fontSizeList}
+                selectedValue={fontSize}
+                onClick={(e, value) => {
+                  if (typeof value === 'number') {
+                    setFontSize(value);
+                    document.execCommand('fontSize', false, String(value));
+                  }
+                }}
+              />
+            </ToolbarItem>
             <SeparatorBar />
             <ToolbarItem
               name="BOLD"
@@ -376,13 +390,27 @@ export const EditorMenu = forwardRef(
               onClick={() => {
                 setSelectedDate('start');
               }}
-            />
+            >
+              <CalendarOption
+                value={value}
+                selectedDate={selectedDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
+            </ToolbarItem>
             ~
             <ToolbarItem
               name={getYYYYMMDD(endDate)}
               type="LabelButton"
               onClick={() => setSelectedDate('end')}
-            />
+            >
+              <CalendarOption
+                value={value}
+                selectedDate={selectedDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
+              />
+            </ToolbarItem>
           </ul>
         </div>
 
@@ -457,14 +485,6 @@ export const EditorMenu = forwardRef(
         >
           HOME
         </button>
-
-        <Calendar
-          onChange={(value: Date) => {
-            if (selectedDate === 'start') setStartDate(value);
-            else if (selectedDate === 'end') setEndDate(value);
-          }}
-          value={value}
-        />
       </Wrapper>
     );
   },

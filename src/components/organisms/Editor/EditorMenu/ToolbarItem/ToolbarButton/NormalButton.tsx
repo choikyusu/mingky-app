@@ -14,7 +14,7 @@ import styled from 'styled-components';
 export const NormalButton = (props: {
   name: string;
   buttonRef?: React.MutableRefObject<HTMLButtonElement | null>;
-  onClick: () => void;
+  onClick?: () => void;
 }) => {
   const { name, buttonRef, onClick } = props;
   let Icon: IconType | null = null;
@@ -57,7 +57,12 @@ export const NormalButton = (props: {
   }
 
   return (
-    <Container className="section-toolbar-item" onClick={e => onClick()}>
+    <Container
+      className="section-toolbar-item"
+      onClick={e => {
+        if (onClick) onClick();
+      }}
+    >
       <button
         className="section-toolbar-item-button"
         type="button"
