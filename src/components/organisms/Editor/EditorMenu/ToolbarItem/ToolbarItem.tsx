@@ -5,21 +5,22 @@ export const ToolbarItem = (props: {
   name: string;
   type: string;
   buttonRef?: React.MutableRefObject<HTMLButtonElement | null>;
-  onClick: (
+  onClick?: (
     e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     value?: string | number,
   ) => void;
-  optionList?: LabelButtonOption;
-  selectedValue?: string | Category | number;
+  children?: React.ReactNode;
 }) => {
-  const { name, type, buttonRef, onClick, optionList, selectedValue } = props;
+  const {
+    name,
+    type,
+    buttonRef,
+    onClick,
+
+    children,
+  } = props;
   return type === 'LabelButton' ? (
-    <LabelButton
-      name={name}
-      onClick={onClick}
-      optionList={optionList}
-      selectedValue={selectedValue}
-    />
+    <LabelButton name={name} children={children} onClick={onClick} />
   ) : (
     <NormalButton name={name} buttonRef={buttonRef} onClick={onClick} />
   );

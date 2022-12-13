@@ -1,23 +1,24 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ListOption } from './LabelButtonOption/ListOption';
 
 export const LabelButton = (props: {
   name: string;
-  onClick: (
+  children?: React.ReactNode;
+  onClick?: (
     e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     value?: string | number,
   ) => void;
-  optionList?: LabelButtonOption;
-  selectedValue?: string | Category | number;
 }) => {
-  const { name, onClick, optionList, selectedValue } = props;
+  const { name, children, onClick } = props;
   const [isOptionShow, setIsOptionShow] = useState(false);
   return (
     <Container
       className="section-toolbar-item"
       isOptionShow={isOptionShow}
-      onClick={() => setIsOptionShow(true)}
+      onClick={e => {
+        setIsOptionShow(true);
+        if (onClick) onClick();
+      }}
       onMouseLeave={() => setIsOptionShow(false)}
     >
       <div className="section-toolbar-label-select-container">
@@ -29,14 +30,10 @@ export const LabelButton = (props: {
         >
           <span className="section-toolbar-label">{name}</span>
         </button>
-        {isOptionShow && (
-          <ListOption
-            optionList={optionList}
-            onClick={onClick}
-            selectedValue={selectedValue}
-            setIsOptionShow={setIsOptionShow}
-          />
-        )}
+        {isOptionShow &&
+          React.cloneElement(children as React.ReactElement, {
+            setIsOptionShow,
+          })}
       </div>
     </Container>
   );
