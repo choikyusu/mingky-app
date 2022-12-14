@@ -17,8 +17,9 @@ import {
 
 import { ToolbarItem } from './ToolbarItem/ToolbarItem';
 import { SeparatorBar } from './ToolbarItem/SeparatorBar/SeparatorBar';
-import { ListOption } from './ToolbarItem/ToolbarButton/LabelButtonOption/ListOption';
-import { CalendarOption } from './ToolbarItem/ToolbarButton/LabelButtonOption/CalendarOption';
+import { ListOption } from './ToolbarItem/ToolbarButton/ButtonOption/ListOption';
+import { CalendarOption } from './ToolbarItem/ToolbarButton/ButtonOption/CalendarOption';
+import { ColorPickerOption } from './ToolbarItem/ToolbarButton/ButtonOption/ColorPickerOption';
 
 const fontColorList: FontColor = {
   type: 'FONT_COLOR',
@@ -340,9 +341,11 @@ export const EditorMenu = forwardRef(
               name="FONTCOLOR"
               type="NormalButton"
               onClick={() => {
-                document.execCommand('strikeThrough');
+                console.log('a');
               }}
-            />
+            >
+              <ColorPickerOption />
+            </ToolbarItem>
             <ToolbarItem
               name="BACKGROUND_COLOR"
               type="NormalButton"
@@ -512,7 +515,8 @@ const Wrapper = styled.div`
       }
     }
   }
-  ul {
+
+  .section-toolbar {
     &:before {
       border-top: 1px solid #e5e5e5;
       content: '';
@@ -531,6 +535,9 @@ const Wrapper = styled.div`
       bottom: 0;
       z-index: 20;
     }
+  }
+
+  ul {
     position: relative;
     list-style: none;
     margin: 0;

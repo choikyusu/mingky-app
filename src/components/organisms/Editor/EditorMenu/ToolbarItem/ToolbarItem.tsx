@@ -22,6 +22,11 @@ export const ToolbarItem = (props: {
   return type === 'LabelButton' ? (
     <LabelButton name={name} children={children} onClick={onClick} />
   ) : (
-    <NormalButton name={name} buttonRef={buttonRef} onClick={onClick} />
+    <NormalButton
+      name={name}
+      children={children}
+      buttonRef={buttonRef}
+      onClick={onClick}
+    />
   );
 };
