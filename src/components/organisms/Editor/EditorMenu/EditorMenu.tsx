@@ -298,7 +298,6 @@ export const EditorMenu = forwardRef(
                 selectedValue={fontSize}
                 onClick={(e, value) => {
                   if (typeof value === 'number') {
-                    setFontSize(value);
                     document.execCommand('fontSize', false, String(value));
                   }
                 }}
@@ -337,22 +336,20 @@ export const EditorMenu = forwardRef(
                 document.execCommand('strikeThrough');
               }}
             />
-            <ToolbarItem
-              name="FONTCOLOR"
-              type="NormalButton"
-              onClick={() => {
-                console.log('a');
-              }}
-            >
-              <ColorPickerOption />
+            <ToolbarItem name="FONTCOLOR" type="NormalButton">
+              <ColorPickerOption
+                onClick={(value: string) => {
+                  document.execCommand('foreColor', false, value);
+                }}
+              />
             </ToolbarItem>
-            <ToolbarItem
-              name="BACKGROUND_COLOR"
-              type="NormalButton"
-              onClick={() => {
-                document.execCommand('strikeThrough');
-              }}
-            />
+            <ToolbarItem name="BACKGROUND_COLOR" type="NormalButton">
+              <ColorPickerOption
+                onClick={(value: string) => {
+                  document.execCommand('hiliteColor', false, value);
+                }}
+              />
+            </ToolbarItem>
             <SeparatorBar />
             <ToolbarItem
               name="ALIGN_LEFT"
@@ -447,31 +444,6 @@ export const EditorMenu = forwardRef(
             }
           }}
         />
-
-        <select
-          id="select-font-color"
-          onChange={e => {
-            document.execCommand('foreColor', false, e.target.value);
-          }}
-          value={fontColor}
-        >
-          <option value="">폰트 색상</option>
-          {fontColorList.list.map(color => (
-            <option value={color.value}>{color.fontColor}</option>
-          ))}
-        </select>
-        <select
-          id="select-font-background"
-          onChange={e => {
-            document.execCommand('hiliteColor', false, e.target.value);
-          }}
-          value={bgColor}
-        >
-          <option value="rgba(0, 0, 0, 0)">폰트 백그라운드</option>
-          {fontColorList.list.map(color => (
-            <option value={color.value}>{color.fontColor}</option>
-          ))}
-        </select>
         <button
           type="button"
           onClick={e => {

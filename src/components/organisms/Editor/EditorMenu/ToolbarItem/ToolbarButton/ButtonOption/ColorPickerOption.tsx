@@ -76,12 +76,24 @@ const COLOR_LIST = [
 
 export const ColorPickerOption = (props: {
   setIsOptionShow?: React.Dispatch<React.SetStateAction<boolean>>;
+  onClick: (value: string) => void;
 }) => {
-  const { setIsOptionShow } = props;
+  const { setIsOptionShow, onClick } = props;
   return (
     <Wrapper>
       <div className="se-color-swatches-preset">
-        <ul className="se-color-swatches-list">
+        <ul
+          onClick={e => {
+            e.stopPropagation();
+            const target = e.target as HTMLButtonElement;
+            if (target.type === 'button') {
+              if (setIsOptionShow) setIsOptionShow(false);
+              const value = target.getAttribute('data-color');
+              if (value) onClick(value);
+            }
+          }}
+          className="se-color-swatches-list"
+        >
           <li className="se-color-swatches-item">
             <button
               type="button"
@@ -132,7 +144,7 @@ const Wrapper = styled.div`
 
         .se-color-palette-no-color {
           &:before {
-            content: '#';
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
@@ -161,6 +173,22 @@ const Wrapper = styled.div`
           height: 15px;
           border: 1px solid #fff;
           border-width: 1px 0 0 1px;
+
+          &:hover:after {
+            display: block;
+          }
+
+          &:after {
+            content: '';
+            display: none;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #444;
+          }
         }
       }
     }

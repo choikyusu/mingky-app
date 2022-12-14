@@ -75,10 +75,11 @@ export const NormalButton = (props: {
       >
         <Icon className="section-toolbar-icon" />
       </button>
-      {isOptionShow &&
-        React.cloneElement(children as React.ReactElement, {
-          setIsOptionShow,
-        })}
+      {isOptionShow
+        ? React.cloneElement(children as React.ReactElement, {
+            setIsOptionShow,
+          })
+        : ''}
     </Container>
   );
 };
