@@ -31,6 +31,7 @@ export const LabelButton = (props: {
           <span className="section-toolbar-label">{name}</span>
         </button>
         {isOptionShow &&
+          children &&
           React.cloneElement(children as React.ReactElement, {
             setIsOptionShow,
           })}

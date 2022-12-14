@@ -1,3 +1,5 @@
+import React from 'react';
+import { useState } from 'react';
 import { IconType } from 'react-icons';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { BiAlignLeft, BiColorFill, BiFontColor } from 'react-icons/bi';
@@ -15,8 +17,10 @@ export const NormalButton = (props: {
   name: string;
   buttonRef?: React.MutableRefObject<HTMLButtonElement | null>;
   onClick?: () => void;
+  children?: React.ReactNode;
 }) => {
-  const { name, buttonRef, onClick } = props;
+  const { name, buttonRef, onClick, children } = props;
+  const [isOptionShow, setIsOptionShow] = useState(false);
   let Icon: IconType | null = null;
 
   switch (name) {
@@ -61,6 +65,7 @@ export const NormalButton = (props: {
       className="section-toolbar-item"
       onClick={e => {
         if (onClick) onClick();
+        setIsOptionShow(true);
       }}
     >
       <button
@@ -70,6 +75,10 @@ export const NormalButton = (props: {
       >
         <Icon className="section-toolbar-icon" />
       </button>
+      {isOptionShow &&
+        React.cloneElement(children as React.ReactElement, {
+          setIsOptionShow,
+        })}
     </Container>
   );
 };
