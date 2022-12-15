@@ -338,6 +338,7 @@ export const EditorMenu = forwardRef(
             />
             <ToolbarItem name="FONTCOLOR" type="NormalButton">
               <ColorPickerOption
+                bgColor={fontColor}
                 onClick={(value: string) => {
                   document.execCommand('foreColor', false, value);
                 }}
@@ -345,6 +346,7 @@ export const EditorMenu = forwardRef(
             </ToolbarItem>
             <ToolbarItem name="BACKGROUND_COLOR" type="NormalButton">
               <ColorPickerOption
+                bgColor={bgColor}
                 onClick={(value: string) => {
                   document.execCommand('hiliteColor', false, value);
                 }}

@@ -75,10 +75,11 @@ const COLOR_LIST = [
 ];
 
 export const ColorPickerOption = (props: {
+  bgColor: string;
   setIsOptionShow?: React.Dispatch<React.SetStateAction<boolean>>;
   onClick: (value: string) => void;
 }) => {
-  const { setIsOptionShow, onClick } = props;
+  const { bgColor, setIsOptionShow, onClick } = props;
   return (
     <Wrapper>
       <div className="se-color-swatches-preset">
@@ -107,7 +108,11 @@ export const ColorPickerOption = (props: {
               <li className="se-color-swatches-item">
                 <button
                   type="button"
-                  className="se-color-palette"
+                  className={`se-color-palette ${
+                    bgColor.toUpperCase() === color.hex.toUpperCase()
+                      ? 'se-is-selected'
+                      : ''
+                  }`}
                   data-color={color.hex}
                   title={color.hex}
                   style={{ backgroundColor: color.rgb }}
@@ -175,6 +180,10 @@ const Wrapper = styled.div`
           border-width: 1px 0 0 1px;
 
           &:hover:after {
+            display: block;
+          }
+
+          &.se-is-selected:after {
             display: block;
           }
 
