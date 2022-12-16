@@ -16,7 +16,7 @@ export const LabelButton = (props: {
       className="section-toolbar-item"
       isOptionShow={isOptionShow}
       onClick={e => {
-        setIsOptionShow(true);
+        if (children) setIsOptionShow(true);
         if (onClick) onClick();
       }}
       onMouseLeave={() => setIsOptionShow(false)}
