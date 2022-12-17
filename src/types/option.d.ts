@@ -1,4 +1,5 @@
 type LabelButtonOption = FontColor | CategoryList | StatusList | FontSizeList;
+type MenuItem = FontColor | CategoryList | StatusList | FontSizeList;
 
 type FontColor = {
   type: 'FONT_COLOR';
@@ -29,7 +30,7 @@ type StatusList = {
 type FontSizeList = {
   type: 'FONT_SIZE';
   list: {
-    value: number;
+    value: string;
     fontSize: string;
   }[];
 };

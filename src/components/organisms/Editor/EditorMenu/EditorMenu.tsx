@@ -1,12 +1,5 @@
 import axios from 'axios';
-import {
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-  useState,
-  SetStateAction,
-} from 'react';
-import Calendar from 'react-calendar';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
 import { getYYYYMMDD } from '../../../../utils/date.util';
@@ -20,70 +13,18 @@ import { SeparatorBar } from './ToolbarItem/SeparatorBar/SeparatorBar';
 import { ListOption } from './ToolbarItem/ToolbarButton/ButtonOption/ListOption';
 import { CalendarOption } from './ToolbarItem/ToolbarButton/ButtonOption/CalendarOption';
 import { ColorPickerOption } from './ToolbarItem/ToolbarButton/ButtonOption/ColorPickerOption';
-
-const fontColorList: FontColor = {
-  type: 'FONT_COLOR',
-  list: [
-    {
-      value: '#000000',
-      fontColor: '검정',
-    },
-    {
-      value: '#FFFFFF',
-      fontColor: '흰색',
-    },
-    {
-      value: '#CCCCCC',
-      fontColor: '회색',
-    },
-    {
-      value: '#F03E3E',
-      fontColor: '빨강',
-    },
-    {
-      value: '#1971C2',
-      fontColor: '파랑',
-    },
-    {
-      value: '#37B24D',
-      fontColor: '녹색',
-    },
-  ],
-};
-
-const fontSizeList: FontSizeList = {
-  type: 'FONT_SIZE',
-  list: [
-    {
-      value: 1,
-      fontSize: '10px',
-    },
-    {
-      value: 2,
-      fontSize: '13px',
-    },
-    {
-      value: 3,
-      fontSize: '16px',
-    },
-    {
-      value: 4,
-      fontSize: '18px',
-    },
-    {
-      value: 5,
-      fontSize: '24px',
-    },
-    {
-      value: 6,
-      fontSize: '32px',
-    },
-    {
-      value: 7,
-      fontSize: '48px',
-    },
-  ],
-};
+import { FONT_SIZE_LIST } from '../../../../constants/editor.constant';
+import { useEditor } from './useEditorMenu';
+import {
+  BsListOl,
+  BsListUl,
+  BsTypeBold,
+  BsTypeItalic,
+  BsTypeStrikethrough,
+  BsTypeUnderline,
+} from 'react-icons/bs';
+import { BiAlignLeft, BiColorFill, BiFontColor } from 'react-icons/bi';
+import { AiOutlinePicture } from 'react-icons/ai';
 
 export const EditorMenu = forwardRef(
   (props: {
@@ -116,142 +57,8 @@ export const EditorMenu = forwardRef(
       category,
       status,
     } = props;
-    useImperativeHandle(editorMenuRef, () => ({
-      checkStyle,
-    }));
 
-    const [fontSize, setFontSize] = useState<number>(3);
-    const [fontColor, setFontColor] = useState<string>('');
-    const [bgColor, setBgColor] = useState<string>('');
-    const [value, onChange] = useState(new Date());
-
-    const imgSelector: React.MutableRefObject<HTMLInputElement | null> =
-      useRef(null);
-    const boldRef: React.MutableRefObject<HTMLButtonElement | null> =
-      useRef(null);
-    const italicRef: React.MutableRefObject<HTMLButtonElement | null> =
-      useRef(null);
-    const underlineRef: React.MutableRefObject<HTMLButtonElement | null> =
-      useRef(null);
-    const strikeRef: React.MutableRefObject<HTMLButtonElement | null> =
-      useRef(null);
-    const orderListRef: React.MutableRefObject<HTMLButtonElement | null> =
-      useRef(null);
-    const unorderListRef: React.MutableRefObject<HTMLButtonElement | null> =
-      useRef(null);
-
-    function checkStyle() {
-      reportFont();
-      if (isStyle('bold')) {
-        boldRef?.current?.classList.add('active');
-      } else {
-        boldRef?.current?.classList.remove('active');
-      }
-      if (isStyle('italic')) {
-        italicRef?.current?.classList.add('active');
-      } else {
-        italicRef?.current?.classList.remove('active');
-      }
-      if (isStyle('underline')) {
-        underlineRef?.current?.classList.add('active');
-      } else {
-        underlineRef?.current?.classList.remove('active');
-      }
-      if (isStyle('strikeThrough')) {
-        strikeRef?.current?.classList.add('active');
-      } else {
-        strikeRef?.current?.classList.remove('active');
-      }
-      if (isStyle('insertOrderedList')) {
-        orderListRef?.current?.classList.add('active');
-      } else {
-        orderListRef?.current?.classList.remove('active');
-      }
-      if (isStyle('insertUnorderedList')) {
-        unorderListRef?.current?.classList.add('active');
-      } else {
-        unorderListRef?.current?.classList.remove('active');
-      }
-    }
-
-    function isStyle(style: string) {
-      return document.queryCommandState(style);
-    }
-
-    function getComputedStyleProperty(el: HTMLElement, propName: any) {
-      if (window.getComputedStyle) {
-        const style: CSSStyleDeclaration = window.getComputedStyle(el, null);
-        return style[propName];
-      }
-
-      if (el.style) {
-        return el.style[propName];
-      }
-
-      return '';
-    }
-
-    function reportFont() {
-      let containerEl: Node | null = null;
-      let sel: Selection | null = null;
-      if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel?.rangeCount) {
-          containerEl = sel.getRangeAt(0).commonAncestorContainer;
-          if (containerEl.nodeType === 3) {
-            containerEl = containerEl.parentNode;
-          }
-        }
-      }
-      // if (sel === document.getSelection() && sel?.type !== 'Control') {
-      //   containerEl = sel?.focusNode?.parentElement();
-      // }
-
-      if (containerEl) {
-        const usedFontSize = getComputedStyleProperty(
-          containerEl as HTMLElement,
-          'fontSize',
-        );
-
-        const fontColor = getComputedStyleProperty(
-          containerEl as HTMLElement,
-          'color',
-        );
-        const backgroundColor = getComputedStyleProperty(
-          containerEl as HTMLElement,
-          'backgroundColor',
-        );
-
-        setFontSize(
-          fontSizeList.list.findIndex(
-            fontSize => fontSize.fontSize === usedFontSize,
-          ),
-        );
-        setFontColor(rgbToHex(fontColor).toUpperCase());
-
-        if (backgroundColor === 'rgba(0, 0, 0, 0)') {
-          setBgColor(backgroundColor);
-        } else {
-          setBgColor(rgbToHex(backgroundColor).toUpperCase());
-        }
-        // fontSizeSelector.value = fontSizeList.indexOf(size) + 1;
-      }
-    }
-
-    function componentToHex(c: string) {
-      const hex = parseInt(c, 10).toString(16);
-      return hex.length === 1 ? `0${hex}` : hex;
-    }
-
-    function rgbToHex(color: string) {
-      // rgb(r, g, b)에서 색상값만 뽑아 내기 위해서 rgb() 제거
-      const temp = color.replace(/[^0-9,]/g, '');
-      // r,g,b만 남은 값을 ,로 [r,g,b] 배열로 변환
-      const rgb = temp.split(',');
-      return `#${componentToHex(rgb[0])}${componentToHex(
-        rgb[1],
-      )}${componentToHex(rgb[2])}`;
-    }
+    const newEditorMenu = useEditor(props);
 
     return (
       <Wrapper>
@@ -288,9 +95,7 @@ export const EditorMenu = forwardRef(
             >
               <ListOption
                 optionList={categoryList}
-                onClick={(e, value) => {
-                  if (typeof value === 'string') setCategory(value as Category);
-                }}
+                onClick={newEditorMenu.clickMenuItem}
                 selectedValue={category}
               />
             </ToolbarItem>
@@ -300,116 +105,113 @@ export const EditorMenu = forwardRef(
             >
               <ListOption
                 optionList={statusList}
-                onClick={(e, value) => {
-                  if (typeof value === 'string') setStatus(value);
-                }}
+                onClick={newEditorMenu.clickMenuItem}
                 selectedValue={status}
               />
             </ToolbarItem>
             <SeparatorBar />
-            <ToolbarItem name={String(fontSize)} type="LabelButton">
+            <ToolbarItem
+              name={String(newEditorMenu.fontSize)}
+              type="LabelButton"
+            >
               <ListOption
-                optionList={fontSizeList}
-                selectedValue={fontSize}
-                onClick={(e, value) => {
-                  if (typeof value === 'number') {
-                    document.execCommand('fontSize', false, String(value));
-                  }
-                }}
+                optionList={FONT_SIZE_LIST}
+                selectedValue={newEditorMenu.fontSize}
+                onClick={newEditorMenu.clickMenuItem}
               />
             </ToolbarItem>
             <SeparatorBar />
             <ToolbarItem
               name="BOLD"
+              Icon={BsTypeBold}
               type="NormalButton"
-              buttonRef={boldRef}
-              onClick={() => {
-                document.execCommand('bold');
-              }}
+              buttonRef={newEditorMenu.boldRef}
+              onClick={newEditorMenu.clickMenuItem}
             />
             <ToolbarItem
               name="ITALIC"
+              Icon={BsTypeItalic}
               type="NormalButton"
-              buttonRef={italicRef}
-              onClick={() => {
-                document.execCommand('italic');
-              }}
+              buttonRef={newEditorMenu.italicRef}
+              onClick={newEditorMenu.clickMenuItem}
             />
             <ToolbarItem
               name="UNDERLINE"
+              Icon={BsTypeUnderline}
               type="NormalButton"
-              buttonRef={underlineRef}
-              onClick={() => {
-                document.execCommand('underline');
-              }}
+              buttonRef={newEditorMenu.underlineRef}
+              onClick={newEditorMenu.clickMenuItem}
             />
             <ToolbarItem
-              name="STRIKE"
+              name="STRIKETHROUGH"
+              Icon={BsTypeStrikethrough}
               type="NormalButton"
-              buttonRef={strikeRef}
-              onClick={() => {
-                document.execCommand('strikeThrough');
-              }}
+              buttonRef={newEditorMenu.strikeRef}
+              onClick={newEditorMenu.clickMenuItem}
             />
-            <ToolbarItem name="FONTCOLOR" type="NormalButton">
+            <ToolbarItem
+              name="FONTCOLOR"
+              type="NormalButton"
+              Icon={BiFontColor}
+            >
               <ColorPickerOption
-                bgColor={fontColor}
-                onClick={(value: string) => {
-                  document.execCommand('foreColor', false, value);
-                }}
+                name="FORECOLOR"
+                bgColor={newEditorMenu.fontColor}
+                onClick={newEditorMenu.clickMenuItem}
               />
             </ToolbarItem>
-            <ToolbarItem name="BACKGROUND_COLOR" type="NormalButton">
+            <ToolbarItem
+              name="BACKGROUND_COLOR"
+              type="NormalButton"
+              Icon={BiColorFill}
+            >
               <ColorPickerOption
-                bgColor={bgColor}
-                onClick={(value: string) => {
-                  document.execCommand('hiliteColor', false, value);
-                }}
+                name="HILITECOLOR"
+                bgColor={newEditorMenu.bgColor}
+                onClick={newEditorMenu.clickMenuItem}
               />
             </ToolbarItem>
             <SeparatorBar />
             <ToolbarItem
-              name="ALIGN_LEFT"
+              name="ALIGN"
+              Icon={BiAlignLeft}
               type="NormalButton"
-              buttonRef={italicRef}
+              buttonRef={newEditorMenu.italicRef}
               onClick={() => {
-                document.execCommand('strikeThrough');
+                document.execCommand('justifyLeft');
               }}
             />
             <ToolbarItem
-              name="OL"
+              name="INSERTORDEREDLIST"
+              Icon={BsListOl}
               type="NormalButton"
-              buttonRef={orderListRef}
-              onClick={() => {
-                document.execCommand('insertOrderedList');
-              }}
+              buttonRef={newEditorMenu.orderListRef}
+              onClick={newEditorMenu.clickMenuItem}
             />
             <ToolbarItem
-              name="UL"
+              name="INSERTUNORDEREDLIST"
+              Icon={BsListUl}
               type="NormalButton"
-              buttonRef={unorderListRef}
-              onClick={() => {
-                document.execCommand('insertUnorderedList');
-              }}
+              buttonRef={newEditorMenu.unorderListRef}
+              onClick={newEditorMenu.clickMenuItem}
             />
             <SeparatorBar />
             <ToolbarItem
               name="PICTURE"
+              Icon={AiOutlinePicture}
               type="NormalButton"
-              onClick={() => {
-                if (imgSelector) imgSelector.current?.click();
-              }}
+              onClick={newEditorMenu.clickMenuItem}
             />
             <SeparatorBar />
             <ToolbarItem
               name={getYYYYMMDD(startDate)}
               type="LabelButton"
               onClick={() => {
-                setSelectedDate('start');
+                newEditorMenu.clickMenuItem('start');
               }}
             >
               <CalendarOption
-                value={value}
+                value={newEditorMenu.value}
                 selectedDate={selectedDate}
                 setStartDate={setStartDate}
                 setEndDate={setEndDate}
@@ -419,10 +221,10 @@ export const EditorMenu = forwardRef(
             <ToolbarItem
               name={getYYYYMMDD(endDate)}
               type="LabelButton"
-              onClick={() => setSelectedDate('end')}
+              onClick={() => newEditorMenu.clickMenuItem('end')}
             >
               <CalendarOption
-                value={value}
+                value={newEditorMenu.value}
                 selectedDate={selectedDate}
                 setStartDate={setStartDate}
                 setEndDate={setEndDate}
@@ -432,7 +234,7 @@ export const EditorMenu = forwardRef(
         </div>
 
         <input
-          ref={imgSelector}
+          ref={newEditorMenu.imgSelector}
           id="img-selector"
           type="file"
           accept="image/*"

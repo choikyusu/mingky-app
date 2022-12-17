@@ -2,10 +2,7 @@ import styled from 'styled-components';
 
 export const ListOption = (props: {
   optionList?: LabelButtonOption;
-  onClick: (
-    e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    value?: string | number,
-  ) => void;
+  onClick: (type: string, value?: string) => void;
   selectedValue?: string | Category | number;
   setIsOptionShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -61,7 +58,7 @@ export const ListOption = (props: {
           onClick={e => {
             e.stopPropagation();
             if (setIsOptionShow) setIsOptionShow(false);
-            onClick(e, item.value);
+            onClick(String(optionList.type), item.value);
           }}
         >
           <span

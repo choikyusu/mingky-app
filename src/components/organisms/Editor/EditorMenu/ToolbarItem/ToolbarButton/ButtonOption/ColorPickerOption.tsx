@@ -75,11 +75,12 @@ const COLOR_LIST = [
 ];
 
 export const ColorPickerOption = (props: {
+  name: string;
   bgColor: string;
   setIsOptionShow?: React.Dispatch<React.SetStateAction<boolean>>;
-  onClick: (value: string) => void;
+  onClick: (type: string, value: string) => void;
 }) => {
-  const { bgColor, setIsOptionShow, onClick } = props;
+  const { name, bgColor, setIsOptionShow, onClick } = props;
   return (
     <Wrapper>
       <div className="se-color-swatches-preset">
@@ -90,7 +91,7 @@ export const ColorPickerOption = (props: {
             if (target.type === 'button') {
               if (setIsOptionShow) setIsOptionShow(false);
               const value = target.getAttribute('data-color');
-              if (value) onClick(value);
+              if (value) onClick(name, value);
             }
           }}
           className="se-color-swatches-list"
