@@ -1,5 +1,12 @@
 import { useImperativeHandle, useRef, useState } from 'react';
+import { IconType } from 'react-icons';
 import { FONT_SIZE_LIST } from '../../../../constants/editor.constant';
+import {
+  BiAlignLeft,
+  BiAlignMiddle,
+  BiAlignRight,
+  BiAlignJustify,
+} from 'react-icons/bi';
 
 export function useEditor(params: {
   editorMenuRef: React.MutableRefObject<any>;
@@ -19,6 +26,7 @@ export function useEditor(params: {
   const [fontSize, setFontSize] = useState<number>(3);
   const [fontColor, setFontColor] = useState<string>('');
   const [bgColor, setBgColor] = useState<string>('');
+  const [align, setAlign] = useState<string>('');
   const [value, onChange] = useState(new Date());
 
   const imgSelector: React.MutableRefObject<HTMLInputElement | null> =
@@ -68,6 +76,11 @@ export function useEditor(params: {
     } else {
       unorderListRef?.current?.classList.remove('active');
     }
+
+    if (isStyle('justifyleft')) setAlign('justifyleft');
+    else if (isStyle('justifyright')) setAlign('justifyright');
+    else if (isStyle('justifycenter')) setAlign('justifycenter');
+    else if (isStyle('justifyfull')) setAlign('justifyfull');
   }
 
   function isStyle(style: string) {
@@ -163,14 +176,6 @@ export function useEditor(params: {
       case 'PICTURE':
         if (imgSelector) imgSelector.current?.click();
         break;
-      case 'BOLD':
-      case 'ITALIC':
-      case 'UNDERLINE':
-      case 'STRIKETHROUGH':
-      case 'INSERTORDEREDLIST':
-      case 'INSERTUNORDEREDLIST':
-        document.execCommand(type);
-        break;
       case 'FORECOLOR':
       case 'HILITECOLOR':
         document.execCommand(type, false, value);
@@ -182,8 +187,18 @@ export function useEditor(params: {
         setSelectedDate('end');
         break;
       default:
+        document.execCommand(type);
         break;
     }
+  }
+
+  function getAlignIcon() {
+    if (align === 'justifyleft') return BiAlignLeft;
+    if (align === 'justifyright') return BiAlignRight;
+    if (align === 'justifycenter') return BiAlignMiddle;
+    if (align === 'justifyfull') return BiAlignJustify;
+
+    return BiAlignLeft;
   }
 
   return {
@@ -197,7 +212,9 @@ export function useEditor(params: {
     orderListRef,
     imgSelector,
     unorderListRef,
+    align,
     value,
+    getAlignIcon,
     clickMenuItem,
   };
 }
