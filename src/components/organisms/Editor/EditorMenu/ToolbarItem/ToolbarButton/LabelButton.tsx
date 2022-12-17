@@ -4,10 +4,7 @@ import styled from 'styled-components';
 export const LabelButton = (props: {
   name: string;
   children?: React.ReactNode;
-  onClick?: (
-    e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    value?: string | number,
-  ) => void;
+  onClick?: (type: string, value?: string) => void;
 }) => {
   const { name, children, onClick } = props;
   const [isOptionShow, setIsOptionShow] = useState(false);
@@ -17,7 +14,7 @@ export const LabelButton = (props: {
       isOptionShow={isOptionShow}
       onClick={e => {
         if (children) setIsOptionShow(true);
-        if (onClick) onClick();
+        if (onClick) onClick(name);
       }}
       onMouseLeave={() => setIsOptionShow(false)}
     >

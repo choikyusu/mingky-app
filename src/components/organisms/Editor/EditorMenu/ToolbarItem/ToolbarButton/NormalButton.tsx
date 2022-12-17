@@ -1,70 +1,23 @@
 import React from 'react';
 import { useState } from 'react';
 import { IconType } from 'react-icons';
-import { AiOutlinePicture } from 'react-icons/ai';
-import { BiAlignLeft, BiColorFill, BiFontColor } from 'react-icons/bi';
-import {
-  BsListOl,
-  BsListUl,
-  BsTypeBold,
-  BsTypeItalic,
-  BsTypeStrikethrough,
-  BsTypeUnderline,
-} from 'react-icons/bs';
 import styled from 'styled-components';
 
 export const NormalButton = (props: {
   name: string;
   buttonRef?: React.MutableRefObject<HTMLButtonElement | null>;
-  onClick?: () => void;
+  onClick?: (type: string, value?: string) => void;
   children?: React.ReactNode;
+  Icon: IconType;
 }) => {
-  const { name, buttonRef, onClick, children } = props;
+  const { name, buttonRef, onClick, children, Icon } = props;
   const [isOptionShow, setIsOptionShow] = useState(false);
-  let Icon: IconType | null = null;
-
-  switch (name) {
-    case 'BOLD':
-      Icon = BsTypeBold;
-      break;
-    case 'ITALIC':
-      Icon = BsTypeItalic;
-      break;
-    case 'UNDERLINE':
-      Icon = BsTypeUnderline;
-      break;
-    case 'STRIKE':
-      Icon = BsTypeStrikethrough;
-      break;
-    case 'FONTCOLOR':
-      Icon = BiFontColor;
-      break;
-    case 'BACKGROUND_COLOR':
-      Icon = BiColorFill;
-      break;
-    case 'ALIGN_LEFT':
-      Icon = BiAlignLeft;
-      break;
-    case 'UL':
-      Icon = BsListUl;
-      break;
-    case 'OL':
-      Icon = BsListOl;
-      break;
-    case 'PICTURE':
-      Icon = AiOutlinePicture;
-      break;
-
-    default: {
-      Icon = BsTypeBold;
-    }
-  }
 
   return (
     <Container
       className="section-toolbar-item"
       onClick={e => {
-        if (onClick) onClick();
+        if (onClick) onClick(name);
         if (children) setIsOptionShow(true);
       }}
     >
