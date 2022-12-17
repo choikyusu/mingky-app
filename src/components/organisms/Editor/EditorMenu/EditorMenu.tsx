@@ -259,8 +259,23 @@ export const EditorMenu = forwardRef(
           <div>타이틀</div>
           <div className="header-menu">
             <div className="header-button-container">
-              <button className="publish-button" type="button">
+              <button
+                className="publish-button"
+                type="button"
+                onClick={e => {
+                  publish();
+                }}
+              >
                 발행
+              </button>
+              <button
+                className="publish-button"
+                type="button"
+                onClick={() => {
+                  backHome();
+                }}
+              >
+                뒤로
               </button>
             </div>
           </div>
@@ -446,22 +461,6 @@ export const EditorMenu = forwardRef(
             }
           }}
         />
-        <button
-          type="button"
-          onClick={e => {
-            publish();
-          }}
-        >
-          개시
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            backHome();
-          }}
-        >
-          HOME
-        </button>
       </Wrapper>
     );
   },
