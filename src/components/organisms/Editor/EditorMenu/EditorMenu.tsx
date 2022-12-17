@@ -25,6 +25,7 @@ import {
 } from 'react-icons/bs';
 import { BiAlignLeft, BiColorFill, BiFontColor } from 'react-icons/bi';
 import { AiOutlinePicture } from 'react-icons/ai';
+import { AlignemtOption } from './ToolbarItem/ToolbarButton/ButtonOption/AlignmentOption';
 
 export const EditorMenu = forwardRef(
   (props: {
@@ -174,13 +175,11 @@ export const EditorMenu = forwardRef(
             <SeparatorBar />
             <ToolbarItem
               name="ALIGN"
-              Icon={BiAlignLeft}
+              Icon={newEditorMenu.getAlignIcon()}
               type="NormalButton"
-              buttonRef={newEditorMenu.italicRef}
-              onClick={() => {
-                document.execCommand('justifyLeft');
-              }}
-            />
+            >
+              <AlignemtOption onClick={newEditorMenu.clickMenuItem} />
+            </ToolbarItem>
             <ToolbarItem
               name="INSERTORDEREDLIST"
               Icon={BsListOl}
