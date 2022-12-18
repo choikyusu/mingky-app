@@ -23,7 +23,7 @@ import {
   BsTypeStrikethrough,
   BsTypeUnderline,
 } from 'react-icons/bs';
-import { BiAlignLeft, BiColorFill, BiFontColor } from 'react-icons/bi';
+import { BiColorFill, BiFontColor } from 'react-icons/bi';
 import { AiOutlinePicture } from 'react-icons/ai';
 import { AlignemtOption } from './ToolbarItem/ToolbarButton/ButtonOption/AlignmentOption';
 
@@ -206,7 +206,7 @@ export const EditorMenu = forwardRef(
               name={getYYYYMMDD(startDate)}
               type="LabelButton"
               onClick={() => {
-                newEditorMenu.clickMenuItem('start');
+                newEditorMenu.clickMenuItem('START');
               }}
             >
               <CalendarOption
@@ -220,7 +220,7 @@ export const EditorMenu = forwardRef(
             <ToolbarItem
               name={getYYYYMMDD(endDate)}
               type="LabelButton"
-              onClick={() => newEditorMenu.clickMenuItem('end')}
+              onClick={() => newEditorMenu.clickMenuItem('END')}
             >
               <CalendarOption
                 value={newEditorMenu.value}

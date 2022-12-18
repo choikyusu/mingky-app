@@ -131,7 +131,7 @@ const Wrapper = styled.div`
   position: absolute;
   left: -121px;
   top: 29px;
-  z-index: 20;
+  z-index: 100;
   border: 1px solid #c9c9c9;
   background-color: #fff;
 
