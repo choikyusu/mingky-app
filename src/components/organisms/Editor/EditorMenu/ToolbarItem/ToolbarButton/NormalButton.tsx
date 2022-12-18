@@ -20,6 +20,7 @@ export const NormalButton = (props: {
         if (onClick) onClick(name);
         if (children) setIsOptionShow(true);
       }}
+      onMouseLeave={() => setIsOptionShow(false)}
     >
       <button
         className="section-toolbar-item-button"
