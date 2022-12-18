@@ -21,51 +21,81 @@ export function EditorBody(props: {
 
   return (
     <Wrapper>
-      <div
-        ref={titleEditor}
-        id="editor-title"
-        contentEditable="true"
-        suppressContentEditableWarning
-        onInput={e => {
-          const target = e.target as HTMLDivElement;
-          setEditorTitle(target.innerHTML);
-        }}
-        dangerouslySetInnerHTML={{
-          __html: initTitle,
-        }}
-      />
-      <div
-        ref={mainEditor}
-        id="editor-main"
-        contentEditable="true"
-        suppressContentEditableWarning
-        onMouseUp={e => {
-          checkStyle();
-        }}
-        onInput={e => {
-          const target = e.target as HTMLDivElement;
-          setMain(target.innerHTML);
-        }}
-        role="button"
-        tabIndex={0}
-        dangerouslySetInnerHTML={{
-          __html: initMain,
-        }}
-      />
+      <div className="scroll-target">
+        <div
+          ref={titleEditor}
+          id="editor-title"
+          contentEditable="true"
+          suppressContentEditableWarning
+          onInput={e => {
+            const target = e.target as HTMLDivElement;
+            setEditorTitle(target.innerHTML);
+          }}
+          dangerouslySetInnerHTML={{
+            __html: initTitle,
+          }}
+        />
+        <div
+          ref={mainEditor}
+          id="editor-main"
+          contentEditable="true"
+          suppressContentEditableWarning
+          onMouseUp={e => {
+            checkStyle();
+          }}
+          onInput={e => {
+            const target = e.target as HTMLDivElement;
+            setMain(target.innerHTML);
+          }}
+          role="button"
+          tabIndex={0}
+          dangerouslySetInnerHTML={{
+            __html: initMain,
+          }}
+        />
+      </div>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-flow: row;
+  flex: 1 1 100%;
+  position: relative;
+  min-height: 0;
+  .scroll-target {
+    position: relative;
+    display: flex;
+    flex: 1 1 100%;
+    order: 1;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
   #editor-title {
+    position: relative;
     padding: 16px 24px;
-    border: 1px solid #d6d6d6;
-    border-radius: 4px;
+    border: none;
+    outline: none;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 0;
+      height: 1px;
+      margin: 0 auto;
+      background-color: #e5e5e5;
+    }
   }
   #editor-main {
+    outline: none;
     padding: 16px 24px;
-    border: 1px solid #d6d6d6;
-    border-radius: 4px;
+    border: none;
     min-height: 500px;
 
     .se-image {
