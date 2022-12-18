@@ -84,7 +84,7 @@ export function useEditor() {
       endDate: getYYYYMMDD(endDate),
       name: editorTitle,
       nameText: titleEditor.current?.innerText || '',
-      summary: mainEditor.current?.innerText.slice(0, 50) || '',
+      summary: mainEditor.current?.innerText.slice(0, 400) || '',
       description: main,
       category,
       status,
