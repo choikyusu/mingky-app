@@ -25,6 +25,7 @@ export function EditorBody(props: {
         <div
           ref={titleEditor}
           id="editor-title"
+          data-placeholder="제목"
           contentEditable="true"
           suppressContentEditableWarning
           onInput={e => {
@@ -38,6 +39,7 @@ export function EditorBody(props: {
         <div
           ref={mainEditor}
           id="editor-main"
+          data-placeholder="본문"
           contentEditable="true"
           suppressContentEditableWarning
           onMouseUp={e => {
@@ -74,11 +76,19 @@ const Wrapper = styled.div`
     overflow-y: scroll;
     overflow-x: hidden;
   }
+
+  [contenteditable]:empty:before {
+    content: attr(data-placeholder);
+    color: grey;
+    display: inline-block;
+  }
+
   #editor-title {
     position: relative;
     padding: 16px 24px;
     border: none;
     outline: none;
+    background-color: #ffffff;
 
     &:after {
       content: '';
@@ -97,6 +107,7 @@ const Wrapper = styled.div`
     padding: 16px 24px;
     border: none;
     min-height: 500px;
+    background-color: #ffffff;
 
     .se-image {
       text-align: center;
