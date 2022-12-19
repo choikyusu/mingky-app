@@ -95,27 +95,6 @@ const Wrapper = styled.div`
     }
   }
 
-  .section-toolbar {
-    &:before {
-      border-top: 1px solid #e5e5e5;
-      content: '';
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      z-index: 20;
-    }
-    &:after {
-      border-top: 1px solid #e5e5e5;
-      content: '';
-      left: 0;
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      z-index: 20;
-    }
-  }
-
   ul {
     position: relative;
     list-style: none;
@@ -135,40 +114,14 @@ const Wrapper = styled.div`
     border-radius: 0;
     outline: 0;
     box-sizing: border-box;
-  }
 
-  .section-toolbar {
-    display: flex;
-    height: 33px;
-    padding-left: 7px;
-    background-color: #fff;
-    align-items: center;
-
-    .section-toolbar-item-separator-bar {
-      padding-left: 7px;
-      padding-right: 14px;
-
-      .separator-bar {
-        &:before {
-          content: '';
-          display: inline-block;
-          width: 1px;
-          height: 15px;
-          background-color: #e5e5e5;
-        }
-      }
+    &.active {
+      background-color: purple;
+      color: #fff;
     }
   }
 
   #editor-menu {
     display: flex;
-  }
-
-  #img-selector {
-    display: none;
-  }
-  button.active {
-    background-color: purple;
-    color: #fff;
   }
 `;

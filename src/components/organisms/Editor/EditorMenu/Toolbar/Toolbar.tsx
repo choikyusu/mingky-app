@@ -21,6 +21,7 @@ import { AlignmentOption } from './ToolbarItem/ToolbarButton/ButtonOption/Alignm
 import { getYYYYMMDD } from '../../../../../utils/date.util';
 import { CalendarOption } from './ToolbarItem/ToolbarButton/ButtonOption/CalendarOption';
 import { ListOption } from './ToolbarItem/ToolbarButton/ButtonOption/ListOption';
+import styled from 'styled-components';
 
 export function Toolbar(props: {
   fontSize: number;
@@ -59,137 +60,160 @@ export function Toolbar(props: {
     endDate,
   } = props;
   return (
-    <div className="section-layer-toolbar">
-      <ul className="section-toolbar">
-        <ToolbarItem name={category} type="LabelButton">
-          <ListOption
-            optionList={categoryList}
-            onClick={clickMenuItem}
-            selectedValue={category}
-          />
-        </ToolbarItem>
-        <ToolbarItem name={status} type="LabelButton">
-          <ListOption
-            optionList={statusList}
-            onClick={clickMenuItem}
-            selectedValue={status}
-          />
-        </ToolbarItem>
-        <SeparatorBar />
-        <ToolbarItem name={String(fontSize)} type="LabelButton">
-          <ListOption
-            optionList={FONT_SIZE_LIST}
-            selectedValue={fontSize}
-            onClick={clickMenuItem}
-          />
-        </ToolbarItem>
-        <SeparatorBar />
-        <ToolbarItem
-          name="BOLD"
-          Icon={BsTypeBold}
-          type="NormalButton"
-          buttonRef={menuRef.bold as React.RefObject<HTMLButtonElement>}
+    <ToolbarWrapper>
+      <ToolbarItem name={category} type="LabelButton">
+        <ListOption
+          optionList={categoryList}
+          onClick={clickMenuItem}
+          selectedValue={category}
+        />
+      </ToolbarItem>
+      <ToolbarItem name={status} type="LabelButton">
+        <ListOption
+          optionList={statusList}
+          onClick={clickMenuItem}
+          selectedValue={status}
+        />
+      </ToolbarItem>
+      <SeparatorBar />
+      <ToolbarItem name={String(fontSize)} type="LabelButton">
+        <ListOption
+          optionList={FONT_SIZE_LIST}
+          selectedValue={fontSize}
           onClick={clickMenuItem}
         />
-        <ToolbarItem
-          name="ITALIC"
-          Icon={BsTypeItalic}
-          type="NormalButton"
-          buttonRef={menuRef.italic as React.RefObject<HTMLButtonElement>}
+      </ToolbarItem>
+      <SeparatorBar />
+      <ToolbarItem
+        name="BOLD"
+        Icon={BsTypeBold}
+        type="NormalButton"
+        buttonRef={menuRef.bold as React.RefObject<HTMLButtonElement>}
+        onClick={clickMenuItem}
+      />
+      <ToolbarItem
+        name="ITALIC"
+        Icon={BsTypeItalic}
+        type="NormalButton"
+        buttonRef={menuRef.italic as React.RefObject<HTMLButtonElement>}
+        onClick={clickMenuItem}
+      />
+      <ToolbarItem
+        name="UNDERLINE"
+        Icon={BsTypeUnderline}
+        type="NormalButton"
+        buttonRef={menuRef.underline as React.RefObject<HTMLButtonElement>}
+        onClick={clickMenuItem}
+      />
+      <ToolbarItem
+        name="STRIKETHROUGH"
+        Icon={BsTypeStrikethrough}
+        type="NormalButton"
+        buttonRef={menuRef.strikeThrough as React.RefObject<HTMLButtonElement>}
+        onClick={clickMenuItem}
+      />
+      <ToolbarItem name="FONTCOLOR" type="NormalButton" Icon={BiFontColor}>
+        <ColorPickerOption
+          name="FORECOLOR"
+          bgColor={fontColor}
           onClick={clickMenuItem}
         />
-        <ToolbarItem
-          name="UNDERLINE"
-          Icon={BsTypeUnderline}
-          type="NormalButton"
-          buttonRef={menuRef.underline as React.RefObject<HTMLButtonElement>}
+      </ToolbarItem>
+      <ToolbarItem
+        name="BACKGROUND_COLOR"
+        type="NormalButton"
+        Icon={BiColorFill}
+      >
+        <ColorPickerOption
+          name="HILITECOLOR"
+          bgColor={bgColor}
           onClick={clickMenuItem}
         />
-        <ToolbarItem
-          name="STRIKETHROUGH"
-          Icon={BsTypeStrikethrough}
-          type="NormalButton"
-          buttonRef={
-            menuRef.strikeThrough as React.RefObject<HTMLButtonElement>
-          }
-          onClick={clickMenuItem}
+      </ToolbarItem>
+      <SeparatorBar />
+      <ToolbarItem name="ALIGN" Icon={getAlignIcon()} type="NormalButton">
+        <AlignmentOption onClick={clickMenuItem} />
+      </ToolbarItem>
+      <ToolbarItem
+        name="INSERTORDEREDLIST"
+        Icon={BsListOl}
+        type="NormalButton"
+        buttonRef={
+          menuRef.insertOrderedList as React.RefObject<HTMLButtonElement>
+        }
+        onClick={clickMenuItem}
+      />
+      <ToolbarItem
+        name="INSERTUNORDEREDLIST"
+        Icon={BsListUl}
+        type="NormalButton"
+        buttonRef={
+          menuRef.insertUnorderedList as React.RefObject<HTMLButtonElement>
+        }
+        onClick={clickMenuItem}
+      />
+      <SeparatorBar />
+      <ToolbarItem
+        name="PICTURE"
+        Icon={AiOutlinePicture}
+        type="NormalButton"
+        onClick={clickMenuItem}
+      />
+      <SeparatorBar />
+      <ToolbarItem
+        name={getYYYYMMDD(startDate)}
+        type="LabelButton"
+        onClick={() => {
+          clickMenuItem('START');
+        }}
+      >
+        <CalendarOption
+          value={value}
+          selectedDate={selectedDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
         />
-        <ToolbarItem name="FONTCOLOR" type="NormalButton" Icon={BiFontColor}>
-          <ColorPickerOption
-            name="FORECOLOR"
-            bgColor={fontColor}
-            onClick={clickMenuItem}
-          />
-        </ToolbarItem>
-        <ToolbarItem
-          name="BACKGROUND_COLOR"
-          type="NormalButton"
-          Icon={BiColorFill}
-        >
-          <ColorPickerOption
-            name="HILITECOLOR"
-            bgColor={bgColor}
-            onClick={clickMenuItem}
-          />
-        </ToolbarItem>
-        <SeparatorBar />
-        <ToolbarItem name="ALIGN" Icon={getAlignIcon()} type="NormalButton">
-          <AlignmentOption onClick={clickMenuItem} />
-        </ToolbarItem>
-        <ToolbarItem
-          name="INSERTORDEREDLIST"
-          Icon={BsListOl}
-          type="NormalButton"
-          buttonRef={
-            menuRef.insertOrderedList as React.RefObject<HTMLButtonElement>
-          }
-          onClick={clickMenuItem}
+      </ToolbarItem>
+      ~
+      <ToolbarItem
+        name={getYYYYMMDD(endDate)}
+        type="LabelButton"
+        onClick={() => clickMenuItem('END')}
+      >
+        <CalendarOption
+          value={value}
+          selectedDate={selectedDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
         />
-        <ToolbarItem
-          name="INSERTUNORDEREDLIST"
-          Icon={BsListUl}
-          type="NormalButton"
-          buttonRef={
-            menuRef.insertUnorderedList as React.RefObject<HTMLButtonElement>
-          }
-          onClick={clickMenuItem}
-        />
-        <SeparatorBar />
-        <ToolbarItem
-          name="PICTURE"
-          Icon={AiOutlinePicture}
-          type="NormalButton"
-          onClick={clickMenuItem}
-        />
-        <SeparatorBar />
-        <ToolbarItem
-          name={getYYYYMMDD(startDate)}
-          type="LabelButton"
-          onClick={() => {
-            clickMenuItem('START');
-          }}
-        >
-          <CalendarOption
-            value={value}
-            selectedDate={selectedDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-          />
-        </ToolbarItem>
-        ~
-        <ToolbarItem
-          name={getYYYYMMDD(endDate)}
-          type="LabelButton"
-          onClick={() => clickMenuItem('END')}
-        >
-          <CalendarOption
-            value={value}
-            selectedDate={selectedDate}
-            setStartDate={setStartDate}
-            setEndDate={setEndDate}
-          />
-        </ToolbarItem>
-      </ul>
-    </div>
+      </ToolbarItem>
+    </ToolbarWrapper>
   );
 }
+
+const ToolbarWrapper = styled.ul`
+  &:before {
+    border-top: 1px solid #e5e5e5;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 20;
+  }
+  &:after {
+    border-top: 1px solid #e5e5e5;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+  }
+
+  display: flex;
+  height: 33px;
+  padding-left: 7px;
+  background-color: #fff;
+  align-items: center;
+`;

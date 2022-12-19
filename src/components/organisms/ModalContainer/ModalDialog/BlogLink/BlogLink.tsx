@@ -26,7 +26,6 @@ export function BlogLink() {
           type="button"
           className="button close"
           onClick={async () => {
-            console.log(url);
             const result = await newFetch.callApi({
               url: API.GET_BLOG_EVENT,
               method: 'post',

@@ -34,7 +34,6 @@ export function ModalDialog(props: {
               type="button"
               className="button close"
               onClick={async () => {
-                console.log(modalStatus?.id);
                 if (modalStatus?.id === 'BLOG_LINK') {
                   const result = await newFetch.callApi({
                     url: API.GET_BLOG_EVENT,
