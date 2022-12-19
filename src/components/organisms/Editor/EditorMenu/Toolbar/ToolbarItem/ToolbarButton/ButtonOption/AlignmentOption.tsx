@@ -13,7 +13,7 @@ const ALIGN_OPTION_LIST = [
   { type: 'JUSTIFYFULL', Icon: BiAlignJustify, tooltip: '양끝 정렬' },
 ];
 
-export const AlignemtOption = (props: {
+export const AlignmentOption = (props: {
   onClick: (type: string, value?: string) => void;
   selectedValue?: string | Category | number;
   setIsOptionShow?: React.Dispatch<React.SetStateAction<boolean>>;

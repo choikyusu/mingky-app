@@ -22,8 +22,8 @@ export function useEditor() {
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [startDate, setStartDate] = useState<Date>(new Date(getToday()));
   const [endDate, setEndDate] = useState<Date>(new Date(getToday()));
-  const [category, setCategory] = useState<Category | ''>('');
-  const [status, setStatus] = useState<string>('');
+  const [category, setCategory] = useState<Category | '카테고리'>('카테고리');
+  const [status, setStatus] = useState<string>('상태');
 
   const {
     editId,

@@ -7,17 +7,17 @@ import {
   BiAlignRight,
   BiAlignJustify,
 } from 'react-icons/bi';
+import { getContainerEl } from '../../../../utils/element.util';
 
-export function useEditor(params: {
+export function useEditorMenu(params: {
   editorMenuRef: React.MutableRefObject<any>;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
   setStatus: React.Dispatch<React.SetStateAction<string>>;
   setStartDate: React.Dispatch<React.SetStateAction<Date>>;
   setEndDate: React.Dispatch<React.SetStateAction<Date>>;
-  setCategory: React.Dispatch<React.SetStateAction<'' | Category>>;
+  setCategory: React.Dispatch<React.SetStateAction<'카테고리' | Category>>;
 }) {
-  const { editorMenuRef, setCategory, setStatus, setSelectedDate, setEndDate } =
-    params;
+  const { editorMenuRef, setCategory, setStatus, setSelectedDate } = params;
 
   useImperativeHandle(editorMenuRef, () => ({
     checkStyle,
@@ -29,58 +29,93 @@ export function useEditor(params: {
   const [align, setAlign] = useState<string>('');
   const [value, onChange] = useState(new Date());
 
-  const imgSelector: React.MutableRefObject<HTMLInputElement | null> =
-    useRef(null);
-  const boldRef: React.MutableRefObject<HTMLButtonElement | null> =
-    useRef(null);
-  const italicRef: React.MutableRefObject<HTMLButtonElement | null> =
-    useRef(null);
-  const underlineRef: React.MutableRefObject<HTMLButtonElement | null> =
-    useRef(null);
-  const strikeRef: React.MutableRefObject<HTMLButtonElement | null> =
-    useRef(null);
-  const orderListRef: React.MutableRefObject<HTMLButtonElement | null> =
-    useRef(null);
-  const unorderListRef: React.MutableRefObject<HTMLButtonElement | null> =
-    useRef(null);
+  const menuRef: {
+    [key: string]:
+      | React.RefObject<HTMLInputElement>
+      | React.RefObject<HTMLButtonElement>;
+  } = {
+    imgSelector: useRef<HTMLInputElement>(null),
+    bold: useRef<HTMLButtonElement>(null),
+    italic: useRef<HTMLButtonElement>(null),
+    underline: useRef<HTMLButtonElement>(null),
+    strikeThrough: useRef<HTMLButtonElement>(null),
+    insertOrderedList: useRef<HTMLButtonElement>(null),
+    insertUnorderedList: useRef<HTMLButtonElement>(null),
+  };
+
+  function getAlignIcon() {
+    if (align === 'justifyleft') return BiAlignLeft;
+    if (align === 'justifyright') return BiAlignRight;
+    if (align === 'justifycenter') return BiAlignMiddle;
+    if (align === 'justifyfull') return BiAlignJustify;
+
+    return BiAlignLeft;
+  }
+
+  function clickMenuItem(type: string, value?: string) {
+    switch (type) {
+      case 'CATEGORY':
+        setCategory(value as Category);
+        break;
+      case 'STATUS':
+        setStatus(value || '');
+        break;
+      case 'FONT_SIZE':
+        document.execCommand('fontSize', false, value);
+        break;
+      case 'PICTURE':
+        if (menuRef.imgSelector) menuRef.imgSelector.current?.click();
+        break;
+      case 'FORECOLOR':
+      case 'HILITECOLOR':
+        document.execCommand(type, false, value);
+        break;
+      case 'START':
+        setSelectedDate('start');
+        break;
+      case 'END':
+        setSelectedDate('end');
+        break;
+      default:
+        document.execCommand(type);
+        break;
+    }
+  }
+
+  return {
+    fontSize,
+    fontColor,
+    bgColor,
+    value,
+    menuRef,
+    getAlignIcon,
+    clickMenuItem,
+  };
+
+  /// //////////////////////////////////////////////////////
 
   function checkStyle() {
     reportFont();
-    if (isStyle('bold')) {
-      boldRef?.current?.classList.add('active');
-    } else {
-      boldRef?.current?.classList.remove('active');
-    }
-    if (isStyle('italic')) {
-      italicRef?.current?.classList.add('active');
-    } else {
-      italicRef?.current?.classList.remove('active');
-    }
-    if (isStyle('underline')) {
-      underlineRef?.current?.classList.add('active');
-    } else {
-      underlineRef?.current?.classList.remove('active');
-    }
-    if (isStyle('strikeThrough')) {
-      strikeRef?.current?.classList.add('active');
-    } else {
-      strikeRef?.current?.classList.remove('active');
-    }
-    if (isStyle('insertOrderedList')) {
-      orderListRef?.current?.classList.add('active');
-    } else {
-      orderListRef?.current?.classList.remove('active');
-    }
-    if (isStyle('insertUnorderedList')) {
-      unorderListRef?.current?.classList.add('active');
-    } else {
-      unorderListRef?.current?.classList.remove('active');
-    }
+    [
+      'bold',
+      'italic',
+      'underline',
+      'strikeThrough',
+      'insertOrderedList',
+      'insertUnorderedList',
+    ].forEach(item => {
+      if (isStyle(item)) {
+        menuRef[item].current?.classList.add('active');
+      } else {
+        menuRef[item].current?.classList.remove('active');
+      }
+    });
 
-    if (isStyle('justifyleft')) setAlign('justifyleft');
-    else if (isStyle('justifyright')) setAlign('justifyright');
-    else if (isStyle('justifycenter')) setAlign('justifycenter');
-    else if (isStyle('justifyfull')) setAlign('justifyfull');
+    ['justifyleft', 'justifyright', 'justifycenter', 'justifyfull'].forEach(
+      item => {
+        if (isStyle(item)) setAlign(item);
+      },
+    );
   }
 
   function isStyle(style: string) {
@@ -101,49 +136,31 @@ export function useEditor(params: {
   }
 
   function reportFont() {
-    let containerEl: Node | null = null;
-    let sel: Selection | null = null;
-    if (window.getSelection) {
-      sel = window.getSelection();
-      if (sel?.rangeCount) {
-        containerEl = sel.getRangeAt(0).commonAncestorContainer;
-        if (containerEl.nodeType === 3) {
-          containerEl = containerEl.parentNode;
-        }
-      }
-    }
-    // if (sel === document.getSelection() && sel?.type !== 'Control') {
-    //   containerEl = sel?.focusNode?.parentElement();
-    // }
+    const containerEl = getContainerEl();
 
     if (containerEl) {
-      const usedFontSize = getComputedStyleProperty(
-        containerEl as HTMLElement,
-        'fontSize',
-      );
+      ['fontSize', 'color', 'backgroundColor'].forEach(item => {
+        const usedItem = getComputedStyleProperty(
+          containerEl as HTMLElement,
+          item,
+        );
 
-      const fontColor = getComputedStyleProperty(
-        containerEl as HTMLElement,
-        'color',
-      );
-      const backgroundColor = getComputedStyleProperty(
-        containerEl as HTMLElement,
-        'backgroundColor',
-      );
-
-      setFontSize(
-        FONT_SIZE_LIST.list.findIndex(
-          fontSize => fontSize.fontSize === usedFontSize,
-        ),
-      );
-      setFontColor(rgbToHex(fontColor).toUpperCase());
-
-      if (backgroundColor === 'rgba(0, 0, 0, 0)') {
-        setBgColor(backgroundColor);
-      } else {
-        setBgColor(rgbToHex(backgroundColor).toUpperCase());
-      }
-      // fontSizeSelector.value = fontSizeList.indexOf(size) + 1;
+        if (item === 'fontSize') {
+          setFontSize(
+            FONT_SIZE_LIST.list.findIndex(
+              fontSize => fontSize.fontSize === usedItem,
+            ),
+          );
+        } else if (item === 'color') {
+          setFontColor(rgbToHex(usedItem).toUpperCase());
+        } else if (item === 'backgroundColor') {
+          if (usedItem === 'rgba(0, 0, 0, 0)') {
+            setBgColor(usedItem);
+          } else {
+            setBgColor(rgbToHex(usedItem).toUpperCase());
+          }
+        }
+      });
     }
   }
 
@@ -153,68 +170,10 @@ export function useEditor(params: {
   }
 
   function rgbToHex(color: string) {
-    // rgb(r, g, b)에서 색상값만 뽑아 내기 위해서 rgb() 제거
     const temp = color.replace(/[^0-9,]/g, '');
-    // r,g,b만 남은 값을 ,로 [r,g,b] 배열로 변환
     const rgb = temp.split(',');
     return `#${componentToHex(rgb[0])}${componentToHex(rgb[1])}${componentToHex(
       rgb[2],
     )}`;
   }
-
-  function clickMenuItem(type: string, value?: string) {
-    switch (type) {
-      case 'CATEGORY':
-        setCategory(value as Category);
-        break;
-      case 'STATUS':
-        setStatus(value || '');
-        break;
-      case 'FONT_SIZE':
-        document.execCommand('fontSize', false, value);
-        break;
-      case 'PICTURE':
-        if (imgSelector) imgSelector.current?.click();
-        break;
-      case 'FORECOLOR':
-      case 'HILITECOLOR':
-        document.execCommand(type, false, value);
-        break;
-      case 'START':
-        setSelectedDate('start');
-        break;
-      case 'END':
-        setSelectedDate('end');
-        break;
-      default:
-        document.execCommand(type);
-        break;
-    }
-  }
-
-  function getAlignIcon() {
-    if (align === 'justifyleft') return BiAlignLeft;
-    if (align === 'justifyright') return BiAlignRight;
-    if (align === 'justifycenter') return BiAlignMiddle;
-    if (align === 'justifyfull') return BiAlignJustify;
-
-    return BiAlignLeft;
-  }
-
-  return {
-    fontSize,
-    boldRef,
-    italicRef,
-    underlineRef,
-    strikeRef,
-    fontColor,
-    bgColor,
-    orderListRef,
-    imgSelector,
-    unorderListRef,
-    align,
-    value,
-    getAlignIcon,
-    clickMenuItem,
-  };
 }
