@@ -26,3 +26,18 @@ export const searchUpperElementHasAttr = (
     ? target
     : searchUpperElementHasAttr(target.parentElement, attributes);
 };
+
+export const getContainerEl = () => {
+  if (window.getSelection) {
+    const sel = window.getSelection();
+    if (sel?.rangeCount) {
+      const containerEl = sel.getRangeAt(0).commonAncestorContainer;
+      if (containerEl.nodeType === 3) {
+        return containerEl.parentNode;
+      }
+      return containerEl;
+    }
+  }
+
+  return null;
+};

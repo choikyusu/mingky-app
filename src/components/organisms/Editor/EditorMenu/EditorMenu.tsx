@@ -1,38 +1,15 @@
 import axios from 'axios';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
-import 'react-calendar/dist/Calendar.css';
-import { getYYYYMMDD } from '../../../../utils/date.util';
-import {
-  categoryList,
-  statusList,
-} from '../../../../constants/category.constant';
-
-import { ToolbarItem } from './ToolbarItem/ToolbarItem';
-import { SeparatorBar } from './ToolbarItem/SeparatorBar/SeparatorBar';
-import { ListOption } from './ToolbarItem/ToolbarButton/ButtonOption/ListOption';
-import { CalendarOption } from './ToolbarItem/ToolbarButton/ButtonOption/CalendarOption';
-import { ColorPickerOption } from './ToolbarItem/ToolbarButton/ButtonOption/ColorPickerOption';
-import { FONT_SIZE_LIST } from '../../../../constants/editor.constant';
-import { useEditor } from './useEditorMenu';
-import {
-  BsListOl,
-  BsListUl,
-  BsTypeBold,
-  BsTypeItalic,
-  BsTypeStrikethrough,
-  BsTypeUnderline,
-} from 'react-icons/bs';
-import { BiColorFill, BiFontColor } from 'react-icons/bi';
-import { AiOutlinePicture } from 'react-icons/ai';
-import { AlignemtOption } from './ToolbarItem/ToolbarButton/ButtonOption/AlignmentOption';
+import { useEditorMenu } from './useEditorMenu';
+import { Toolbar } from './Toolbar/Toolbar';
 
 export const EditorMenu = forwardRef(
   (props: {
     selectedDate: string;
     startDate: Date;
     endDate: Date;
-    category: Category | '';
+    category: Category | '카테고리';
     status: string;
     editorMenuRef: React.MutableRefObject<any>;
     publish: () => void;
@@ -41,7 +18,7 @@ export const EditorMenu = forwardRef(
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     setStartDate: React.Dispatch<React.SetStateAction<Date>>;
     setEndDate: React.Dispatch<React.SetStateAction<Date>>;
-    setCategory: React.Dispatch<React.SetStateAction<'' | Category>>;
+    setCategory: React.Dispatch<React.SetStateAction<'카테고리' | Category>>;
   }) => {
     const {
       editorMenuRef,
@@ -59,7 +36,7 @@ export const EditorMenu = forwardRef(
       status,
     } = props;
 
-    const newEditorMenu = useEditor(props);
+    const newEditorMenu = useEditorMenu(props);
 
     return (
       <Wrapper>
@@ -88,152 +65,13 @@ export const EditorMenu = forwardRef(
             </div>
           </div>
         </div>
-        <div className="section-layer-toolbar">
-          <ul className="section-toolbar">
-            <ToolbarItem
-              name={category === '' ? '카테고리' : category}
-              type="LabelButton"
-            >
-              <ListOption
-                optionList={categoryList}
-                onClick={newEditorMenu.clickMenuItem}
-                selectedValue={category}
-              />
-            </ToolbarItem>
-            <ToolbarItem
-              name={status === '' ? '상태' : status}
-              type="LabelButton"
-            >
-              <ListOption
-                optionList={statusList}
-                onClick={newEditorMenu.clickMenuItem}
-                selectedValue={status}
-              />
-            </ToolbarItem>
-            <SeparatorBar />
-            <ToolbarItem
-              name={String(newEditorMenu.fontSize)}
-              type="LabelButton"
-            >
-              <ListOption
-                optionList={FONT_SIZE_LIST}
-                selectedValue={newEditorMenu.fontSize}
-                onClick={newEditorMenu.clickMenuItem}
-              />
-            </ToolbarItem>
-            <SeparatorBar />
-            <ToolbarItem
-              name="BOLD"
-              Icon={BsTypeBold}
-              type="NormalButton"
-              buttonRef={newEditorMenu.boldRef}
-              onClick={newEditorMenu.clickMenuItem}
-            />
-            <ToolbarItem
-              name="ITALIC"
-              Icon={BsTypeItalic}
-              type="NormalButton"
-              buttonRef={newEditorMenu.italicRef}
-              onClick={newEditorMenu.clickMenuItem}
-            />
-            <ToolbarItem
-              name="UNDERLINE"
-              Icon={BsTypeUnderline}
-              type="NormalButton"
-              buttonRef={newEditorMenu.underlineRef}
-              onClick={newEditorMenu.clickMenuItem}
-            />
-            <ToolbarItem
-              name="STRIKETHROUGH"
-              Icon={BsTypeStrikethrough}
-              type="NormalButton"
-              buttonRef={newEditorMenu.strikeRef}
-              onClick={newEditorMenu.clickMenuItem}
-            />
-            <ToolbarItem
-              name="FONTCOLOR"
-              type="NormalButton"
-              Icon={BiFontColor}
-            >
-              <ColorPickerOption
-                name="FORECOLOR"
-                bgColor={newEditorMenu.fontColor}
-                onClick={newEditorMenu.clickMenuItem}
-              />
-            </ToolbarItem>
-            <ToolbarItem
-              name="BACKGROUND_COLOR"
-              type="NormalButton"
-              Icon={BiColorFill}
-            >
-              <ColorPickerOption
-                name="HILITECOLOR"
-                bgColor={newEditorMenu.bgColor}
-                onClick={newEditorMenu.clickMenuItem}
-              />
-            </ToolbarItem>
-            <SeparatorBar />
-            <ToolbarItem
-              name="ALIGN"
-              Icon={newEditorMenu.getAlignIcon()}
-              type="NormalButton"
-            >
-              <AlignemtOption onClick={newEditorMenu.clickMenuItem} />
-            </ToolbarItem>
-            <ToolbarItem
-              name="INSERTORDEREDLIST"
-              Icon={BsListOl}
-              type="NormalButton"
-              buttonRef={newEditorMenu.orderListRef}
-              onClick={newEditorMenu.clickMenuItem}
-            />
-            <ToolbarItem
-              name="INSERTUNORDEREDLIST"
-              Icon={BsListUl}
-              type="NormalButton"
-              buttonRef={newEditorMenu.unorderListRef}
-              onClick={newEditorMenu.clickMenuItem}
-            />
-            <SeparatorBar />
-            <ToolbarItem
-              name="PICTURE"
-              Icon={AiOutlinePicture}
-              type="NormalButton"
-              onClick={newEditorMenu.clickMenuItem}
-            />
-            <SeparatorBar />
-            <ToolbarItem
-              name={getYYYYMMDD(startDate)}
-              type="LabelButton"
-              onClick={() => {
-                newEditorMenu.clickMenuItem('START');
-              }}
-            >
-              <CalendarOption
-                value={newEditorMenu.value}
-                selectedDate={selectedDate}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-              />
-            </ToolbarItem>
-            ~
-            <ToolbarItem
-              name={getYYYYMMDD(endDate)}
-              type="LabelButton"
-              onClick={() => newEditorMenu.clickMenuItem('END')}
-            >
-              <CalendarOption
-                value={newEditorMenu.value}
-                selectedDate={selectedDate}
-                setStartDate={setStartDate}
-                setEndDate={setEndDate}
-              />
-            </ToolbarItem>
-          </ul>
-        </div>
+        <Toolbar {...props} {...newEditorMenu} />
 
         <input
-          ref={newEditorMenu.imgSelector}
+          ref={
+            newEditorMenu.menuRef
+              .imgSelector as React.RefObject<HTMLInputElement>
+          }
           id="img-selector"
           type="file"
           accept="image/*"
