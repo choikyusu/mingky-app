@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 import { useEditorMenu } from './useEditorMenu';
 import { Toolbar } from './Toolbar/Toolbar';
+import { ImageUpload } from './ImageUpload';
 
 export const EditorMenu = forwardRef(
   (props: {
@@ -66,40 +66,7 @@ export const EditorMenu = forwardRef(
           </div>
         </div>
         <Toolbar {...props} {...newEditorMenu} />
-
-        <input
-          ref={
-            newEditorMenu.menuRef
-              .imgSelector as React.RefObject<HTMLInputElement>
-          }
-          id="img-selector"
-          type="file"
-          accept="image/*"
-          onChange={e => {
-            const { files } = e.target;
-            if (files) {
-              const frm = new FormData();
-              frm.append('photo', files[0]);
-
-              axios
-                .post('/api/upload', frm, {
-                  headers: { 'Content-Type': 'multipart/form-data' },
-                })
-                .then(response => {
-                  document.execCommand(
-                    'insertImage',
-                    false,
-                    `${response.data.filename}`,
-                  );
-                  e.target.value = '';
-                  console.log(response);
-                })
-                .catch(error => {
-                  e.target.value = '';
-                });
-            }
-          }}
-        />
+        <ImageUpload menuRef={newEditorMenu.menuRef} />
       </Wrapper>
     );
   },
