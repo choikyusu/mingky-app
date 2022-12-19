@@ -53,7 +53,6 @@ export function CalendarCard(props: { event: EventItem }) {
   const click = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
     const icon = e.currentTarget as SVGElement;
     e.stopPropagation();
-    console.log('click', icon.id, emphasis);
     switch (icon.id) {
       case 'EDIT':
         dispatch(editActions.setEditId({ editId: event.id }));
@@ -181,7 +180,6 @@ export function CalendarCard(props: { event: EventItem }) {
               size={24}
               onClick={e => {
                 click(e);
-                console.log('b');
               }}
             />
           )}

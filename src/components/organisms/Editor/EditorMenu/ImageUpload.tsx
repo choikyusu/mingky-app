@@ -1,4 +1,5 @@
 import axios from 'axios';
+import styled from 'styled-components';
 
 export const ImageUpload = (props: {
   menuRef: {
@@ -9,7 +10,7 @@ export const ImageUpload = (props: {
 }) => {
   const { menuRef } = props;
   return (
-    <input
+    <UploadInput
       ref={menuRef.imgSelector as React.RefObject<HTMLInputElement>}
       id="img-selector"
       type="file"
@@ -31,9 +32,8 @@ export const ImageUpload = (props: {
                 `${response.data.filename}`,
               );
               e.target.value = '';
-              console.log(response);
             })
-            .catch(error => {
+            .catch(() => {
               e.target.value = '';
             });
         }
@@ -41,3 +41,7 @@ export const ImageUpload = (props: {
     />
   );
 };
+
+const UploadInput = styled.input`
+  display: none;
+`;

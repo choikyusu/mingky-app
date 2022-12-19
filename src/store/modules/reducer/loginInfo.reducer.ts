@@ -28,7 +28,6 @@ export function loginInfoReducer(
         userInfo: { ...state.userInfo, name: action.payload.name },
       };
     case loginInfoAction.SET_PUSH:
-      console.log('a', action.payload.push);
       return {
         ...state,
         settingInfo: { ...state.settingInfo, push: action.payload.push },
