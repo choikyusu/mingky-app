@@ -83,6 +83,18 @@ const Wrapper = styled.div`
     display: inline-block;
   }
 
+  .se-imageStrip {
+    .se-imageStrip-container {
+      white-space: nowrap;
+      img {
+        width: 100%;
+      }
+      .se-module-image {
+        display: inline-block;
+      }
+    }
+  }
+
   #editor-title {
     position: relative;
     padding: 16px 24px;
@@ -133,6 +145,9 @@ const Wrapper = styled.div`
 
     .se-sticker {
       text-align: center;
+      .se-sticker-image {
+        height: 160px;
+      }
     }
 
     .se-oembed {
