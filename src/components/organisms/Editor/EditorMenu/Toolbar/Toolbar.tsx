@@ -42,6 +42,8 @@ export function Toolbar(props: {
   status: string;
   setStartDate: React.Dispatch<React.SetStateAction<Date>>;
   setEndDate: React.Dispatch<React.SetStateAction<Date>>;
+  getCategoryName: () => string;
+  getStatusName: () => string;
 }) {
   const {
     fontSize,
@@ -58,17 +60,19 @@ export function Toolbar(props: {
     setEndDate,
     setStartDate,
     endDate,
+    getCategoryName,
+    getStatusName,
   } = props;
   return (
     <ToolbarWrapper>
-      <ToolbarItem name={category} type="LabelButton">
+      <ToolbarItem name={getCategoryName()} type="LabelButton">
         <ListOption
           optionList={categoryList}
           onClick={clickMenuItem}
           selectedValue={category}
         />
       </ToolbarItem>
-      <ToolbarItem name={status} type="LabelButton">
+      <ToolbarItem name={getStatusName()} type="LabelButton">
         <ListOption
           optionList={statusList}
           onClick={clickMenuItem}
