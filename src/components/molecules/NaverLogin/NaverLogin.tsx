@@ -3,8 +3,10 @@ import stores from '../../../store/configureStore';
 import { getNaverLogin, login } from '../../../services/Naver.service';
 import { useNavigate } from 'react-router-dom';
 import { loginInfoActions } from '../../../store/modules/actions/loginInfo.action';
+import { useDispatch } from 'react-redux';
 
 export function NaverLogin() {
+  const dispatch = useDispatch();
   const newNavigate = useNavigate();
   useEffect(() => {
     if (login()) {
@@ -15,7 +17,7 @@ export function NaverLogin() {
           if (email === undefined) {
             naverLogin.reprompt();
           } else {
-            stores.dispatch(
+            dispatch(
               loginInfoActions.setLoginInfo({
                 userInfo: {
                   accountType: 'MEMBER',

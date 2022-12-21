@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { API } from '../../../../constants/api.constant';
 import useFetch from '../../../../hooks/useFetch';
@@ -14,7 +15,7 @@ export function ModalDialog(props: {
   };
 }) {
   const { modalStatus } = props;
-
+  const dispatch = useDispatch();
   const newFetch = useFetch();
 
   return (
@@ -40,9 +41,9 @@ export function ModalDialog(props: {
                     method: 'get',
                   });
 
-                  stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
+                  dispatch(menuActions.setMode({ mode: 'EDIT' }));
 
-                  stores.dispatch(
+                  dispatch(
                     editActions.setContents({
                       title: result.title,
                       contents: result.contents,
@@ -50,7 +51,7 @@ export function ModalDialog(props: {
                   );
                 }
 
-                stores.dispatch(
+                dispatch(
                   modalActions.setDialogStatus({
                     id: '',
                     data: {},

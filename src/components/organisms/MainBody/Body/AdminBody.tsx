@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { API } from '../../../../constants/api.constant';
 import useFetch from '../../../../hooks/useFetch';
@@ -7,6 +8,7 @@ import { menuActions } from '../../../../store/modules/actions/menu.action';
 import { modalActions } from '../../../../store/modules/actions/modal.action';
 
 export function AdminBody() {
+  const dispatch = useDispatch();
   const newFetch = useFetch();
   return (
     <Wrapper>
@@ -16,7 +18,7 @@ export function AdminBody() {
           tabIndex={0}
           role="button"
           onClick={() => {
-            stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
+            dispatch(menuActions.setMode({ mode: 'EDIT' }));
           }}
         >{`새글 쓰기 >`}</div>
         <div
@@ -24,7 +26,7 @@ export function AdminBody() {
           tabIndex={0}
           role="button"
           onClick={() => {
-            stores.dispatch(
+            dispatch(
               modalActions.setDialogStatus({
                 id: 'BLOG_LINK',
               }),

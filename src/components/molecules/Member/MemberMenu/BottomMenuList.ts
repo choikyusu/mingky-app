@@ -31,7 +31,7 @@ export const memberOptionList: SettingsMenu[] = [
         : BsToggleOff;
     },
     doClick: () => {
-      stores.dispatch(
+      dispatch(
         loginInfoActions.setPush({
           push: !stores.getState().loginInfo.settingInfo.push,
         }),
@@ -48,7 +48,7 @@ export const memberOptionList: SettingsMenu[] = [
         : BsToggleOff;
     },
     doClick: () => {
-      stores.dispatch(
+      dispatch(
         loginInfoActions.setTopFix({
           topFix: !stores.getState().loginInfo.settingInfo.topFix,
         }),
@@ -61,7 +61,7 @@ export const memberOptionList: SettingsMenu[] = [
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
     doClick: () => {
-      stores.dispatch(
+      dispatch(
         modalActions.setDialogStatus({
           id: 'NOTICE',
           data: {},
@@ -87,7 +87,7 @@ export const memberOptionList: SettingsMenu[] = [
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
     doClick: () => {
-      stores.dispatch(
+      dispatch(
         modalActions.setDialogStatus({
           id: 'TERMS_AND_CONDITIONS',
           data: {},
@@ -107,7 +107,7 @@ export const memberOptionList: SettingsMenu[] = [
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
     doClick: () => {
-      stores.dispatch(
+      dispatch(
         loginInfoActions.setLoginInfo({
           userInfo: {
             accountType: 'ANONYMOUS',

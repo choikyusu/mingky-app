@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { API } from '../../../constants/api.constant';
 import useFetch from '../../../hooks/useFetch';
 import stores, { RootState } from '../../../store/configureStore';
@@ -8,6 +8,7 @@ import { menuActions } from '../../../store/modules/actions/menu.action';
 import { getToday, getYYYYMMDD } from '../../../utils/date.util';
 
 export function useEditor() {
+  const dispatch = useDispatch();
   const newFetch = useFetch();
 
   const [initTitle, setInitTitle] = useState<string>('');
@@ -72,10 +73,10 @@ export function useEditor() {
   };
 
   const backHome = () => {
-    stores.dispatch(editActions.setEditId({ editId: '' }));
-    stores.dispatch(editActions.setContents({ title: '', contents: '' }));
-    stores.dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
-    stores.dispatch(menuActions.setMode({ mode: 'NORMAL' }));
+    dispatch(editActions.setEditId({ editId: '' }));
+    dispatch(editActions.setContents({ title: '', contents: '' }));
+    dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
+    dispatch(menuActions.setMode({ mode: 'NORMAL' }));
   };
 
   const publish = async () => {

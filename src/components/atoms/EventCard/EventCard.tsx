@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import stores from '../../../store/configureStore';
 import { editActions } from '../../../store/modules/actions/edit.action';
 import { eventActions } from '../../../store/modules/actions/event.action';
 import { menuActions } from '../../../store/modules/actions/menu.action';
 import { modalActions } from '../../../store/modules/actions/modal.action';
 
 export function EventCard(props: { event: EventItem }) {
+  const dispatch = useDispatch();
   const { event } = props;
   const [status, setStatus] = useState<string>(event.status);
   const [hidden, setHidden] = useState<boolean>(event.hidden);
@@ -19,7 +20,7 @@ export function EventCard(props: { event: EventItem }) {
         className="card"
         aria-hidden
         onClick={() =>
-          stores.dispatch(
+          dispatch(
             modalActions.setDialogStatus({
               id: 'EVENT',
               data: { event },
@@ -33,11 +34,9 @@ export function EventCard(props: { event: EventItem }) {
           aria-hidden
           onClick={e => {
             e.stopPropagation();
-            stores.dispatch(editActions.setEditId({ editId: event.id }));
-            stores.dispatch(
-              editActions.setContents({ title: '', contents: '' }),
-            );
-            stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
+            dispatch(editActions.setEditId({ editId: event.id }));
+            dispatch(editActions.setContents({ title: '', contents: '' }));
+            dispatch(menuActions.setMode({ mode: 'EDIT' }));
           }}
         >
           편집
@@ -48,7 +47,7 @@ export function EventCard(props: { event: EventItem }) {
             e.stopPropagation();
             setHidden(!hidden);
             const newEvent = { ...event, hidden: !hidden };
-            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+            dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
           {hidden ? '숨김' : '보임'}{' '}
@@ -59,7 +58,7 @@ export function EventCard(props: { event: EventItem }) {
             e.stopPropagation();
             setBold(!bold);
             const newEvent = { ...event, bold: !bold };
-            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+            dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
           {bold ? '강조' : '일반'}{' '}
@@ -70,7 +69,7 @@ export function EventCard(props: { event: EventItem }) {
             e.stopPropagation();
             setCheck(!check);
             const newEvent = { ...event, check: !check };
-            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+            dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
           {check ? '미확인' : '확인함'}{' '}
@@ -84,7 +83,7 @@ export function EventCard(props: { event: EventItem }) {
             setStatus(nextStatus);
             const newEvent = { ...event, status: nextStatus };
 
-            stores.dispatch(eventActions.updateEventItem({ event: newEvent }));
+            dispatch(eventActions.updateEventItem({ event: newEvent }));
           }}
         >
           {status === 'COMPLETE' ? '완료' : '진행중'}{' '}

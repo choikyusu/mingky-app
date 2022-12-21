@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { IconType } from 'react-icons/lib';
 import stores from '../../../store/configureStore';
 import { menuActions } from '../../../store/modules/actions/menu.action';
+import { useDispatch } from 'react-redux';
 
 function IconBody(props: { icon: IconType }) {
   const Icon = props.icon;
@@ -13,6 +14,7 @@ export function EventCategoryIcon(props: {
   title: string;
   category: Category;
 }) {
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <div
@@ -20,12 +22,10 @@ export function EventCategoryIcon(props: {
         className="icon"
         role="button"
         onClick={() =>
-          stores.dispatch(menuActions.setCategory({ category: props.category }))
+          dispatch(menuActions.setCategory({ category: props.category }))
         }
         onKeyPress={() => {
-          stores.dispatch(
-            menuActions.setCategory({ category: props.category }),
-          );
+          dispatch(menuActions.setCategory({ category: props.category }));
         }}
       >
         <IconBody icon={props.icon} />

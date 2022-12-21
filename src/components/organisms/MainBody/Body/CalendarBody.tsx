@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect, useRef, useState } from 'react';
 import stores, { RootState } from '../../../../store/configureStore';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getToday, isSameDate } from '../../../../utils/date.util';
 import { modalActions } from '../../../../store/modules/actions/modal.action';
 import { eventActions } from '../../../../store/modules/actions/event.action';
@@ -11,6 +11,7 @@ import { CalendarMenu } from '../../../molecules/CalendarTab/CalendarTab';
 import { CalendarContentArea } from '../../../molecules/CalendarContentArea/CalendarContentArea';
 
 export function CalendarBody() {
+  const dispatch = useDispatch();
   const dayCardRefList: React.MutableRefObject<HTMLDivElement | null>[] = [];
   const dayButtonRefList: React.MutableRefObject<HTMLButtonElement | null>[] =
     [];
@@ -37,7 +38,7 @@ export function CalendarBody() {
           event.endDate = new Date(event.endDate);
         });
 
-        stores.dispatch(eventActions.setEventItem({ eventList: events }));
+        dispatch(eventActions.setEventItem({ eventList: events }));
       }
     })();
   }, []);
