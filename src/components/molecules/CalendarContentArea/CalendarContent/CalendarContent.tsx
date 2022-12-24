@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { getDayOfWeek } from '../../../../utils/date.util';
 import { CalendarCard } from '../../../atoms/CalendarCard/CalendarCard';
 
 export function CalendarContent(props: {
@@ -16,7 +17,7 @@ export function CalendarContent(props: {
         <em className="ScheduleAllType_date__1NfTN">
           {day.date.getMonth() + 1}.{day.date.getDate()}
         </em>
-        <span>{day.date.getDay()}</span>
+        <span>{getDayOfWeek(day.date)}</span>
       </div>
       <div className="game_box_list">
         {day.eventList.map(event => (
