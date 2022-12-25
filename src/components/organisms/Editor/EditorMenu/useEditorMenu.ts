@@ -105,6 +105,13 @@ export function useEditorMenu(params: {
     return name || status;
   }
 
+  function getFontSizePx() {
+    const fontSizePx = FONT_SIZE_LIST.list.find(
+      font => font.value === String(fontSize),
+    )?.fontSize;
+    return fontSizePx || String(fontSize);
+  }
+
   return {
     fontSize,
     fontColor,
@@ -115,6 +122,7 @@ export function useEditorMenu(params: {
     clickMenuItem,
     getCategoryName,
     getStatusName,
+    getFontSizePx,
   };
 
   /// //////////////////////////////////////////////////////

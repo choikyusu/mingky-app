@@ -44,6 +44,7 @@ export function Toolbar(props: {
   setEndDate: React.Dispatch<React.SetStateAction<Date>>;
   getCategoryName: () => string;
   getStatusName: () => string;
+  getFontSizePx: () => string;
 }) {
   const {
     fontSize,
@@ -62,6 +63,7 @@ export function Toolbar(props: {
     endDate,
     getCategoryName,
     getStatusName,
+    getFontSizePx,
   } = props;
   return (
     <ToolbarWrapper>
@@ -80,7 +82,7 @@ export function Toolbar(props: {
         />
       </ToolbarItem>
       <SeparatorBar />
-      <ToolbarItem name={String(fontSize)} type="LabelButton">
+      <ToolbarItem name={getFontSizePx()} type="LabelButton">
         <ListOption
           optionList={FONT_SIZE_LIST}
           selectedValue={fontSize}
