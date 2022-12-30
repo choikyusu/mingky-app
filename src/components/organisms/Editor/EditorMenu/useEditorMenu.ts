@@ -8,8 +8,14 @@ import {
   BiAlignJustify,
 } from 'react-icons/bi';
 import { getContainerEl } from '../../../../utils/element.util';
+import {
+  categoryList,
+  statusList,
+} from '../../../../constants/category.constant';
 
 export function useEditorMenu(params: {
+  category: Category | '카테고리';
+  status: string;
   editorMenuRef: React.MutableRefObject<any>;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
   setStatus: React.Dispatch<React.SetStateAction<string>>;
@@ -17,7 +23,14 @@ export function useEditorMenu(params: {
   setEndDate: React.Dispatch<React.SetStateAction<Date>>;
   setCategory: React.Dispatch<React.SetStateAction<'카테고리' | Category>>;
 }) {
-  const { editorMenuRef, setCategory, setStatus, setSelectedDate } = params;
+  const {
+    editorMenuRef,
+    setCategory,
+    setStatus,
+    setSelectedDate,
+    category,
+    status,
+  } = params;
 
   useImperativeHandle(editorMenuRef, () => ({
     checkStyle,
@@ -82,6 +95,23 @@ export function useEditorMenu(params: {
     }
   }
 
+  function getCategoryName() {
+    const name = categoryList.list.find(cate => cate.id === category)?.name;
+    return name || category;
+  }
+
+  function getStatusName() {
+    const name = statusList.list.find(sts => sts.value === status)?.name;
+    return name || status;
+  }
+
+  function getFontSizePx() {
+    const fontSizePx = FONT_SIZE_LIST.list.find(
+      font => font.value === String(fontSize),
+    )?.fontSize;
+    return fontSizePx || String(fontSize);
+  }
+
   return {
     fontSize,
     fontColor,
@@ -90,6 +120,9 @@ export function useEditorMenu(params: {
     menuRef,
     getAlignIcon,
     clickMenuItem,
+    getCategoryName,
+    getStatusName,
+    getFontSizePx,
   };
 
   /// //////////////////////////////////////////////////////
