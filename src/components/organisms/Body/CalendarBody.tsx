@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 import React, { useEffect, useRef, useState } from 'react';
-import stores, { RootState } from '../../../../store/configureStore';
+import { RootState } from '../../../store/configureStore';
 import { useDispatch, useSelector } from 'react-redux';
-import { getToday, isSameDate } from '../../../../utils/date.util';
-import { modalActions } from '../../../../store/modules/actions/modal.action';
-import { eventActions } from '../../../../store/modules/actions/event.action';
-import { API } from '../../../../constants/api.constant';
-import useFetch from '../../../../hooks/useFetch';
-import { CalendarMenu } from '../../../molecules/CalendarTab/CalendarTab';
-import { CalendarContentArea } from '../../../molecules/CalendarContentArea/CalendarContentArea';
+import { getToday, isSameDate } from '../../../utils/date.util';
+import { eventActions } from '../../../store/modules/actions/event.action';
+import { API } from '../../../constants/api.constant';
+import useFetch from '../../../hooks/useFetch';
+import { CalendarMenu } from '../../molecules/CalendarTab/CalendarTab';
+import { CalendarContentArea } from '../../molecules/CalendarContentArea/CalendarContentArea';
 
 export function CalendarBody() {
   const dispatch = useDispatch();

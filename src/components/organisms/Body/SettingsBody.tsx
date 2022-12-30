@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import { RootState } from '../../../../store/configureStore';
+import { RootState } from '../../../store/configureStore';
 import { useSelector } from 'react-redux';
-import { NaverLogin } from '../../../molecules/NaverLogin/NaverLogin';
-import { Member } from '../../../molecules/Member/Member';
+import { NaverLogin } from '../../molecules/NaverLogin/NaverLogin';
+import { Member } from '../../molecules/Member/Member';
 
 export function SettingsBody() {
   const accountType = useSelector(

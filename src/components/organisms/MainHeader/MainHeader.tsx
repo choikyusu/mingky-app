@@ -9,10 +9,10 @@ export function MainHeader() {
   return (
     <Wrapper>
       <div className="icons">
-        <HeaderIcon icon={AiFillHome} menu="HOME_MENU" />
-        <HeaderIcon icon={BsCalendar2EventFill} menu="CALENDAR_MENU" />
-        <HeaderIcon icon={IoSettingsSharp} menu="SETTINGS_MENU" />
-        <HeaderIcon icon={RiAdminLine} menu="ADMIN_MENU" />
+        <HeaderIcon icon={AiFillHome} link="/" />
+        <HeaderIcon icon={BsCalendar2EventFill} link="calendar" />
+        <HeaderIcon icon={IoSettingsSharp} link="settings" />
+        <HeaderIcon icon={RiAdminLine} link="admin" />
       </div>
     </Wrapper>
   );

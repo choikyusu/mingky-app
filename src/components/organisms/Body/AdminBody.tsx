@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { modalActions } from '../../../../store/modules/actions/modal.action';
+import { modalActions } from '../../../store/modules/actions/modal.action';
 
 export function AdminBody() {
   const dispatch = useDispatch();

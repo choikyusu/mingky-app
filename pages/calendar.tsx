@@ -1,12 +1,12 @@
 import React from 'react';
-import { HomeBody } from '../src/components/organisms/Body/HomeBody';
+import { CalendarBody } from '../src/components/organisms/Body/CalendarBody';
 import { MainHeader } from '../src/components/organisms/MainHeader/MainHeader';
 
-export default function Home() {
+export default function Calendar() {
   return (
     <>
       <MainHeader />
-      <HomeBody />
+      <CalendarBody />
     </>
   );
 }

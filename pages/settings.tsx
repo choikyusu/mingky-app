@@ -1,12 +1,12 @@
 import React from 'react';
-import { HomeBody } from '../src/components/organisms/Body/HomeBody';
+import { SettingsBody } from '../src/components/organisms/Body/SettingsBody';
 import { MainHeader } from '../src/components/organisms/MainHeader/MainHeader';
 
-export default function Home() {
+export default function Settings() {
   return (
     <>
       <MainHeader />
-      <HomeBody />
+      <SettingsBody />
     </>
   );
 }
