@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
-import stores from '../../../store/configureStore';
+import { RootState } from '../../../store/configureStore';
 import { getNaverLogin, login } from '../../../services/Naver.service';
-import { useNavigate } from 'react-router-dom';
 import { loginInfoActions } from '../../../store/modules/actions/loginInfo.action';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 export function NaverLogin() {
-  const newNavigate = useNavigate();
+  const userInfo = useSelector((state: RootState) => state.loginInfo.userInfo);
+
+  const dispatch = useDispatch();
+  const router = useRouter();
   useEffect(() => {
     if (login()) {
       const naverLogin = getNaverLogin();
@@ -15,7 +19,7 @@ export function NaverLogin() {
           if (email === undefined) {
             naverLogin.reprompt();
           } else {
-            stores.dispatch(
+            dispatch(
               loginInfoActions.setLoginInfo({
                 userInfo: {
                   accountType: 'MEMBER',
@@ -27,7 +31,7 @@ export function NaverLogin() {
                 },
               }),
             );
-            newNavigate('/');
+            router.push('/');
           }
         } else {
           console.log('Naver 비 로그인 상태');
@@ -38,7 +42,7 @@ export function NaverLogin() {
 
   return (
     <div>
-      <div>{stores.getState().loginInfo.userInfo.id}</div>
+      <div>{userInfo.id}</div>
       <div id="naverIdLogin" />
     </div>
   );

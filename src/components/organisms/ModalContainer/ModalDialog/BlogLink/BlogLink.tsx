@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { API } from '../../../../../constants/api.constant';
 import useFetch from '../../../../../hooks/useFetch';
@@ -8,6 +9,7 @@ import { menuActions } from '../../../../../store/modules/actions/menu.action';
 import { modalActions } from '../../../../../store/modules/actions/modal.action';
 
 export function BlogLink() {
+  const dispatch = useDispatch();
   const newFetch = useFetch();
   const [url, setUrl] = useState('');
 
@@ -32,16 +34,15 @@ export function BlogLink() {
               data: { url },
             });
 
-            stores.dispatch(menuActions.setMode({ mode: 'EDIT' }));
-
-            stores.dispatch(
+            dispatch(menuActions.setMode({ mode: 'EDIT' }));
+            dispatch(
               editActions.setContents({
                 title: result.title,
                 contents: result.contents,
               }),
             );
 
-            stores.dispatch(
+            dispatch(
               modalActions.setDialogStatus({
                 id: '',
                 data: {},

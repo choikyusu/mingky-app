@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import stores, { RootState } from '../../../../store/configureStore';
 import { loginInfoActions } from '../../../../store/modules/actions/loginInfo.action';
 
 export function TopMenu() {
+  const dispatch = useDispatch();
   const userInfo: UserInfoType = useSelector(
     (state: RootState) => state.loginInfo.userInfo,
   );
@@ -17,7 +18,7 @@ export function TopMenu() {
   };
 
   const save = () => {
-    stores.dispatch(loginInfoActions.setName({ name }));
+    dispatch(loginInfoActions.setName({ name }));
     toast('이름을 저장했습니다.');
   };
   return (

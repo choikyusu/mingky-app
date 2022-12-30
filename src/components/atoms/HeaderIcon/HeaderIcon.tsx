@@ -2,6 +2,7 @@ import { IconType } from 'react-icons/lib';
 import styled from 'styled-components';
 import { menuActions } from '../../../store/modules/actions/menu.action';
 import store from '../../../store/configureStore';
+import { useDispatch } from 'react-redux';
 
 function IconBody(props: { icon: IconType }) {
   const Icon = props.icon;
@@ -9,17 +10,16 @@ function IconBody(props: { icon: IconType }) {
 }
 
 export function HeaderIcon(props: { icon: IconType; menu: MenuType }) {
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <div
         tabIndex={0}
         className="icon"
         role="button"
-        onClick={() =>
-          store.dispatch(menuActions.setMenu({ menu: props.menu }))
-        }
+        onClick={() => dispatch(menuActions.setMenu({ menu: props.menu }))}
         onKeyPress={() => {
-          store.dispatch(menuActions.setMenu({ menu: props.menu }));
+          dispatch(menuActions.setMenu({ menu: props.menu }));
         }}
       >
         <IconBody icon={props.icon} />

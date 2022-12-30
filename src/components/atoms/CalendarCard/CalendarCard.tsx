@@ -112,9 +112,6 @@ export function CalendarCard(props: { event: EventItem }) {
       data-closed={status === 'COMPLETE'}
       data-emphasis={emphasis}
     >
-      {/* <div className="icon">
-        <div>{event.category}</div>
-      </div> */}
       <div className="d-day" data-dday={dDay === TODAY}>
         {dDay}
       </div>

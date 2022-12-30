@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { EventCategoryIcon } from '../../../atoms/EventCategoryIcon/EventCategoryIcon';
 
 import stores, { RootState } from '../../../../store/configureStore';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CardList } from '../../../molecules/CardList/CardList';
 import { useEffect } from 'react';
 import { eventActions } from '../../../../store/modules/actions/event.action';
@@ -14,7 +14,7 @@ export function HomeBody() {
   const selectedCategory: Category = useSelector(
     (state: RootState) => state.menu.selectedCategory,
   );
-
+  const dispatch = useDispatch();
   const newFetch = useFetch();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export function HomeBody() {
           event.endDate = new Date(event.endDate);
         });
 
-        stores.dispatch(eventActions.setEventItem({ eventList: events }));
+        dispatch(eventActions.setEventItem({ eventList: events }));
       }
     })();
   }, []);
