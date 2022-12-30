@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useEditorMenu } from './useEditorMenu';
 import { Toolbar } from './Toolbar/Toolbar';
 import { ImageUpload } from './ImageUpload';
+import Link from 'next/link';
 
 export const EditorMenu = forwardRef(
   (props: {
@@ -53,15 +54,17 @@ export const EditorMenu = forwardRef(
               >
                 발행
               </button>
-              <button
-                className="publish-button"
-                type="button"
-                onClick={() => {
-                  backHome();
-                }}
-              >
-                뒤로
-              </button>
+              <Link href="/">
+                <button
+                  className="publish-button"
+                  type="button"
+                  onClick={() => {
+                    backHome();
+                  }}
+                >
+                  뒤로
+                </button>
+              </Link>
             </div>
           </div>
         </div>
