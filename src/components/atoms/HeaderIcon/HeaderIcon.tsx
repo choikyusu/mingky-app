@@ -1,29 +1,20 @@
 import { IconType } from 'react-icons/lib';
 import styled from 'styled-components';
-import { menuActions } from '../../../store/modules/actions/menu.action';
-import store from '../../../store/configureStore';
-import { useDispatch } from 'react-redux';
+import Link from 'next/link';
 
 function IconBody(props: { icon: IconType }) {
   const Icon = props.icon;
   return <Icon size={32} />;
 }
 
-export function HeaderIcon(props: { icon: IconType; menu: MenuType }) {
-  const dispatch = useDispatch();
+export function HeaderIcon(props: { icon: IconType; link: string }) {
   return (
     <Wrapper>
-      <div
-        tabIndex={0}
-        className="icon"
-        role="button"
-        onClick={() => dispatch(menuActions.setMenu({ menu: props.menu }))}
-        onKeyPress={() => {
-          dispatch(menuActions.setMenu({ menu: props.menu }));
-        }}
-      >
-        <IconBody icon={props.icon} />
-      </div>
+      <Link href={props.link}>
+        <div tabIndex={0} className="icon" role="button">
+          <IconBody icon={props.icon} />
+        </div>
+      </Link>
     </Wrapper>
   );
 }
