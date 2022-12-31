@@ -56,7 +56,7 @@ export const EditorMenu = forwardRef(
               </button>
               <Link href="/">
                 <button
-                  className="publish-button"
+                  className="home-button"
                   type="button"
                   onClick={() => {
                     backHome();
@@ -86,6 +86,17 @@ const Wrapper = styled.div`
       position: absolute;
       .publish-button {
         background-color: #00c73c;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+        color: #fff;
+        height: 30px;
+        line-height: 28px;
+        margin-left: 6px;
+        padding-left: 13px;
+        padding-right: 15px;
+      }
+      .home-button {
+        background-color: #c8c8c8;
         border: 1px solid rgba(0, 0, 0, 0.12);
         box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
         color: #fff;
