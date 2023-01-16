@@ -7,7 +7,7 @@ import { editActions } from '../../../store/modules/actions/edit.action';
 import { menuActions } from '../../../store/modules/actions/menu.action';
 import { getToday, getYYYYMMDD } from '../../../utils/date.util';
 
-export function useEditor() {
+export function useEditor(event?: EventItem) {
   const dispatch = useDispatch();
   const newFetch = useFetch();
 
@@ -48,25 +48,17 @@ export function useEditor() {
   }, [title, contents]);
 
   useEffect(() => {
-    (async () => {
-      if (editId === '') return;
-      const resultData = await newFetch.callApi({
-        url: `${API.GET_EVENT_BY_ID}/${editId}`,
-        method: 'get',
-      });
-      if (resultData) {
-        const { event } = resultData;
-        setInitTitle(event.name);
-        setInitMain(event.description);
-        setEditorTitle(event.name);
-        setMain(event.description);
-        setStartDate(new Date(event.startDate));
-        setEndDate(new Date(event.endDate));
-        setCategory(event.category);
-        setStatus(event.status);
-      }
-    })();
-  }, [editId]);
+    if (event) {
+      setInitTitle(event.name);
+      setInitMain(event.description);
+      setEditorTitle(event.name);
+      setMain(event.description);
+      setStartDate(new Date(event.startDate));
+      setEndDate(new Date(event.endDate));
+      setCategory(event.category);
+      setStatus(event.status);
+    }
+  }, [event]);
 
   const checkStyle = () => {
     editorMenuRef.current?.checkStyle();

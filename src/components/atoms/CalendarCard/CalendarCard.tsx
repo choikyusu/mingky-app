@@ -18,6 +18,7 @@ import {
   BsExclamationCircleFill,
   BsTrash,
 } from 'react-icons/bs';
+import Link from 'next/link';
 
 const TODAY = 'Today';
 
@@ -137,13 +138,14 @@ export function CalendarCard(props: { event: EventItem }) {
       )}
       <div className="sub-menu">
         <div>
-          <HiOutlinePencil
-            title="편집"
-            id="EDIT"
-            className="icon"
-            size={24}
-            onClick={e => click(e)}
-          />
+          <Link href={`/edit/${event.id}`}>
+            <HiOutlinePencil
+              title="편집"
+              id="EDIT"
+              className="icon"
+              size={24}
+            />
+          </Link>
           {hidden ? (
             <BsEyeSlash
               title="보이기"
