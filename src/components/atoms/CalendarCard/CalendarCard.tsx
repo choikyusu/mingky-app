@@ -1,12 +1,6 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { categoryList } from '../../../constants/category.constant';
-import { editActions } from '../../../store/modules/actions/edit.action';
-import { eventActions } from '../../../store/modules/actions/event.action';
-import { menuActions } from '../../../store/modules/actions/menu.action';
-import { getToday, getYYYYMMDD } from '../../../utils/date.util';
-import { toast } from 'react-toastify';
+import { getYYYYMMDD } from '../../../utils/date.util';
 import { HiOutlinePencil } from 'react-icons/hi';
 import { GrFormAdd, GrFormClose } from 'react-icons/gr';
 import {
@@ -19,102 +13,24 @@ import {
   BsTrash,
 } from 'react-icons/bs';
 import Link from 'next/link';
-
-const TODAY = 'Today';
+import useCalendarCard from '../../../hooks/useCalendarCard';
 
 export function CalendarCard(props: { event: EventItem }) {
-  const dispatch = useDispatch();
   const { event } = props;
 
-  const [status, setStatus] = useState<string>(event.status);
-  const [hidden, setHidden] = useState<boolean>(event.hidden);
-  const [emphasis, setEmphasis] = useState<boolean>(event.bold);
-  const [check, setCheck] = useState<boolean>(event.check);
-
-  const dDay = (() => {
-    const today = getToday();
-
-    if (getYYYYMMDD(today) < getYYYYMMDD(event.startDate)) {
-      return `D-${
-        Math.floor(event.startDate.getTime() - today.getTime()) /
-        (1000 * 60 * 60 * 24)
-      }`;
-    }
-
-    if (
-      getYYYYMMDD(today) >= getYYYYMMDD(event.startDate) &&
-      getYYYYMMDD(today) <= getYYYYMMDD(event.endDate)
-    ) {
-      return TODAY;
-    }
-
-    return `종료`;
-  })();
-
-  const click = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
-    const icon = e.currentTarget as SVGElement;
-    e.stopPropagation();
-    switch (icon.id) {
-      case 'EDIT':
-        dispatch(editActions.setEditId({ editId: event.id }));
-        dispatch(editActions.setContents({ title: '', contents: '' }));
-        dispatch(menuActions.setMode({ mode: 'EDIT' }));
-        break;
-      case 'SHOW':
-      case 'HIDE':
-        {
-          const newEvent = { ...event, hidden: !hidden };
-          dispatch(eventActions.updateEventItem({ event: newEvent }));
-          setHidden(!hidden);
-          if (hidden) toast('이벤트가 보입니다.');
-          else toast('이벤트가 보이지 않습니다.');
-        }
-        break;
-      case 'BOLD':
-      case 'NORMAL':
-        {
-          const newEvent = { ...event, bold: !emphasis };
-          dispatch(eventActions.updateEventItem({ event: newEvent }));
-          setEmphasis(!emphasis);
-          if (emphasis) toast('이벤트를 강조하지않습니다.');
-          else toast('이벤트를 강조합니다.');
-        }
-        break;
-      case 'ONGOING':
-      case 'COMPLETE':
-        {
-          const nextStatus = status === 'COMPLETE' ? 'ONGOING' : 'COMPLETE';
-          setStatus(nextStatus);
-          const newEvent = { ...event, status: nextStatus };
-          dispatch(eventActions.updateEventItem({ event: newEvent }));
-          setStatus(nextStatus);
-          if (status === 'COMPLETE') toast('이벤트가 진행중입니다.');
-          else toast('이벤트가 조기종료되었습니다.');
-        }
-        break;
-      case 'CHECK':
-      case 'UNCHECK':
-        {
-          const newEvent = { ...event, check: !check };
-          dispatch(eventActions.updateEventItem({ event: newEvent }));
-          setCheck(!check);
-          if (check) toast('이벤트를 아직 미확인했습니다.');
-          else toast('이벤트를 확인했습니다.');
-        }
-        break;
-      default:
-        break;
-    }
-  };
+  const newCalendarCard = useCalendarCard(event);
 
   return (
     <Wrapper
       className="ScheduleGameBox_game_box__23m0b"
-      data-closed={status === 'COMPLETE'}
-      data-emphasis={emphasis}
+      data-closed={newCalendarCard.status === 'COMPLETE'}
+      data-emphasis={newCalendarCard.emphasis}
     >
-      <div className="d-day" data-dday={dDay === TODAY}>
-        {dDay}
+      <div
+        className="d-day"
+        data-dday={newCalendarCard.dDay === newCalendarCard.TODAY}
+      >
+        {newCalendarCard.dDay}
       </div>
       <div>
         <div className="category">
@@ -131,7 +47,7 @@ export function CalendarCard(props: { event: EventItem }) {
             : ''}
         </div>
       </div>
-      {check ? (
+      {newCalendarCard.check ? (
         <div className="content check">확인함</div>
       ) : (
         <div className="content">{event.summary}</div>
@@ -146,13 +62,13 @@ export function CalendarCard(props: { event: EventItem }) {
               size={24}
             />
           </Link>
-          {hidden ? (
+          {newCalendarCard.hidden ? (
             <BsEyeSlash
               title="보이기"
               id="SHOW"
               className="icon"
               size={24}
-              onClick={e => click(e)}
+              onClick={e => newCalendarCard.click(e)}
             />
           ) : (
             <BsEye
@@ -160,16 +76,16 @@ export function CalendarCard(props: { event: EventItem }) {
               id="HIDE"
               className="icon"
               size={24}
-              onClick={e => click(e)}
+              onClick={e => newCalendarCard.click(e)}
             />
           )}
-          {emphasis ? (
+          {newCalendarCard.emphasis ? (
             <BsExclamationCircleFill
               title="일반"
               id="NORMAL"
               className="icon"
               size={24}
-              onClick={e => click(e)}
+              onClick={e => newCalendarCard.click(e)}
             />
           ) : (
             <BsExclamationCircle
@@ -178,17 +94,17 @@ export function CalendarCard(props: { event: EventItem }) {
               className="icon"
               size={24}
               onClick={e => {
-                click(e);
+                newCalendarCard.click(e);
               }}
             />
           )}
-          {status === 'COMPLETE' ? (
+          {newCalendarCard.status === 'COMPLETE' ? (
             <GrFormAdd
               title="진행중"
               id="ONGOING"
               className="icon"
               size={24}
-              onClick={e => click(e)}
+              onClick={e => newCalendarCard.click(e)}
             />
           ) : (
             <GrFormClose
@@ -196,16 +112,16 @@ export function CalendarCard(props: { event: EventItem }) {
               id="COMPLETE"
               className="icon"
               size={24}
-              onClick={e => click(e)}
+              onClick={e => newCalendarCard.click(e)}
             />
           )}
-          {check ? (
+          {newCalendarCard.check ? (
             <BsBookmarkCheck
               title="미확인"
               id="UNCHECK"
               className="icon"
               size={24}
-              onClick={e => click(e)}
+              onClick={e => newCalendarCard.click(e)}
             />
           ) : (
             <BsBookmark
@@ -213,7 +129,7 @@ export function CalendarCard(props: { event: EventItem }) {
               id="CHECK"
               className="icon"
               size={24}
-              onClick={e => click(e)}
+              onClick={e => newCalendarCard.click(e)}
             />
           )}
           <BsTrash
@@ -221,7 +137,7 @@ export function CalendarCard(props: { event: EventItem }) {
             id="TRASH"
             className="icon"
             size={24}
-            onClick={e => click(e)}
+            onClick={e => newCalendarCard.click(e)}
           />
         </div>
       </div>
