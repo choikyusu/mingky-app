@@ -2,6 +2,7 @@ import type { AppContext, AppInitialProps, AppProps } from 'next/app';
 import React from 'react';
 import wrapper from '../src/store/configureStore';
 import Head from 'next/head';
+import axios from 'axios';
 
 declare global {
   interface Window {
@@ -9,18 +10,10 @@ declare global {
   }
 }
 
+axios.defaults.withCredentials = true;
+
 function App({ Component, pageProps }: AppProps) {
-  return (
-    <>
-      <Head>
-        <script
-          src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"
-          type="text/javascript"
-        />
-      </Head>
-      <Component {...pageProps} />
-    </>
-  );
+  return <Component {...pageProps} />;
 }
 
 export async function getInitialProps({

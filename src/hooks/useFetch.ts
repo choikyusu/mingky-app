@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 
 function useFetch() {
+  const cookies = new Cookies();
   const callApi = async function (params: {
     url: string;
     method: string;
@@ -9,7 +11,15 @@ function useFetch() {
   }) {
     try {
       const { url, method, data, option } = params;
-      const response = await axios({ method, url, data });
+      const response = await axios({
+        method,
+        url,
+        data,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${cookies.get('token')}`,
+        },
+      });
       return response.data;
     } catch (err) {
       console.log('error >>', err);
