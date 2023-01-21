@@ -5,12 +5,10 @@ import { useSelector } from 'react-redux';
 import { NaverLogin } from '../../molecules/NaverLogin/NaverLogin';
 import { Member } from '../../molecules/Member/Member';
 
-export function SettingsBody() {
-  const accountType = useSelector(
-    (state: RootState) => state.loginInfo.userInfo.accountType,
-  );
+export function SettingsBody(props: { user: UserInfoType }) {
+  const { user } = props;
 
-  switch (accountType) {
+  switch (user.accountType) {
     case 'ANONYMOUS':
       return (
         <Wrapper>
