@@ -32,11 +32,42 @@ router
     }
   });
 
-router.route('/:user_id').get(async (req, res, next) => {
-  const { user_id: userId } = req.params;
+// router.route('/:user_id').get(async (req, res, next) => {
+//   const { user_id: userId } = req.params;
+//   try {
+//     const user = await User.findById(userId);
+//     res.json({ user });
+//   } catch (err) {
+//     console.error(err);
+//     next(err);
+//   }
+// });
+
+router.route('/me').get(async (req, res, next) => {
   try {
-    const user = await User.findById(userId);
-    res.json({ user });
+    console.log('test3', req.user);
+    if (req.isAuthenticated()) {
+      console.log('test');
+      const { name, snsId, email, gender, birthYear, mobile } = req.user as any;
+      res.json({
+        user: {
+          accountType: 'MEMBER',
+          id: snsId,
+          name,
+          email,
+          gender,
+          birthYear,
+          mobile,
+        },
+      });
+    } else {
+      console.log('test2');
+      res.json({
+        user: {
+          accountType: 'ANONYMOUS',
+        },
+      });
+    }
   } catch (err) {
     console.error(err);
     next(err);

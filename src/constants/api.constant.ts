@@ -4,4 +4,5 @@ export const API = {
   UPDATE_EVENT: '/api/events',
   CREATE_EVENT: '/api/events',
   GET_BLOG_EVENT: '/api/blog',
+  GET_USER_ME: '/api/user/me',
 };

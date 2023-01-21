@@ -7,7 +7,8 @@ const initialState: { userInfo: UserInfoType; settingInfo: SettingInfoType } = {
     name: '',
     email: '',
     gender: '',
-    age: '',
+    birthYear: '',
+    mobile: '',
   },
   settingInfo: {
     push: true,

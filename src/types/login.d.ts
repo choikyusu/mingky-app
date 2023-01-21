@@ -4,7 +4,8 @@ type UserInfoType = {
   name: string;
   email: string;
   gender: string;
-  age: string;
+  birthYear: string;
+  mobile: string;
 };
 
 type AccountType = 'ANONYMOUS' | 'MEMBER';
