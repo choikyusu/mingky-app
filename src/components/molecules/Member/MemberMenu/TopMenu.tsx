@@ -1,16 +1,11 @@
 import { useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
-import stores, { RootState } from '../../../../store/configureStore';
-import { loginInfoActions } from '../../../../store/modules/actions/loginInfo.action';
 
-export function TopMenu() {
-  const dispatch = useDispatch();
-  const userInfo: UserInfoType = useSelector(
-    (state: RootState) => state.loginInfo.userInfo,
-  );
-  const [name, setName] = useState(userInfo.name);
+export function TopMenu(props: { user: UserInfoType }) {
+  const { user } = props;
+
+  const [name, setName] = useState(user.name);
   const nameRef = useRef<HTMLInputElement>(null);
 
   const update = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +13,7 @@ export function TopMenu() {
   };
 
   const save = () => {
-    dispatch(loginInfoActions.setName({ name }));
+    // dispatch(loginInfoActions.setName({ name }));
     toast('이름을 저장했습니다.');
   };
   return (
@@ -42,7 +37,7 @@ export function TopMenu() {
         </div>
       </div>
       <div className="flex-area">
-        <div className="email-title">{userInfo.email}</div>
+        <div className="email-title">{user.email}</div>
         <div className="save-button">알람</div>
       </div>
     </TopMenuWrapper>

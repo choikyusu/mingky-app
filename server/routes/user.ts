@@ -45,9 +45,7 @@ router
 
 router.route('/me').get(async (req, res, next) => {
   try {
-    console.log('test3', req.user);
     if (req.isAuthenticated()) {
-      console.log('test');
       const { name, snsId, email, gender, birthYear, mobile } = req.user as any;
       res.json({
         user: {
@@ -61,7 +59,6 @@ router.route('/me').get(async (req, res, next) => {
         },
       });
     } else {
-      console.log('test2');
       res.json({
         user: {
           accountType: 'ANONYMOUS',

@@ -2,10 +2,6 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { toast } from 'react-toastify';
-import stores from '../../../../store/configureStore';
-import { loginInfoActions } from '../../../../store/modules/actions/loginInfo.action';
-import { modalActions } from '../../../../store/modules/actions/modal.action';
-import { logout } from '../../../../services/Naver.service';
 
 export const memberOptionList: SettingsMenu[] = [
   {
@@ -26,16 +22,17 @@ export const memberOptionList: SettingsMenu[] = [
     title: 'PUSH알림',
     subTitle: '이벤트 및 혜택 정보',
     linkType: () => {
-      return stores.getState().loginInfo.settingInfo.push
-        ? BsToggleOn
-        : BsToggleOff;
+      // return stores.getState().loginInfo.settingInfo.push
+      //   ? BsToggleOn
+      //   : BsToggleOff;
+      return BsToggleOn;
     },
     doClick: () => {
-      dispatch(
-        loginInfoActions.setPush({
-          push: !stores.getState().loginInfo.settingInfo.push,
-        }),
-      );
+      // dispatch(
+      //   loginInfoActions.setPush({
+      //     push: !stores.getState().loginInfo.settingInfo.push,
+      //   }),
+      // );
     },
   },
   {
@@ -43,16 +40,18 @@ export const memberOptionList: SettingsMenu[] = [
     title: '상단고정메뉴',
     subTitle: '',
     linkType: () => {
-      return stores.getState().loginInfo.settingInfo.topFix
-        ? BsToggleOn
-        : BsToggleOff;
+      // return stores.getState().loginInfo.settingInfo.topFix
+      //   ? BsToggleOn
+      //   : BsToggleOff;
+
+      return BsToggleOn;
     },
     doClick: () => {
-      dispatch(
-        loginInfoActions.setTopFix({
-          topFix: !stores.getState().loginInfo.settingInfo.topFix,
-        }),
-      );
+      // dispatch(
+      //   loginInfoActions.setTopFix({
+      //     topFix: !stores.getState().loginInfo.settingInfo.topFix,
+      //   }),
+      // );
     },
   },
   {
@@ -61,12 +60,12 @@ export const memberOptionList: SettingsMenu[] = [
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
     doClick: () => {
-      dispatch(
-        modalActions.setDialogStatus({
-          id: 'NOTICE',
-          data: {},
-        }),
-      );
+      // dispatch(
+      //   modalActions.setDialogStatus({
+      //     id: 'NOTICE',
+      //     data: {},
+      //   }),
+      // );
     },
   },
   {
@@ -87,12 +86,12 @@ export const memberOptionList: SettingsMenu[] = [
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
     doClick: () => {
-      dispatch(
-        modalActions.setDialogStatus({
-          id: 'TERMS_AND_CONDITIONS',
-          data: {},
-        }),
-      );
+      // dispatch(
+      //   modalActions.setDialogStatus({
+      //     id: 'TERMS_AND_CONDITIONS',
+      //     data: {},
+      //   }),
+      // );
     },
   },
   {
@@ -107,20 +106,19 @@ export const memberOptionList: SettingsMenu[] = [
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
     doClick: () => {
-      dispatch(
-        loginInfoActions.setLoginInfo({
-          userInfo: {
-            accountType: 'ANONYMOUS',
-            id: '',
-            name: '',
-            email: '',
-            gender: '',
-            age: '',
-          },
-        }),
-      );
-
-      logout();
+      // dispatch(
+      //   loginInfoActions.setLoginInfo({
+      //     userInfo: {
+      //       accountType: 'ANONYMOUS',
+      //       id: '',
+      //       name: '',
+      //       email: '',
+      //       gender: '',
+      //       age: '',
+      //     },
+      //   }),
+      // );
+      // logout();
     },
   },
   {
