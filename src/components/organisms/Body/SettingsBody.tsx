@@ -18,7 +18,7 @@ export function SettingsBody(props: { user: UserInfoType }) {
     case 'MEMBER':
       return (
         <Wrapper>
-          <Member />
+          <Member user={user} />
         </Wrapper>
       );
     default:

@@ -16,14 +16,15 @@ export default function Settings(props: { user: UserInfoType }) {
 }
 
 export async function getServerSideProps(context: DocumentContext) {
+  const cookie = context.req?.headers.cookie || '';
+
   const newFetch = useFetch();
 
   const resultData: { user: UserInfoType } = await newFetch.callApi({
     url: `${process.env.SERVICE_URL}:${process.env.PORT}${API.GET_USER_ME}`,
     method: 'get',
+    cookie,
   });
-
-  console.log('aaaaaaaaa', resultData);
 
   return {
     props: { user: resultData.user },

@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import { BottomMenu } from './MemberMenu/BottomMenu';
 import { TopMenu } from './MemberMenu/TopMenu';
 
-export function Member() {
+export function Member(props: { user: UserInfoType }) {
+  const { user } = props;
   return (
     <MemberWrapper>
-      <TopMenu />
+      <TopMenu user={user} />
       <BottomMenu />
     </MemberWrapper>
   );
