@@ -8,30 +8,8 @@ export function Editor(props: { event?: EventItem }) {
 
   return (
     <>
-      <EditorMenu
-        selectedDate={newEditor.selectedDate}
-        startDate={newEditor.startDate}
-        endDate={newEditor.endDate}
-        category={newEditor.category}
-        status={newEditor.status}
-        editorMenuRef={newEditor.editorMenuRef}
-        publish={newEditor.publish}
-        backHome={newEditor.backHome}
-        setSelectedDate={newEditor.setSelectedDate}
-        setCategory={newEditor.setCategory}
-        setEndDate={newEditor.setEndDate}
-        setStartDate={newEditor.setStartDate}
-        setStatus={newEditor.setStatus}
-      />
-      <EditorBody
-        titleEditor={newEditor.titleEditor}
-        mainEditor={newEditor.mainEditor}
-        initMain={newEditor.initMain}
-        initTitle={newEditor.initTitle}
-        setMain={newEditor.setMain}
-        setEditorTitle={newEditor.setEditorTitle}
-        checkStyle={newEditor.checkStyle}
-      />
+      <EditorMenu {...newEditor} />
+      <EditorBody {...newEditor} />
     </>
   );
 }
