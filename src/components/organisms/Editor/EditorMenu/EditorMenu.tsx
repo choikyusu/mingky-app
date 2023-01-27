@@ -14,7 +14,6 @@ export const EditorMenu = forwardRef(
     status: string;
     editorMenuRef: React.MutableRefObject<any>;
     publish: () => void;
-    backHome: () => void;
     setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
     setStatus: React.Dispatch<React.SetStateAction<string>>;
     setStartDate: React.Dispatch<React.SetStateAction<Date>>;
@@ -24,7 +23,6 @@ export const EditorMenu = forwardRef(
     const {
       editorMenuRef,
       publish,
-      backHome,
       setSelectedDate,
       setStatus,
       setStartDate,
@@ -55,13 +53,7 @@ export const EditorMenu = forwardRef(
                 발행
               </button>
               <Link href="/">
-                <button
-                  className="home-button"
-                  type="button"
-                  onClick={() => {
-                    backHome();
-                  }}
-                >
+                <button className="home-button" type="button">
                   뒤로
                 </button>
               </Link>

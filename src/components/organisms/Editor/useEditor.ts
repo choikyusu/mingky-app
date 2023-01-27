@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { API } from '../../../constants/api.constant';
 import useFetch from '../../../hooks/useFetch';
-import stores, { RootState } from '../../../store/configureStore';
-import { editActions } from '../../../store/modules/actions/edit.action';
-import { menuActions } from '../../../store/modules/actions/menu.action';
+import { RootState } from '../../../store/configureStore';
 import { getToday, getYYYYMMDD } from '../../../utils/date.util';
+import Router from 'next/router';
 
 export function useEditor(event?: EventItem) {
-  const dispatch = useDispatch();
   const newFetch = useFetch();
 
   const [initTitle, setInitTitle] = useState<string>('');
@@ -64,13 +62,6 @@ export function useEditor(event?: EventItem) {
     editorMenuRef.current?.checkStyle();
   };
 
-  const backHome = () => {
-    dispatch(editActions.setEditId({ editId: '' }));
-    dispatch(editActions.setContents({ title: '', contents: '' }));
-    dispatch(menuActions.setMenu({ menu: 'HOME_MENU' }));
-    dispatch(menuActions.setMode({ mode: 'NORMAL' }));
-  };
-
   const publish = async () => {
     const post = {
       startDate: getYYYYMMDD(startDate),
@@ -107,7 +98,7 @@ export function useEditor(event?: EventItem) {
 
       if (result === null) return false;
     }
-    backHome();
+    Router.push('/');
     return true;
   };
 
@@ -119,7 +110,6 @@ export function useEditor(event?: EventItem) {
     status,
     editorMenuRef,
     publish,
-    backHome,
     setSelectedDate,
     setCategory,
     setEndDate,
