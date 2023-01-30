@@ -1,23 +1,13 @@
 import styled from 'styled-components';
+import { useEditorState } from '../EditorProvider';
 
 export function EditorBody(props: {
   titleEditor: React.MutableRefObject<HTMLDivElement | null>;
   mainEditor: React.MutableRefObject<HTMLDivElement | null>;
-  initTitle: string;
-  initMain: string;
-  setEditorTitle: React.Dispatch<React.SetStateAction<string>>;
-  setMain: React.Dispatch<React.SetStateAction<string>>;
   checkStyle: () => void;
 }) {
-  const {
-    titleEditor,
-    mainEditor,
-    initTitle,
-    initMain,
-    setEditorTitle,
-    setMain,
-    checkStyle,
-  } = props;
+  const editorProvider = useEditorState();
+  const { titleEditor, mainEditor, checkStyle } = props;
 
   return (
     <Wrapper>
@@ -30,10 +20,10 @@ export function EditorBody(props: {
           suppressContentEditableWarning
           onInput={e => {
             const target = e.target as HTMLDivElement;
-            setEditorTitle(target.innerHTML);
+            editorProvider.setEditorTitle(target.innerHTML);
           }}
           dangerouslySetInnerHTML={{
-            __html: initTitle,
+            __html: editorProvider.initTitle,
           }}
         />
         <div
@@ -47,12 +37,12 @@ export function EditorBody(props: {
           }}
           onInput={e => {
             const target = e.target as HTMLDivElement;
-            setMain(target.innerHTML);
+            editorProvider.setMain(target.innerHTML);
           }}
           role="button"
           tabIndex={0}
           dangerouslySetInnerHTML={{
-            __html: initMain,
+            __html: editorProvider.initMain,
           }}
         />
       </div>

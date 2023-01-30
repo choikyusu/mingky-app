@@ -12,6 +12,7 @@ import {
 import { AlignmentOption } from '../components/organisms/Editor/EditorMenu/Toolbar/ToolbarItem/ToolbarButton/ButtonOption/AlignmentOption';
 import { ColorPickerOption } from '../components/organisms/Editor/EditorMenu/Toolbar/ToolbarItem/ToolbarButton/ButtonOption/ColorPickerOption';
 import { ListOption } from '../components/organisms/Editor/EditorMenu/Toolbar/ToolbarItem/ToolbarButton/ButtonOption/ListOption';
+import { useEditorState } from '../components/organisms/Editor/EditorProvider';
 import { categoryList, statusList } from '../constants/category.constant';
 import { FONT_SIZE_LIST } from '../constants/editor.constant';
 
@@ -26,12 +27,11 @@ function useToolbar(params: {
   };
   getAlignIcon: () => IconType;
   clickMenuItem: (type: string, value?: string | undefined) => void;
-  category: Category | '카테고리';
-  status: string;
   getCategoryName: () => string;
   getStatusName: () => string;
   getFontSizePx: () => string;
 }) {
+  const editorProvider = useEditorState();
   const {
     fontSize,
     fontColor,
@@ -39,8 +39,6 @@ function useToolbar(params: {
     menuRef,
     getAlignIcon,
     clickMenuItem,
-    category,
-    status,
     getCategoryName,
     getStatusName,
     getFontSizePx,
@@ -53,7 +51,7 @@ function useToolbar(params: {
         <ListOption
           optionList={categoryList}
           onClick={clickMenuItem}
-          selectedValue={category}
+          selectedValue={editorProvider.category}
         />
       ),
     },
@@ -64,7 +62,7 @@ function useToolbar(params: {
         <ListOption
           optionList={statusList}
           onClick={clickMenuItem}
-          selectedValue={status}
+          selectedValue={editorProvider.status}
         />
       ),
       showSeparator: true,

@@ -12,25 +12,13 @@ import {
   categoryList,
   statusList,
 } from '../../../../constants/category.constant';
+import { useEditorState } from '../EditorProvider';
 
 export function useEditorMenu(params: {
-  category: Category | '카테고리';
-  status: string;
   editorMenuRef: React.MutableRefObject<any>;
-  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
-  setStatus: React.Dispatch<React.SetStateAction<string>>;
-  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
-  setEndDate: React.Dispatch<React.SetStateAction<Date>>;
-  setCategory: React.Dispatch<React.SetStateAction<'카테고리' | Category>>;
 }) {
-  const {
-    editorMenuRef,
-    setCategory,
-    setStatus,
-    setSelectedDate,
-    category,
-    status,
-  } = params;
+  const editorProvider = useEditorState();
+  const { editorMenuRef } = params;
 
   useImperativeHandle(editorMenuRef, () => ({
     checkStyle,
@@ -68,10 +56,10 @@ export function useEditorMenu(params: {
   function clickMenuItem(type: string, value?: string) {
     switch (type) {
       case 'CATEGORY':
-        setCategory(value as Category);
+        editorProvider.setCategory(value as Category);
         break;
       case 'STATUS':
-        setStatus(value || '');
+        editorProvider.setStatus(value || '');
         break;
       case 'FONT_SIZE':
         document.execCommand('fontSize', false, value);
@@ -84,10 +72,10 @@ export function useEditorMenu(params: {
         document.execCommand(type, false, value);
         break;
       case 'START':
-        setSelectedDate('start');
+        editorProvider.setSelectedDate('start');
         break;
       case 'END':
-        setSelectedDate('end');
+        editorProvider.setSelectedDate('end');
         break;
       default:
         document.execCommand(type);
@@ -96,13 +84,17 @@ export function useEditorMenu(params: {
   }
 
   function getCategoryName() {
-    const name = categoryList.list.find(cate => cate.id === category)?.name;
-    return name || category;
+    const name = categoryList.list.find(
+      cate => cate.id === editorProvider.category,
+    )?.name;
+    return name || editorProvider.category;
   }
 
   function getStatusName() {
-    const name = statusList.list.find(sts => sts.value === status)?.name;
-    return name || status;
+    const name = statusList.list.find(
+      sts => sts.value === editorProvider.status,
+    )?.name;
+    return name || editorProvider.status;
   }
 
   function getFontSizePx() {

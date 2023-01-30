@@ -5,6 +5,7 @@ import { getYYYYMMDD } from '../../../../../utils/date.util';
 import { CalendarOption } from './ToolbarItem/ToolbarButton/ButtonOption/CalendarOption';
 import styled from 'styled-components';
 import useToolbar from '../../../../../hooks/useToolbar';
+import { useEditorState } from '../../EditorProvider';
 
 export function Toolbar(props: {
   fontSize: number;
@@ -18,17 +19,11 @@ export function Toolbar(props: {
   };
   getAlignIcon: () => IconType;
   clickMenuItem: (type: string, value?: string | undefined) => void;
-  selectedDate: string;
-  startDate: Date;
-  endDate: Date;
-  category: Category | '카테고리';
-  status: string;
-  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
-  setEndDate: React.Dispatch<React.SetStateAction<Date>>;
   getCategoryName: () => string;
   getStatusName: () => string;
   getFontSizePx: () => string;
 }) {
+  const editorProvider = useEditorState();
   const {
     fontSize,
     fontColor,
@@ -37,13 +32,6 @@ export function Toolbar(props: {
     menuRef,
     getAlignIcon,
     clickMenuItem,
-    category,
-    status,
-    startDate,
-    selectedDate,
-    setEndDate,
-    setStartDate,
-    endDate,
     getCategoryName,
     getStatusName,
     getFontSizePx,
@@ -68,7 +56,7 @@ export function Toolbar(props: {
         </>
       ))}
       <ToolbarItem
-        name={getYYYYMMDD(startDate)}
+        name={getYYYYMMDD(editorProvider.startDate)}
         type="LabelButton"
         onClick={() => {
           clickMenuItem('START');
@@ -76,22 +64,22 @@ export function Toolbar(props: {
       >
         <CalendarOption
           value={value}
-          selectedDate={selectedDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
+          selectedDate={editorProvider.selectedDate}
+          setStartDate={editorProvider.setStartDate}
+          setEndDate={editorProvider.setEndDate}
         />
       </ToolbarItem>
       ~
       <ToolbarItem
-        name={getYYYYMMDD(endDate)}
+        name={getYYYYMMDD(editorProvider.endDate)}
         type="LabelButton"
         onClick={() => clickMenuItem('END')}
       >
         <CalendarOption
           value={value}
-          selectedDate={selectedDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
+          selectedDate={editorProvider.selectedDate}
+          setStartDate={editorProvider.setStartDate}
+          setEndDate={editorProvider.setEndDate}
         />
       </ToolbarItem>
     </ToolbarWrapper>
