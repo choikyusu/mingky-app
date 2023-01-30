@@ -7,35 +7,12 @@ import Link from 'next/link';
 
 export const EditorMenu = forwardRef(
   (props: {
-    selectedDate: string;
-    startDate: Date;
-    endDate: Date;
-    category: Category | '카테고리';
-    status: string;
     editorMenuRef: React.MutableRefObject<any>;
     publish: () => void;
-    setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
-    setStatus: React.Dispatch<React.SetStateAction<string>>;
-    setStartDate: React.Dispatch<React.SetStateAction<Date>>;
-    setEndDate: React.Dispatch<React.SetStateAction<Date>>;
-    setCategory: React.Dispatch<React.SetStateAction<'카테고리' | Category>>;
   }) => {
-    const {
-      editorMenuRef,
-      publish,
-      setSelectedDate,
-      setStatus,
-      setStartDate,
-      setEndDate,
-      setCategory,
-      selectedDate,
-      startDate,
-      endDate,
-      category,
-      status,
-    } = props;
+    const { editorMenuRef, publish } = props;
 
-    const newEditorMenu = useEditorMenu(props);
+    const newEditorMenu = useEditorMenu({ editorMenuRef });
 
     return (
       <Wrapper>
@@ -46,9 +23,7 @@ export const EditorMenu = forwardRef(
               <button
                 className="publish-button"
                 type="button"
-                onClick={e => {
-                  publish();
-                }}
+                onClick={() => publish()}
               >
                 발행
               </button>
