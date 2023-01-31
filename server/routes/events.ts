@@ -1,5 +1,6 @@
 import express from 'express';
 import { Event } from '../schemas/event';
+import { Post } from '../schemas/post';
 
 const router = express.Router();
 
@@ -104,5 +105,16 @@ router
       next(err);
     }
   });
+
+router.route('/temp/:post_id').get(async (req, res, next) => {
+  const { post_id: postId } = req.params;
+  try {
+    const post = await Post.findById(postId);
+    res.json({ post });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 
 export default router;

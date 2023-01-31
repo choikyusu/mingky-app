@@ -1,15 +1,10 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { API } from '../../../../../constants/api.constant';
 import useFetch from '../../../../../hooks/useFetch';
-import stores from '../../../../../store/configureStore';
-import { editActions } from '../../../../../store/modules/actions/edit.action';
-import { menuActions } from '../../../../../store/modules/actions/menu.action';
-import { modalActions } from '../../../../../store/modules/actions/modal.action';
+import Router from 'next/router';
 
 export function BlogLink() {
-  const dispatch = useDispatch();
   const newFetch = useFetch();
   const [url, setUrl] = useState('');
 
@@ -34,20 +29,9 @@ export function BlogLink() {
               data: { url },
             });
 
-            dispatch(menuActions.setMode({ mode: 'EDIT' }));
-            dispatch(
-              editActions.setContents({
-                title: result.title,
-                contents: result.contents,
-              }),
-            );
-
-            dispatch(
-              modalActions.setDialogStatus({
-                id: '',
-                data: {},
-              }),
-            );
+            if (result.tempId) {
+              Router.push(`/edit/temp/${result.tempId}`);
+            }
           }}
         >
           확인

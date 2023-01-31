@@ -1,11 +1,16 @@
 import React from 'react';
 import { Editor } from '../../src/components/organisms/Editor/Editor';
+import EditorProvider from '../../src/components/organisms/Editor/EditorProvider';
 import { API } from '../../src/constants/api.constant';
 import useFetch from '../../src/hooks/useFetch';
 
 export default function Edit(props: { event: EventItem }) {
   const { event } = props;
-  return <Editor event={event} />;
+  return (
+    <EditorProvider>
+      <Editor event={event} />
+    </EditorProvider>
+  );
 }
 
 export async function getServerSideProps(context: any) {
@@ -15,7 +20,7 @@ export async function getServerSideProps(context: any) {
   const newFetch = useFetch();
 
   const resultData = await newFetch.callApi({
-    url: `${process.env.SERVICE_URL}:${process.env.PORT}${API.GET_EVENT_BY_ID}/${id}`,
+    url: `${process.env.SERVICE_URL}:${process.env.PORT}${API.GET_BLOG_EVENT}/${id}`,
     method: 'get',
   });
 
