@@ -4,6 +4,7 @@ import cheerio from 'cheerio';
 import iconv from 'iconv-lite';
 import fs from 'fs';
 import path from 'path';
+import { Post } from '../schemas/post';
 
 const rootDir = path.resolve('./');
 
@@ -82,10 +83,14 @@ router.route('/').post(async (req, res, next) => {
 
     unusedElementSelector.remove();
 
-    res.send({
-      result: 'success',
+    const tempPost = await Post.create({
       title: titleTextSelector.html(),
       contents: mainTextSelector.html(),
+    });
+
+    res.send({
+      result: 'success',
+      tempId: tempPost.id,
     });
 
     // try에서 오류가 발생하면 catch로.
