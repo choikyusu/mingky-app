@@ -24,13 +24,16 @@ type EditorState = {
 
 const EditorStateContext = createContext<EditorState | null>(null);
 
-export default function EditorProvider(props: { children: React.ReactNode }) {
-  const { children } = props;
+export default function EditorProvider(props: {
+  children: React.ReactNode;
+  post?: { title: string; contents: string };
+}) {
+  const { children, post } = props;
 
-  const [initTitle, setInitTitle] = useState<string>('');
-  const [initMain, setInitMain] = useState<string>('');
-  const [editorTitle, setEditorTitle] = useState<string>('');
-  const [main, setMain] = useState<string>('');
+  const [initTitle, setInitTitle] = useState<string>(post?.title || '');
+  const [initMain, setInitMain] = useState<string>(post?.contents || '');
+  const [editorTitle, setEditorTitle] = useState<string>(post?.title || '');
+  const [main, setMain] = useState<string>(post?.contents || '');
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [startDate, setStartDate] = useState<Date>(new Date(getToday()));
   const [endDate, setEndDate] = useState<Date>(new Date(getToday()));
