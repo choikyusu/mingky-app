@@ -20,7 +20,7 @@ export async function getServerSideProps(context: any) {
   const newFetch = useFetch();
 
   const resultData = await newFetch.callApi({
-    url: `${process.env.SERVICE_URL}:${process.env.PORT}${API.GET_BLOG_EVENT}/${id}`,
+    url: `${process.env.SERVICE_URL}:${process.env.PORT}${API.GET_EVENT_BY_ID}/${id}`,
     method: 'get',
   });
 
