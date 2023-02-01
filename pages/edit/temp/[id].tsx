@@ -9,7 +9,7 @@ export default function Edit(props: {
 }) {
   const { post } = props;
   return (
-    <EditorProvider>
+    <EditorProvider post={post}>
       <Editor />
     </EditorProvider>
   );
@@ -25,8 +25,6 @@ export async function getServerSideProps(context: any) {
     url: `${process.env.SERVICE_URL}:${process.env.PORT}${API.GET_TEMP_EVENT_BY_ID}/${id}`,
     method: 'get',
   });
-
-  console.log('test ', resultData);
 
   return {
     props: {
