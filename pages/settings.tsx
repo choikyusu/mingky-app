@@ -27,6 +27,6 @@ export async function getServerSideProps(context: DocumentContext) {
   });
 
   return {
-    props: { user: resultData.user },
+    props: { user: resultData?.user },
   };
 }
