@@ -32,9 +32,7 @@ export function EditorBody(props: {
           data-placeholder="본문"
           contentEditable="true"
           suppressContentEditableWarning
-          onMouseUp={e => {
-            checkStyle();
-          }}
+          onMouseUp={checkStyle}
           onInput={e => {
             const target = e.target as HTMLDivElement;
             editorProvider.setMain(target.innerHTML);

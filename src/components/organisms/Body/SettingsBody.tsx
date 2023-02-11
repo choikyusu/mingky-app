@@ -9,12 +9,6 @@ export function SettingsBody(props: { user: UserInfoType }) {
   const { user } = props;
 
   switch (user?.accountType) {
-    case 'ANONYMOUS':
-      return (
-        <Wrapper>
-          <NaverLogin />
-        </Wrapper>
-      );
     case 'MEMBER':
       return (
         <Wrapper>

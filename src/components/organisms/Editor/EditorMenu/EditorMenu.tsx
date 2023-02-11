@@ -16,25 +16,17 @@ export const EditorMenu = forwardRef(
 
     return (
       <Wrapper>
-        <div className="header">
+        <Header>
           <div>타이틀</div>
-          <div className="header-menu">
+          <HeaderMenu>
             <div className="header-button-container">
-              <button
-                className="publish-button"
-                type="button"
-                onClick={() => publish()}
-              >
-                발행
-              </button>
+              <PublishButton onClick={publish}>발행</PublishButton>
               <Link href="/">
-                <button className="home-button" type="button">
-                  뒤로
-                </button>
+                <HomeButton>뒤로</HomeButton>
               </Link>
             </div>
-          </div>
-        </div>
+          </HeaderMenu>
+        </Header>
         <Toolbar {...props} {...newEditorMenu} />
         <ImageUpload menuRef={newEditorMenu.menuRef} />
       </Wrapper>
@@ -42,40 +34,43 @@ export const EditorMenu = forwardRef(
   },
 );
 
-const Wrapper = styled.div`
-  .header {
-    height: 44px;
-    position: relative;
-    display: flex;
-    flex: 1;
-    .header-menu {
-      right: 0;
-      position: absolute;
-      .publish-button {
-        background-color: #00c73c;
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
-        color: #fff;
-        height: 30px;
-        line-height: 28px;
-        margin-left: 6px;
-        padding-left: 13px;
-        padding-right: 15px;
-      }
-      .home-button {
-        background-color: #c8c8c8;
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
-        color: #fff;
-        height: 30px;
-        line-height: 28px;
-        margin-left: 6px;
-        padding-left: 13px;
-        padding-right: 15px;
-      }
-    }
-  }
+const Header = styled.div`
+  height: 44px;
+  position: relative;
+  display: flex;
+  flex: 1;
+`;
 
+const HeaderMenu = styled.div`
+  right: 0;
+  position: absolute;
+`;
+
+const PublishButton = styled.div`
+  background-color: #00c73c;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+  color: #fff;
+  height: 30px;
+  line-height: 28px;
+  margin-left: 6px;
+  padding-left: 13px;
+  padding-right: 15px;
+`;
+
+const HomeButton = styled.div`
+  background-color: #c8c8c8;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 12%);
+  color: #fff;
+  height: 30px;
+  line-height: 28px;
+  margin-left: 6px;
+  padding-left: 13px;
+  padding-right: 15px;
+`;
+
+const Wrapper = styled.div`
   ul {
     position: relative;
     list-style: none;
