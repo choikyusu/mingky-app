@@ -15,7 +15,6 @@ type CategoryList = {
     id: Category;
     name: string;
     hidden: boolean;
-    icon: IconType;
   }[];
 };
 

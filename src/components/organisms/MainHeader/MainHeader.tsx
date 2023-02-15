@@ -13,7 +13,6 @@ export function MainHeader() {
         <HeaderIcon icon={BsCalendar2EventFill} link="calendar" />
         <HeaderIcon icon={IoSettingsSharp} link="settings" />
         <HeaderIcon icon={RiAdminLine} link="admin" />
-        <HeaderIcon icon={RiAdminLine} link="test" />
       </div>
     </Wrapper>
   );

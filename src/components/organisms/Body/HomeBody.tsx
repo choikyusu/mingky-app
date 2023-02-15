@@ -1,41 +1,13 @@
 import styled from 'styled-components';
-import { EventCategoryIcon } from '../../atoms/EventCategoryIcon/EventCategoryIcon';
-
-import { RootState } from '../../../store/configureStore';
-import { useDispatch, useSelector } from 'react-redux';
-import { CardList } from '../../molecules/CardList/CardList';
-import { useEffect } from 'react';
-import { eventActions } from '../../../store/modules/actions/event.action';
-import useFetch from '../../../hooks/useFetch';
-import { API } from '../../../constants/api.constant';
 import { categoryList } from '../../../constants/category.constant';
+import { useState } from 'react';
+import { CalendarCard } from '../../atoms/CalendarCard/CalendarCard';
 
-export function HomeBody() {
-  const selectedCategory: Category = useSelector(
-    (state: RootState) => state.menu.selectedCategory,
-  );
-  const dispatch = useDispatch();
-  const newFetch = useFetch();
-
-  useEffect(() => {
-    (async () => {
-      const resultData: { events: EventItem[] } = await newFetch.callApi({
-        method: 'get',
-        url: API.GET_EVENTS_LIST,
-      });
-
-      if (resultData) {
-        const { events } = resultData;
-
-        events.forEach(event => {
-          event.startDate = new Date(event.startDate);
-          event.endDate = new Date(event.endDate);
-        });
-
-        dispatch(eventActions.setEventItem({ eventList: events }));
-      }
-    })();
-  }, []);
+export function HomeBody(props: { events: EventItem[] }) {
+  const { events } = props;
+  const [selectedItems, setSelectedItems] = useState<Category[]>([
+    ...categoryList.list.map(category => category.id),
+  ]);
 
   return (
     <Wrapper>
@@ -44,18 +16,48 @@ export function HomeBody() {
           {categoryList.list
             .filter(category => !category.hidden)
             .map(category => (
-              <EventCategoryIcon
-                icon={category.icon}
-                title={category.name}
-                category={category.id}
-              />
+              <Button
+                selected={selectedItems.indexOf(category.id) > -1}
+                role="button"
+                onClick={() => {
+                  if (selectedItems.find(item => item === category.id)) {
+                    setSelectedItems([
+                      ...selectedItems.filter(item => item !== category.id),
+                    ]);
+                  } else {
+                    setSelectedItems([...selectedItems, category.id]);
+                  }
+                }}
+              >
+                {category.name}
+              </Button>
             ))}
         </div>
-        <CardList category={selectedCategory} />
+        {events
+          .filter(event => selectedItems.indexOf(event.category) >= 0)
+          .map(event => (
+            <CalendarCard event={event} />
+          ))}
       </div>
     </Wrapper>
   );
 }
+
+const Button = styled.div<{ selected: boolean }>`
+  background-color: ${props => (props.selected ? '#1b1c1d' : '#e4e4e4')};
+  color: ${props => (props.selected ? '#fff' : '#000')};
+  text-shadow: none;
+  margin: 0 5px 0 0;
+  padding: 8px 16px 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  :hover {
+    background-color: ${props => (props.selected ? '#27292a' : '#e0e0e0')};
+    color: ${props => (props.selected ? '#fff' : '#000')};
+    text-shadow: none;
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   text-align: center;
@@ -63,5 +65,6 @@ const Wrapper = styled.div`
   .icons {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
   }
 `;
