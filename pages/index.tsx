@@ -6,6 +6,7 @@ import ModalContainer from '../src/components/organisms/ModalContainer/ModalCont
 import { API } from '../src/constants/api.constant';
 import useFetch from '../src/hooks/useFetch';
 import 'react-toastify/dist/ReactToastify.css';
+import ModalProvider from '../src/components/organisms/ModalContainer/ModalProvider';
 
 export default function Home(props: { events: EventItem[] }) {
   const { events } = props;
@@ -16,7 +17,7 @@ export default function Home(props: { events: EventItem[] }) {
   });
 
   return (
-    <>
+    <ModalProvider>
       <MainHeader />
       <HomeBody events={events} />
       <ToastContainer
@@ -25,7 +26,7 @@ export default function Home(props: { events: EventItem[] }) {
         hideProgressBar
       />
       <ModalContainer />
-    </>
+    </ModalProvider>
   );
 }
 
