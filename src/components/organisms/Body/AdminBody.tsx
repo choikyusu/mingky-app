@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { modalActions } from '../../../store/modules/actions/modal.action';
+import { useModalState } from '../ModalContainer/ModalProvider';
 
 export function AdminBody() {
-  const dispatch = useDispatch();
+  const newModalState = useModalState();
   return (
     <Wrapper>
       <div className="menu-list">
@@ -20,11 +21,7 @@ export function AdminBody() {
           tabIndex={0}
           role="button"
           onClick={() => {
-            dispatch(
-              modalActions.setDialogStatus({
-                id: 'BLOG_LINK',
-              }),
-            );
+            newModalState.setModalId('BLOG_LINK');
           }}
         >{`블로그 따오기 >`}</div>
       </div>

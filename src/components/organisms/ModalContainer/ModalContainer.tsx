@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import stores, { RootState } from '../../../store/configureStore';
@@ -7,66 +7,40 @@ import { ModalDialog } from './ModalDialog/ModalDialog';
 import { Notice } from './ModalDialog/Notice/Notice';
 import { Event } from './ModalDialog/Event/Event';
 import { TermsAndConditions } from './ModalDialog/TermsAndConditions/TermsAndConditions';
-import { BlogLink } from './ModalDialog/BlogLink/BlogLink';
+import BlogLink from './ModalDialog/BlogLink/BlogLink';
+import { useModalState } from './ModalProvider';
+import useFetch from '../../../hooks/useFetch';
+import { API } from '../../../constants/api.constant';
 
-export type ModalStatus = {
-  id: string;
-  data?: {
-    [x: string]: any;
-  };
-};
-
-function useModalContainer() {
-  const dispatch = useDispatch();
-  const modalStatus = useSelector((state: RootState) => state.modal.dialog);
-
-  const handleChangeModalStatus = useCallback(
-    (params: {
-      id: string;
-      data?: {
-        [x: string]: any;
-      };
-    }) => {
-      dispatch(
-        modalActions.setDialogStatus({
-          id: params.id,
-          data: params.data || undefined,
-        }),
-      );
-    },
-    [],
-  );
-
-  return {
-    modalStatus,
-    handleChangeModalStatus,
-  };
+export interface ModalRef {
+  handleClick: () => void;
 }
 
 export default function ModalContainer() {
-  const newModalContainer = useModalContainer();
+  const newModalState = useModalState();
+  const modalRef: React.MutableRefObject<any> = useRef({});
 
   return (
     <div>
-      {newModalContainer.modalStatus.id !== '' && <ModalMask />}
-      {newModalContainer.modalStatus.id === 'NOTICE' && (
-        <ModalDialog>
+      {newModalState.modalId !== '' && <ModalMask />}
+      {newModalState.modalId === 'NOTICE' && (
+        <ModalDialog handleClick={() => newModalState.setModalId('')}>
           <Notice />
         </ModalDialog>
       )}
-      {newModalContainer.modalStatus.id === 'TERMS_AND_CONDITIONS' && (
-        <ModalDialog>
+      {newModalState.modalId === 'TERMS_AND_CONDITIONS' && (
+        <ModalDialog handleClick={() => newModalState.setModalId('')}>
           <TermsAndConditions />
         </ModalDialog>
       )}
-      {newModalContainer.modalStatus.id === 'EVENT' && (
-        <ModalDialog>
-          <Event modalStatus={newModalContainer.modalStatus} />
+      {newModalState.modalId === 'EVENT' && (
+        <ModalDialog handleClick={() => newModalState.setModalId('')}>
+          {/* <Event modalStatus={newModalContainer.modalStatus} /> */}
         </ModalDialog>
       )}
-      {newModalContainer.modalStatus.id === 'BLOG_LINK' && (
-        <ModalDialog modalStatus={newModalContainer.modalStatus}>
-          <BlogLink />
+      {newModalState.modalId === 'BLOG_LINK' && (
+        <ModalDialog handleClick={() => modalRef.current.handleClick()}>
+          <BlogLink ref={modalRef} />
         </ModalDialog>
       )}
     </div>

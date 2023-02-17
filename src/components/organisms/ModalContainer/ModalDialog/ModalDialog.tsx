@@ -2,21 +2,16 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { API } from '../../../../constants/api.constant';
 import useFetch from '../../../../hooks/useFetch';
-import stores from '../../../../store/configureStore';
 import { editActions } from '../../../../store/modules/actions/edit.action';
 import { menuActions } from '../../../../store/modules/actions/menu.action';
 import { modalActions } from '../../../../store/modules/actions/modal.action';
+import { useModalState } from '../ModalProvider';
 
 export function ModalDialog(props: {
   children: React.ReactNode;
-  modalStatus?: {
-    id: any;
-    data: any;
-  };
+  handleClick: () => void;
 }) {
-  const { modalStatus } = props;
-  const dispatch = useDispatch();
-  const newFetch = useFetch();
+  const { handleClick } = props;
 
   return (
     <ModalWrapper>
@@ -34,30 +29,7 @@ export function ModalDialog(props: {
             <button
               type="button"
               className="button close"
-              onClick={async () => {
-                if (modalStatus?.id === 'BLOG_LINK') {
-                  const result = await newFetch.callApi({
-                    url: API.GET_BLOG_EVENT,
-                    method: 'get',
-                  });
-
-                  dispatch(menuActions.setMode({ mode: 'EDIT' }));
-
-                  dispatch(
-                    editActions.setContents({
-                      title: result.title,
-                      contents: result.contents,
-                    }),
-                  );
-                }
-
-                dispatch(
-                  modalActions.setDialogStatus({
-                    id: '',
-                    data: {},
-                  }),
-                );
-              }}
+              onClick={handleClick}
             >
               확인
             </button>

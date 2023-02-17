@@ -14,10 +14,12 @@ import {
 } from 'react-icons/bs';
 import Link from 'next/link';
 import useCalendarCard from '../../../hooks/useCalendarCard';
+import { useModalState } from '../../organisms/ModalContainer/ModalProvider';
 
 export function CalendarCard(props: { event: EventItem }) {
   const { event } = props;
 
+  const newModalState = useModalState();
   const newCalendarCard = useCalendarCard(event);
 
   return (
@@ -25,6 +27,7 @@ export function CalendarCard(props: { event: EventItem }) {
       className="ScheduleGameBox_game_box__23m0b"
       data-closed={newCalendarCard.status === 'COMPLETE'}
       data-emphasis={newCalendarCard.emphasis}
+      onClick={() => newModalState.setModalId('EVENT')}
     >
       <div
         className="d-day"
