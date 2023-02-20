@@ -5,7 +5,6 @@ import { API } from '../src/constants/api.constant';
 import useFetch from '../src/hooks/useFetch';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ModalContainer from '../src/components/organisms/ModalContainer/ModalContainer';
 
 export default function Calendar(props: { events: EventItem[] }) {
   const { events } = props;
@@ -18,7 +17,6 @@ export default function Calendar(props: { events: EventItem[] }) {
         autoClose={3000}
         hideProgressBar
       />
-      <ModalContainer />
     </>
   );
 }

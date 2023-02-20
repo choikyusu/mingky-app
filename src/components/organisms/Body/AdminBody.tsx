@@ -1,7 +1,5 @@
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { modalActions } from '../../../store/modules/actions/modal.action';
 import { useModalState } from '../ModalContainer/ModalProvider';
 
 export function AdminBody() {

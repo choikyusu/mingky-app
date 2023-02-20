@@ -14,12 +14,10 @@ import {
 } from 'react-icons/bs';
 import Link from 'next/link';
 import useCalendarCard from '../../../hooks/useCalendarCard';
-import { useModalState } from '../../organisms/ModalContainer/ModalProvider';
 
 export function CalendarCard(props: { event: EventItem }) {
   const { event } = props;
 
-  const newModalState = useModalState();
   const newCalendarCard = useCalendarCard(event);
 
   return (
@@ -27,34 +25,36 @@ export function CalendarCard(props: { event: EventItem }) {
       className="ScheduleGameBox_game_box__23m0b"
       data-closed={newCalendarCard.status === 'COMPLETE'}
       data-emphasis={newCalendarCard.emphasis}
-      onClick={() => newModalState.setModalId('EVENT')}
     >
-      <div
-        className="d-day"
-        data-dday={newCalendarCard.dDay === newCalendarCard.TODAY}
-      >
-        {newCalendarCard.dDay}
-      </div>
-      <div>
-        <div className="category">
-          {
-            categoryList.list.find(category => category.id === event.category)
-              ?.name
-          }
+      <Link href={`/post/${event.id}`}>
+        <div
+          className="d-day"
+          data-dday={newCalendarCard.dDay === newCalendarCard.TODAY}
+        >
+          {newCalendarCard.dDay}
         </div>
-        <strong className="title">{event.nameText}</strong>
-        <div className="date">
-          {getYYYYMMDD(event.startDate)}
-          {getYYYYMMDD(event.startDate) !== getYYYYMMDD(event.endDate)
-            ? ` ~ ${getYYYYMMDD(event.endDate)}`
-            : ''}
+        <div>
+          <div className="category">
+            {
+              categoryList.list.find(category => category.id === event.category)
+                ?.name
+            }
+          </div>
+          <strong className="title">{event.nameText}</strong>
+          <div className="date">
+            {getYYYYMMDD(event.startDate)}
+            {getYYYYMMDD(event.startDate) !== getYYYYMMDD(event.endDate)
+              ? ` ~ ${getYYYYMMDD(event.endDate)}`
+              : ''}
+          </div>
         </div>
-      </div>
-      {newCalendarCard.check ? (
-        <div className="content check">확인함</div>
-      ) : (
-        <div className="content">{event.summary}</div>
-      )}
+
+        {newCalendarCard.check ? (
+          <div className="content check">확인함</div>
+        ) : (
+          <div className="content">{event.summary}</div>
+        )}
+      </Link>
       <div className="sub-menu">
         <div>
           <Link href={`/edit/${event.id}`}>

@@ -13,7 +13,6 @@ export function TopMenu(props: { user: UserInfoType }) {
   };
 
   const save = () => {
-    // dispatch(loginInfoActions.setName({ name }));
     toast('이름을 저장했습니다.');
   };
   return (

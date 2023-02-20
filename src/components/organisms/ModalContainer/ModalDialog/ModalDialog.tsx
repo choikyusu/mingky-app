@@ -1,11 +1,4 @@
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { API } from '../../../../constants/api.constant';
-import useFetch from '../../../../hooks/useFetch';
-import { editActions } from '../../../../store/modules/actions/edit.action';
-import { menuActions } from '../../../../store/modules/actions/menu.action';
-import { modalActions } from '../../../../store/modules/actions/modal.action';
-import { useModalState } from '../ModalProvider';
 
 export function ModalDialog(props: {
   children: React.ReactNode;
