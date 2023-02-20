@@ -2,11 +2,9 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { HomeBody } from '../src/components/organisms/Body/HomeBody';
 import { MainHeader } from '../src/components/organisms/MainHeader/MainHeader';
-import ModalContainer from '../src/components/organisms/ModalContainer/ModalContainer';
 import { API } from '../src/constants/api.constant';
 import useFetch from '../src/hooks/useFetch';
 import 'react-toastify/dist/ReactToastify.css';
-import ModalProvider from '../src/components/organisms/ModalContainer/ModalProvider';
 
 export default function Home(props: { events: EventItem[] }) {
   const { events } = props;
@@ -17,7 +15,7 @@ export default function Home(props: { events: EventItem[] }) {
   });
 
   return (
-    <ModalProvider>
+    <>
       <MainHeader />
       <HomeBody events={events} />
       <ToastContainer
@@ -25,8 +23,7 @@ export default function Home(props: { events: EventItem[] }) {
         autoClose={3000}
         hideProgressBar
       />
-      <ModalContainer />
-    </ModalProvider>
+    </>
   );
 }
 

@@ -1,16 +1,10 @@
-import { useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRef } from 'react';
 import styled from 'styled-components';
-import stores, { RootState } from '../../../store/configureStore';
-import { modalActions } from '../../../store/modules/actions/modal.action';
 import { ModalDialog } from './ModalDialog/ModalDialog';
 import { Notice } from './ModalDialog/Notice/Notice';
-import { Event } from './ModalDialog/Event/Event';
 import { TermsAndConditions } from './ModalDialog/TermsAndConditions/TermsAndConditions';
 import BlogLink from './ModalDialog/BlogLink/BlogLink';
 import { useModalState } from './ModalProvider';
-import useFetch from '../../../hooks/useFetch';
-import { API } from '../../../constants/api.constant';
 
 export interface ModalRef {
   handleClick: () => void;

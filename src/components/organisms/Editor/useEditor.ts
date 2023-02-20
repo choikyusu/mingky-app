@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
 import { API } from '../../../constants/api.constant';
 import useFetch from '../../../hooks/useFetch';
-import { RootState } from '../../../store/configureStore';
 import { getYYYYMMDD } from '../../../utils/date.util';
 import Router from 'next/router';
 import { useEditorState } from './EditorProvider';
@@ -18,29 +16,9 @@ export function useEditor(event?: EventItem) {
     useRef(null);
   const editorMenuRef: React.MutableRefObject<any> = useRef({});
 
-  const {
-    editId,
-    title,
-    contents,
-  }: { editId: string; title: string; contents: string } = useSelector(
-    (state: RootState) => state.edit,
-  );
-
-  useEffect(() => {
-    (async () => {
-      if (contents !== '') {
-        editorProvider.setInitMain(contents);
-        editorProvider.setMain(contents);
-      }
-      if (title !== '') {
-        editorProvider.setInitTitle(title);
-        editorProvider.setEditorTitle(title);
-      }
-    })();
-  }, [title, contents]);
-
   useEffect(() => {
     if (event) {
+      editorProvider.setId(event.id);
       editorProvider.setInitTitle(event.name);
       editorProvider.setInitMain(event.description);
       editorProvider.setEditorTitle(event.name);
@@ -72,7 +50,7 @@ export function useEditor(event?: EventItem) {
       check: false,
     };
 
-    if (editId === '') {
+    if (editorProvider.id === '') {
       const result = await newFetch.callApi({
         url: API.CREATE_EVENT,
         method: 'post',
@@ -82,10 +60,10 @@ export function useEditor(event?: EventItem) {
       if (result === null) return false;
     } else {
       const result = await newFetch.callApi({
-        url: `${API.UPDATE_EVENT}/${editId}`,
+        url: `${API.UPDATE_EVENT}/${editorProvider.id}`,
         method: 'put',
         data: {
-          id: editId,
+          id: editorProvider.id,
           ...post,
         },
       });

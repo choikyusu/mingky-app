@@ -2,6 +2,7 @@ import React, { createContext, useContext, useMemo, useState } from 'react';
 import { getToday } from '../../../utils/date.util';
 
 type EditorState = {
+  id: string;
   initTitle: string;
   initMain: string;
   editorTitle: string;
@@ -11,6 +12,7 @@ type EditorState = {
   endDate: Date;
   category: Category | '카테고리';
   status: string;
+  setId: React.Dispatch<React.SetStateAction<string>>;
   setInitTitle: React.Dispatch<React.SetStateAction<string>>;
   setInitMain: React.Dispatch<React.SetStateAction<string>>;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
@@ -30,6 +32,7 @@ export default function EditorProvider(props: {
 }) {
   const { children, post } = props;
 
+  const [id, setId] = useState<string>('');
   const [initTitle, setInitTitle] = useState<string>(post?.title || '');
   const [initMain, setInitMain] = useState<string>(post?.contents || '');
   const [editorTitle, setEditorTitle] = useState<string>(post?.title || '');
@@ -42,6 +45,7 @@ export default function EditorProvider(props: {
 
   const value = useMemo(
     () => ({
+      id,
       initTitle,
       initMain,
       editorTitle,
@@ -51,6 +55,7 @@ export default function EditorProvider(props: {
       endDate,
       category,
       status,
+      setId,
       setInitTitle,
       setInitMain,
       setEditorTitle,
