@@ -1,8 +1,16 @@
 import { ServerStyleSheet } from 'styled-components';
-import { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+  DocumentInitialProps,
+} from 'next/document';
+
 import React from 'react';
 
-export default function Document() {
+export default function MyDocument() {
   return (
     <Html lang="ko">
       <Head />
@@ -14,7 +22,9 @@ export default function Document() {
   );
 }
 
-export async function getInitialProps(context: DocumentContext) {
+MyDocument.getInitialProps = async function getInitialProps(
+  context: DocumentContext,
+): Promise<DocumentInitialProps> {
   const sheet = new ServerStyleSheet();
   const originalRenderPage = context.renderPage;
 
@@ -24,7 +34,7 @@ export async function getInitialProps(context: DocumentContext) {
         enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
       });
 
-    const initialProps = await getInitialProps(context);
+    const initialProps = await Document.getInitialProps(context);
     return {
       ...initialProps,
       styles: [
@@ -37,4 +47,4 @@ export async function getInitialProps(context: DocumentContext) {
   } finally {
     sheet.seal();
   }
-}
+};
