@@ -9,15 +9,28 @@ export function HomeBody(props: { events: EventItem[] }) {
     ...categoryList.list.map(category => category.id),
   ]);
 
+  const colorList = [
+    '#db2828',
+    '#ff851b',
+    '#fbbd08',
+    '#b5cc18',
+    '#21ba45',
+    '#00b5ad',
+    '#6435c9',
+    '#a333c8',
+    '#e03997',
+  ];
+
   return (
     <Wrapper>
       <div>
         <div className="icons">
           {categoryList.list
             .filter(category => !category.hidden)
-            .map(category => (
+            .map((category, index) => (
               <Button
                 selected={selectedItems.indexOf(category.id) > -1}
+                color={colorList[index]}
                 role="button"
                 onClick={() => {
                   if (selectedItems.find(item => item === category.id)) {
@@ -43,17 +56,20 @@ export function HomeBody(props: { events: EventItem[] }) {
   );
 }
 
-const Button = styled.div<{ selected: boolean }>`
-  background-color: ${props => (props.selected ? '#1b1c1d' : '#e4e4e4')};
-  color: ${props => (props.selected ? '#fff' : '#000')};
+const Button = styled.div<{ selected: boolean; color: string }>`
+  font-weight: 700;
+  box-shadow: 0 0 0 2px ${props => props.color} inset !important;
+  color: ${props => `${props.selected ? '#ffffff' : props.color}`};
+  ${props => `${props.selected && `background-color: ${props.color}`}`};
   text-shadow: none;
   margin: 0 5px 0 0;
   padding: 8px 16px 8px 16px;
   border-radius: 3px;
   cursor: pointer;
   :hover {
-    background-color: ${props => (props.selected ? '#27292a' : '#e0e0e0')};
-    color: ${props => (props.selected ? '#fff' : '#000')};
+    box-shadow: 0 0 0 2px ${props => props.color} inset !important;
+    color: ${props => `${props.selected ? '#000' : '#ffffff'}`};
+    background-color: ${props => props.color};
     text-shadow: none;
   }
 `;
