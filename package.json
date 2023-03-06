@@ -48,13 +48,15 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "next start",
-    "build": "next build",
+    "build:next": "next build",
+    "build:server": "tsc --project tsconfig.server.json",
+    "start": "next build & yarn build:server & cross-env NODE_ENV=production node dist/index.js",
+    "build": "cross-env NODE_ENV=production next build & yarn build:server ",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "ts-node server/index.ts",
     "server": "yarn build-ts && npm run serve",
-    "serve": "nodemon server/index.ts"
+    "serve": "cross-env NODE_ENV=production node dist/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -88,6 +90,7 @@
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
     "babel-plugin-styled-components": "^2.0.7",
+    "cross-env": "^7.0.3",
     "eslint": "^8.19.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
