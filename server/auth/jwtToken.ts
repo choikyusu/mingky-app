@@ -1,27 +1,22 @@
 import jwt from 'jsonwebtoken';
-import randToken from 'rand-token';
+import { promisify } from 'util';
+import { redisClient } from '../utils/cache';
 
 const TOKEN_EXPIRED = -3;
 const TOKEN_INVALID = -2;
 
-export const jwtToken = {
+export default {
   sign: async (user: any) => {
     const payload = {
       email: user.email,
     };
     const secretKey = process.env.SECRET_KEY;
     if (secretKey) {
-      const result = {
-        // sign메소드를 통해 access token 발급!
-        token: jwt.sign(payload, secretKey, {
-          algorithm: 'HS256', // 해싱 알고리즘
-          expiresIn: '30m', // 토큰 유효 기간
-          issuer: 'issuer', // 발행자
-        }),
-        refreshToken: randToken.uid(256),
-      };
-
-      return result;
+      return jwt.sign(payload, secretKey, {
+        algorithm: 'HS256', // 해싱 알고리즘
+        expiresIn: '30m', // 토큰 유효 기간
+        issuer: 'issuer', // 발행자
+      });
     }
     return '';
   },
@@ -44,5 +39,41 @@ export const jwtToken = {
       return TOKEN_INVALID;
     }
     return decoded;
+  },
+  refresh: () => {
+    // refresh token 발급
+    const secretKey = process.env.SECRET_KEY;
+    if (secretKey) {
+      return jwt.sign({}, secretKey, {
+        // refresh token은 payload 없이 발급
+        algorithm: 'HS256',
+        expiresIn: '14d',
+      });
+    }
+    return '';
+  },
+  refreshVerify: async (token: string, userId: any) => {
+    const secretKey = process.env.SECRET_KEY;
+    const getAsync = promisify(redisClient.get).bind(redisClient);
+
+    try {
+      const data = await getAsync(userId); // refresh token 가져오기
+      if (token === data) {
+        try {
+          if (secretKey) {
+            jwt.verify(token, secretKey);
+            return true;
+          }
+        } catch (err) {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } catch (err) {
+      return false;
+    }
+
+    return false;
   },
 };

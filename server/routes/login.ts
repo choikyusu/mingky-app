@@ -2,7 +2,8 @@ import express, { NextFunction } from 'express';
 import passport from 'passport';
 import url from 'url';
 import { naver } from '../passport/index';
-import { jwtToken } from '../auth/jwtToken';
+import jwtToken from '../auth/jwtToken';
+import { redisClient } from '../utils/cache';
 
 naver();
 const router = express.Router();
@@ -21,8 +22,10 @@ router.get('/naver/login/callback', function (req, res, next) {
     } else {
       req.logIn(user, async function (err) {
         const token = await jwtToken.sign(user);
+        const refreshToken = jwtToken.refresh();
 
-        const tokenString = JSON.stringify(token);
+        redisClient.set(user.email, refreshToken);
+        const tokenString = JSON.stringify({ token, refreshToken });
         res.redirect(
           url.format({
             pathname: 'http://localhost:3000/socialresult',
