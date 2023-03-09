@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import Next from 'next';
 import connect from './schemas';
 import path from 'path';
@@ -7,11 +7,11 @@ import userRouter from './routes/user';
 import uploadRouter from './routes/upload';
 import blogRouter from './routes/blog';
 import loginRouter from './routes/login';
-import authRouter from './routes/auth';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import expressSession from 'express-session';
+import { authJwt } from './auth/authJWT';
 
 require('dotenv').config();
 
@@ -53,7 +53,7 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
     app.use('/public', express.static(path.join(rootDir, 'src/public')));
 
     app.use('/api/events', eventsRouter);
-    app.use('/api/user', userRouter);
+    app.use('/api/user', authJwt as RequestHandler, userRouter);
     // app.use('/api/user', authRouter, userRouter);
     app.use('/api/upload', uploadRouter);
     app.use('/api/blog', blogRouter);
