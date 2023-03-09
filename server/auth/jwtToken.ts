@@ -2,8 +2,13 @@ import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import { redisClient } from '../utils/cache';
 
-const TOKEN_EXPIRED = -3;
-const TOKEN_INVALID = -2;
+interface AuthPayload {
+  email: string;
+  isAdmin: boolean;
+}
+
+export const TOKEN_EXPIRED = -3;
+export const TOKEN_INVALID = -2;
 
 export default {
   sign: async (user: any) => {
@@ -20,25 +25,46 @@ export default {
     }
     return '';
   },
-  verify: async (token: string) => {
-    let decoded;
+  verify: (token: string) => {
     try {
       const secretKey = process.env.SECRET_KEY;
-      if (secretKey) decoded = jwt.verify(token, secretKey);
+      if (secretKey) {
+        const decoded = jwt.verify(
+          token.trim(),
+          secretKey.trim(),
+        ) as AuthPayload;
+        return {
+          ok: true,
+          email: decoded.email,
+        };
+      }
     } catch (err: any) {
       if (err.message === 'jwt expired') {
         console.log('expired token');
-        return TOKEN_EXPIRED;
+        return {
+          ok: false,
+          error: TOKEN_EXPIRED,
+        };
       }
       if (err.message === 'invalid token') {
         console.log('invalid token');
         console.log(TOKEN_INVALID);
-        return TOKEN_INVALID;
+        return {
+          ok: false,
+          error: TOKEN_INVALID,
+        };
       }
       console.log('invalid token');
-      return TOKEN_INVALID;
+      return {
+        ok: false,
+        error: TOKEN_INVALID,
+      };
     }
-    return decoded;
+
+    return {
+      ok: false,
+      error: 'unknown',
+    };
   },
   refresh: () => {
     // refresh token 발급

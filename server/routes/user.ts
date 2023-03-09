@@ -44,18 +44,19 @@ router
 // });
 
 router.route('/me').get(async (req, res, next) => {
+  const { email } = req as any;
   try {
-    if (req.isAuthenticated()) {
-      const { name, snsId, email, gender, birthYear, mobile } = req.user as any;
+    if (email) {
+      const user = await User.findOne({ email });
       res.json({
         user: {
           accountType: 'MEMBER',
-          id: snsId,
-          name,
-          email,
-          gender,
-          birthYear,
-          mobile,
+          id: user?.snsId,
+          name: user?.name,
+          email: user?.email,
+          gender: user?.gender,
+          birthYear: user?.birthYear,
+          mobile: user?.mobile,
         },
       });
     } else {
