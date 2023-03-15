@@ -2,6 +2,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import cookie from 'cookie';
 
 export const memberOptionList: SettingsMenu[] = [
   {
@@ -106,19 +107,7 @@ export const memberOptionList: SettingsMenu[] = [
     subTitle: '',
     linkType: () => MdKeyboardArrowRight,
     doClick: () => {
-      // dispatch(
-      //   loginInfoActions.setLoginInfo({
-      //     userInfo: {
-      //       accountType: 'ANONYMOUS',
-      //       id: '',
-      //       name: '',
-      //       email: '',
-      //       gender: '',
-      //       age: '',
-      //     },
-      //   }),
-      // );
-      // logout();
+      console.log(document.cookie);
     },
   },
   {

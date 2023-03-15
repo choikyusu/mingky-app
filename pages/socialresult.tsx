@@ -31,4 +31,8 @@ export async function getServerSideProps(context: DocumentContext) {
 
   context.res?.writeHead(301, { location: '/settings' });
   context.res?.end();
+
+  return {
+    props: {},
+  };
 }
