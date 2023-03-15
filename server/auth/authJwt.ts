@@ -10,8 +10,8 @@ export const authJwt = (
   res: Response,
   next: NextFunction,
 ) => {
-  if (req.headers.authorization) {
-    const token = req.headers.authorization.split('Bearer ')[1];
+  if (req.cookies.token) {
+    const token = req.cookies.token as string;
     const result = jwtToken.verify(token);
     if (result.ok) {
       req.email = result.email || '';

@@ -6,15 +6,16 @@ function useFetch() {
     method: string;
     data?: { [key: string]: string | boolean };
     option?: string;
-    token?: string;
+    cookie?: string;
   }) {
     try {
-      const { url, method, data, option, token } = params;
+      const { url, method, data, option, cookie } = params;
 
       const headers: { [key: string]: string } = {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       };
+
+      if (cookie) headers.Cookie = cookie;
 
       const response = await axios({
         method,
