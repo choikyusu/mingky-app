@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { categoryList } from '../../../constants/category.constant';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CalendarCard } from '../../atoms/CalendarCard/CalendarCard';
 
 export function HomeBody(props: { events: EventItem[] }) {
@@ -8,6 +8,13 @@ export function HomeBody(props: { events: EventItem[] }) {
   const [selectedItems, setSelectedItems] = useState<Category[]>([
     ...categoryList.list.map(category => category.id),
   ]);
+  const [filteredEventList, setFilteredEventList] = useState<EventItem[]>([]);
+
+  useEffect(() => {
+    setFilteredEventList(
+      events.filter(event => selectedItems.indexOf(event.category) >= 0),
+    );
+  }, [selectedItems]);
 
   const colorList = [
     '#db2828',
@@ -46,11 +53,11 @@ export function HomeBody(props: { events: EventItem[] }) {
               </Button>
             ))}
         </div>
-        {events
-          .filter(event => selectedItems.indexOf(event.category) >= 0)
-          .map(event => (
-            <CalendarCard event={event} />
-          ))}
+        {filteredEventList.length ? (
+          filteredEventList.map(event => <CalendarCard event={event} />)
+        ) : (
+          <div>리스트가 없습니다.</div>
+        )}
       </div>
     </Wrapper>
   );
