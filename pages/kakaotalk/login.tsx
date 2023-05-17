@@ -1,7 +1,42 @@
 import Link from 'next/link';
+import { useState } from 'react';
 import styled from 'styled-components';
+import io from 'socket.io-client';
 
 const Login = () => {
+  const [auth, setAuth] = useState({ id: 0, user_id: '' });
+  const [socket, setSocket] = useState(() => io('http://localhost:3000'));
+  const [token, setToken] = useState('');
+  const [loggingIn, setLoggingIn] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const MAX_LEN = 20;
+
+  const onUserIdChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
+    if (!loggingIn) {
+      const { value } = event.target;
+      setUserId(value);
+    }
+  };
+
+  const onPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    event.preventDefault();
+    if (!loggingIn) {
+      const { value } = event.target;
+      setPassword(value);
+    }
+  };
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!loggingIn && password.length >= 5) {
+      // login({ userId, password });
+      setPassword('');
+    }
+  };
+
   return (
     <Styled.Wrapper>
       <Styled.Container>
@@ -9,15 +44,28 @@ const Login = () => {
           <img src="/asset/kakao_logo.png" alt="logo" />
         </Styled.Header>
         <Styled.Contents>
-          <form>
-            <input type="text" placeholder="계정" />
+          <form onSubmit={onSubmit}>
+            <input
+              type="text"
+              placeholder="계정"
+              value={userId}
+              maxLength={MAX_LEN}
+              onChange={onUserIdChange}
+            />
             <input
               type="password"
               autoComplete="new-password"
               placeholder="비밀번호"
+              value={password}
+              maxLength={MAX_LEN}
+              onChange={onPasswordChange}
             />
-            <button type="button" className="disabled">
-              로그인
+            <button
+              type="button"
+              className={loggingIn || password.length < 5 ? 'disabled' : ''}
+            >
+              {loggingIn ? <i className="fas fa-circle-notch" /> : ''}
+              <span>로그인</span>
             </button>
             <p> </p>
           </form>
@@ -25,7 +73,7 @@ const Login = () => {
         <Styled.Footer>
           <ul>
             <li>
-              <Link href="/singin">회원 가입</Link>
+              <Link href="/kakaotalk/signup">회원 가입</Link>
             </li>
           </ul>
         </Styled.Footer>
@@ -58,7 +106,7 @@ const Styled = {
       margin: 0 auto;
     }
   `,
-  Contents: styled.div`
+  Contents: styled.main`
     width: 100%;
     height: 330px;
     padding-top: 30px;
