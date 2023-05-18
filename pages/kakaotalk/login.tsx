@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
-import { login } from '../../src/apis/auth';
+import { userLogin } from '../../src/services/apis/login.api.service';
 
 const Login = () => {
   const [auth, setAuth] = useState({ id: 0, user_id: '' });
@@ -34,12 +34,12 @@ const Login = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!loggingIn && password.length >= 5) {
-      try {
-        const { token, refreshToken } = await login({ userId, password });
-      } catch {
-        setLoginFailuerMsg('계정 또는 비밀번호를 다시 확인해주세요.');
-      }
-      setPassword('');
+      userLogin({ userId, password }, (success: boolean, message: string) => {
+        if (!success) {
+          setLoginFailuerMsg(message);
+          setPassword('');
+        }
+      });
     }
   };
 
@@ -101,7 +101,7 @@ const Styled = {
   Container: styled.div`
     width: 360px;
     height: 600px;
-    background-color: #1;
+    background-color: #ffeb33;
   `,
   Header: styled.header`
     width: 100%;
