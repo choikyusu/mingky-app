@@ -2,11 +2,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
+import { login } from '../../src/apis/auth';
 
 const Login = () => {
   const [auth, setAuth] = useState({ id: 0, user_id: '' });
   const [socket, setSocket] = useState(() => io('http://localhost:3000'));
   const [token, setToken] = useState('');
+  const [loginFailuerMsg, setLoginFailuerMsg] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
@@ -29,10 +31,14 @@ const Login = () => {
       setPassword(value);
     }
   };
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!loggingIn && password.length >= 5) {
-      // login({ userId, password });
+      try {
+        const { token, refreshToken } = await login({ userId, password });
+      } catch {
+        setLoginFailuerMsg('계정 또는 비밀번호를 다시 확인해주세요.');
+      }
       setPassword('');
     }
   };
@@ -41,7 +47,7 @@ const Login = () => {
     <Styled.Wrapper>
       <Styled.Container>
         <Styled.Header>
-          <img src="/asset/kakao_logo.png" alt="logo" />
+          {/* <img src="/asset/kakao_logo.png" alt="logo" /> */}
         </Styled.Header>
         <Styled.Contents>
           <form onSubmit={onSubmit}>
@@ -61,13 +67,13 @@ const Login = () => {
               onChange={onPasswordChange}
             />
             <button
-              type="button"
+              type="submit"
               className={loggingIn || password.length < 5 ? 'disabled' : ''}
             >
               {loggingIn ? <i className="fas fa-circle-notch" /> : ''}
               <span>로그인</span>
             </button>
-            <p> </p>
+            <p>{loginFailuerMsg}</p>
           </form>
         </Styled.Contents>
         <Styled.Footer>
@@ -95,7 +101,7 @@ const Styled = {
   Container: styled.div`
     width: 360px;
     height: 600px;
-    background-color: #ffeb33;
+    background-color: #1;
   `,
   Header: styled.header`
     width: 100%;
