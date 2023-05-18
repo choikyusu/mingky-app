@@ -47,7 +47,7 @@ const Login = () => {
     <Styled.Wrapper>
       <Styled.Container>
         <Styled.Header>
-          {/* <img src="/asset/kakao_logo.png" alt="logo" /> */}
+          <img src="/asset/kakao_logo.png" alt="logo" />
         </Styled.Header>
         <Styled.Contents>
           <form onSubmit={onSubmit}>
