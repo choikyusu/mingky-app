@@ -6,13 +6,13 @@ const withAuth = <P extends Record<string, unknown>>(
   const WrapperComponent: React.FC<P> = props => {
     const router = useRouter();
     if (typeof window !== 'undefined') {
-      const token = window.localStorage.getItem('token');
+      const token = window.sessionStorage.getItem('token');
+      console.log(token);
       if (!token) {
-        router.push('/kakaotalk/login'); // 토큰이 없으면 로그인 페이지로 리디렉션
+        router.push('/kakaotalk/login');
       }
     }
 
-    // 로그인 토큰이 있을 때만 WrappedComponent를 렌더링
     return <WrappedComponent {...props} />;
   };
 

@@ -3,11 +3,10 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
 import { userLogin } from '../../src/services/apis/login.api.service';
+import { useRouter } from 'next/router';
 
 const Login = () => {
-  const [auth, setAuth] = useState({ id: 0, user_id: '' });
-  // const [socket, setSocket] = useState(() => io('http://localhost:3000'));
-  const [token, setToken] = useState('');
+  const router = useRouter();
   const [loginFailuerMsg, setLoginFailuerMsg] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);
   const [userId, setUserId] = useState('');
@@ -38,6 +37,8 @@ const Login = () => {
         if (!success) {
           setLoginFailuerMsg(message);
           setPassword('');
+        } else {
+          router.push('/kakaotalk/friends');
         }
       });
     }
