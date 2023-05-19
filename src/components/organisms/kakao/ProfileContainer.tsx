@@ -3,6 +3,7 @@ import { Modal } from './Modal';
 import { SetStateAction } from 'react';
 import { UserProfile } from './UserProfile';
 import { Menu } from './Menu';
+import { ProfileInputWindow } from './ProfileInputWindow';
 
 export const ProfileContainer = ({
   isProfileShown,
@@ -13,21 +14,22 @@ export const ProfileContainer = ({
   profile?: UserInfo;
   setIsProfileShown: (value: SetStateAction<boolean>) => void;
 }) => {
-  if (!isProfileShown) return null;
+  if (!isProfileShown || !profile) return null;
 
   return (
     <Modal>
+      <ProfileInputWindow />
       <Styled.Wrapper>
         <Styled.BackgroundBase>
-          {profile?.backgroundUrl !== '' && (
-            <img src={profile?.backgroundUrl} alt="bg" />
+          {profile.backgroundUrl !== '' && (
+            <img src={profile.backgroundUrl} alt="bg" />
           )}
         </Styled.BackgroundBase>
         <Styled.CancelIcon
           className="fas fa-times"
           onClick={() => setIsProfileShown(false)}
         />
-        <UserProfile />
+        <UserProfile profile={profile} />
         <Menu />
       </Styled.Wrapper>
     </Modal>

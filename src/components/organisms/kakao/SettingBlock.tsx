@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-export const ProfileImageSetting = () => {
+export const ProfileImageSetting = ({ profile }: { profile: UserInfo }) => {
+  console.log(profile);
   return (
     <Styled.ProfileImageSettingWrapper>
-      <img src="/asset/base_profile.jpg" alt="profile_image" />
+      <img src={profile.baseUrl} alt="profile_image" />
     </Styled.ProfileImageSettingWrapper>
   );
 };
