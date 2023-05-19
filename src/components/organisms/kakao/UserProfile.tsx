@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 import { BgImageSetting, ProfileImageSetting } from './SettingBlock';
 
-export const UserProfile = () => {
+export const UserProfile = ({ profile }: { profile: UserInfo }) => {
   return (
     <Styled.Wrapper>
       <BgImageSetting />
-      <ProfileImageSetting />
+      <ProfileImageSetting profile={profile} />
       <Styled.ProfileText>
         <p>
-          <b>aa</b>
+          <b>{profile.name}</b>
         </p>
         <i className="fas fa-pen" />
       </Styled.ProfileText>
       <Styled.ProfileText>
-        <p>aaa</p>
+        <p>{profile.message}</p>
 
         <i className="fas fa-pen" />
       </Styled.ProfileText>
