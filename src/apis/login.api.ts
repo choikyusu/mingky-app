@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { ApiResponse } from '../types/base';
+import { ApiResponse } from '../types/kakao/base';
 
-export const login = async (loginData: LoginData) => {
+export const login$ = async (loginData: LoginData) => {
   const request = {
     user_id: loginData.userId,
     password: loginData.password,

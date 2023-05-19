@@ -15,6 +15,20 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  base_profile: {
+    type: String,
+    required: true,
+  },
+  base_background: {
+    type: String,
+  },
+  message: {
+    type: String,
+  },
 });
 
 export const User = mongoose.model('KakaoUser', userSchema);

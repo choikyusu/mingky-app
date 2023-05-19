@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
-import { ApiResponse } from '../types/base';
+import { ApiResponse } from '../types/kakao/base';
 
-export const signup = async (signupData: SignupData) => {
+export const signup$ = async (signupData: SignupData) => {
   const signupRequest: SignupRequestDto = {
     user_id: signupData.userId,
     password: signupData.password,
