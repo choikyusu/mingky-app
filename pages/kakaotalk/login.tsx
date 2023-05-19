@@ -6,7 +6,7 @@ import { userLogin } from '../../src/services/apis/login.api.service';
 
 const Login = () => {
   const [auth, setAuth] = useState({ id: 0, user_id: '' });
-  const [socket, setSocket] = useState(() => io('http://localhost:3000'));
+  // const [socket, setSocket] = useState(() => io('http://localhost:3000'));
   const [token, setToken] = useState('');
   const [loginFailuerMsg, setLoginFailuerMsg] = useState('');
   const [loggingIn, setLoggingIn] = useState(false);

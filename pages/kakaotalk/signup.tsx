@@ -1,8 +1,11 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { userSignup } from '../../src/services/apis/signup.api.service';
+import { useRouter } from 'next/router';
 
 const Signup = () => {
+  const router = useRouter();
   const MAX_LEN = 20;
   const [userId, setUserId] = useState('');
   const [pw, setPw] = useState('');
@@ -108,13 +111,13 @@ const Signup = () => {
     const validName = isValidName();
 
     if (validId && validPw && validCheckPw && validName) {
-      try {
-        // await signup({ userId, password: pw, name });
-        await alert('회원 가입 되었습니다.');
-        // await history.replace(PAGE_PATHS.LOGIN);
-      } catch (err) {
-        alert('회원 가입에 실패하였습니다.');
-      }
+      userSignup(
+        { userId, password: pw, name },
+        async (success: boolean, message?: string) => {
+          if (message) alert(message);
+          if (success) router.push('/kakaotalk/login');
+        },
+      );
     }
   };
   return (
@@ -178,7 +181,7 @@ const Signup = () => {
             </span>
             <p>{nameWarningMsg}</p>
           </label>
-          <button type="button" onClick={onSubmit}>
+          <button type="submit" onClick={onSubmit}>
             가입하기
           </button>
         </Styled.Contants>

@@ -3,6 +3,12 @@ interface LoginData {
   password: string;
 }
 
+interface SignupData {
+  userId: string;
+  password: string;
+  name: string;
+}
+
 interface SignupRequestDto {
   user_id: string;
   password: string;
@@ -12,4 +18,8 @@ interface SignupRequestDto {
 interface LoginResponseDto {
   token: string;
   refreshToken: string;
+}
+
+interface SignupResponseDto {
+  user_id: string;
 }

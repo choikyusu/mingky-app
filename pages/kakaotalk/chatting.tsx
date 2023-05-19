@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import withAuth from '../../src/auth/WithAuth';
 
 const Menu = () => {
   const { pathname } = useRouter();
@@ -225,4 +226,4 @@ const Styled = {
   `,
 };
 
-export default Menu;
+export default withAuth(Menu);
