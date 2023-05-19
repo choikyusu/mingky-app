@@ -7,7 +7,11 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
-  password: {
+  hashedPassword: {
+    type: String,
+    required: true,
+  },
+  salt: {
     type: String,
     required: true,
   },
