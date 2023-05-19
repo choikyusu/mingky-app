@@ -1,10 +1,28 @@
 import styled from 'styled-components';
 import withAuth from '../../src/auth/WithAuth';
 import MenuSideBar from '../../src/components/organisms/kakao/MenuSideBar';
+import { useEffect, useState } from 'react';
+import { myProfile } from '../../src/services/apis/user.api.service';
+import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
 
 const Menu = () => {
+  const [profile, setProfile] = useState<UserInfo>();
+  const [isProfileShown, setIsProfileShown] = useState(false);
+  useEffect(() => {
+    myProfile((success: boolean, userInfo?: UserInfo) => {
+      if (success) {
+        setProfile(userInfo);
+      }
+    });
+  }, []);
+
   return (
     <Styled.Wrapper>
+      <ProfileContainer
+        isProfileShown={isProfileShown}
+        profile={profile}
+        setIsProfileShown={setIsProfileShown}
+      />
       <Styled.Container>
         <MenuSideBar />
         <Styled.Main>
@@ -16,6 +34,17 @@ const Menu = () => {
             <input placeholder="이름 검색" />
           </Styled.MainHeader>
           <Styled.Contents>
+            <Styled.MyProfileBlock>
+              <img
+                src={profile?.baseUrl || ''}
+                alt="profile"
+                onClick={() => setIsProfileShown(true)}
+              />
+              <p>
+                <b>{profile?.name}</b>
+              </p>
+              <p>{profile?.message}</p>
+            </Styled.MyProfileBlock>
             <Styled.FriendsBorder>
               <p>친구 0</p>
             </Styled.FriendsBorder>
@@ -113,6 +142,35 @@ const Styled = {
       &:hover {
         background-color: #eaeaeb;
       }
+    }
+  `,
+  MyProfileBlock: styled.div`
+    position: relative;
+    padding: 25px 10px 25px 185px;
+    & img {
+      position: absolute;
+      top: 18px;
+      left: 120px;
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      cursor: pointer;
+    }
+    & p {
+      color: #707070;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-height: 19px;
+      font-size: 12px;
+      & b {
+        color: #000;
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+    &:hover {
+      background-color: #eaeaeb;
     }
   `,
   FriendsBorder: styled.div`

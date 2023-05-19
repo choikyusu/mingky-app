@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import * as express from 'express';
 import { User } from '../../schemas/kakao/user';
-import jwtToken from '../../auth/jwtToken';
+import jwtToken from '../../auth/kakao/jwtToken';
 import { createHashedPassword, verifyPassword } from '../../utils/crypto.util';
 
 const router = express.Router();
@@ -42,7 +42,15 @@ router.post('/signup', async (req, res) => {
 
     const { hashedPassword, salt } = await createHashedPassword(password);
 
-    await User.create({ user_id, hashedPassword, salt, name });
+    await User.create({
+      user_id,
+      hashedPassword,
+      salt,
+      name,
+      base_profile: '/asset/base_profile.jpg',
+      base_background: '',
+      message: '',
+    });
     return res.json({
       msg: '회원가입 되었습니다.',
     });
