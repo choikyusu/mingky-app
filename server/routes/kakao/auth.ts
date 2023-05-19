@@ -27,4 +27,27 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/signup', async (req, res) => {
+  const { user_id, password, name } = req.body;
+
+  try {
+    const user = await User.findOne({
+      user_id,
+    });
+    if (user) {
+      return res
+        .status(400)
+        .json({ msg: '이미 사용중이거나 탈퇴한 아이디입니다.' });
+    }
+    await User.create({ user_id, password, name });
+    return res.json({
+      msg: '회원가입 되었습니다.',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      msg: '회원가입 실패',
+    });
+  }
+});
+
 export default router;
