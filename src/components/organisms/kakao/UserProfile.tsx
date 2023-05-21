@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import { BgImageSetting, ProfileImageSetting } from './SettingBlock';
+import { Dispatch, SetStateAction } from 'react';
 
-export const UserProfile = ({ profile }: { profile: UserInfo }) => {
+export const UserProfile = ({
+  profile,
+  showNameChange,
+}: {
+  profile: UserInfo;
+  showNameChange: Dispatch<SetStateAction<boolean>>;
+}) => {
   return (
     <Styled.Wrapper>
       <BgImageSetting />
@@ -10,7 +17,12 @@ export const UserProfile = ({ profile }: { profile: UserInfo }) => {
         <p>
           <b>{profile.name}</b>
         </p>
-        <i className="fas fa-pen" />
+        <i
+          aria-hidden
+          role="button"
+          className="fas fa-pen"
+          onClick={() => showNameChange(true)}
+        />
       </Styled.ProfileText>
       <Styled.ProfileText>
         <p>{profile.message}</p>
