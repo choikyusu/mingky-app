@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Modal } from './Modal';
-import { SetStateAction } from 'react';
+import { SetStateAction, useState } from 'react';
 import { UserProfile } from './UserProfile';
 import { Menu } from './Menu';
 import { ProfileInputWindow } from './ProfileInputWindow';
@@ -16,9 +16,21 @@ export const ProfileContainer = ({
 }) => {
   if (!isProfileShown || !profile) return null;
 
+  const [isShowNameChange, showNameChange] = useState(false);
+
+  const changeName = (value: string) => {
+    console.log('a');
+  };
+
   return (
     <Modal>
-      <ProfileInputWindow />
+      <ProfileInputWindow
+        currentValue={profile.name || ''}
+        maxLength={20}
+        showWindow={showNameChange}
+        changeProfile={changeName}
+        isShowNameChange={isShowNameChange}
+      />
       <Styled.Wrapper>
         <Styled.BackgroundBase>
           {profile.backgroundUrl !== '' && (
@@ -29,7 +41,7 @@ export const ProfileContainer = ({
           className="fas fa-times"
           onClick={() => setIsProfileShown(false)}
         />
-        <UserProfile profile={profile} />
+        <UserProfile profile={profile} showNameChange={showNameChange} />
         <Menu />
       </Styled.Wrapper>
     </Modal>

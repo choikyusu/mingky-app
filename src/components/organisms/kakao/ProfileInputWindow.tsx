@@ -6,11 +6,13 @@ export const ProfileInputWindow = ({
   maxLength,
   showWindow,
   changeProfile,
+  isShowNameChange,
 }: {
   currentValue: string;
   maxLength: number;
   showWindow(isShow: boolean): void;
   changeProfile(value: string): void;
+  isShowNameChange: boolean;
 }) => {
   const [value, setValue] = useState(currentValue);
   const onValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +25,8 @@ export const ProfileInputWindow = ({
     await changeProfile(value);
     await showWindow(false);
   };
+
+  if (!isShowNameChange) return null;
   return (
     <>
       <Styled.SettingBg />
