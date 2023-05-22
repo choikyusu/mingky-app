@@ -55,6 +55,7 @@ export const ProfileContainer = ({
         />
         <UserProfile
           profile={profile}
+          setProfile={setProfile}
           setChangePopupType={setChangePopupType}
         />
         <Menu />

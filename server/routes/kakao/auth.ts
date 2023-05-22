@@ -48,7 +48,7 @@ router.post('/signup', async (req, res) => {
       salt,
       name,
       nick_name: name,
-      base_profile: '/asset/base_profile.jpg',
+      base_profile: '',
       base_background: '',
       message: '',
     });

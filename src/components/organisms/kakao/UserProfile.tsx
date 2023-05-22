@@ -5,14 +5,16 @@ import { Dispatch, SetStateAction } from 'react';
 export const UserProfile = ({
   profile,
   setChangePopupType,
+  setProfile,
 }: {
   profile: UserInfo;
   setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
+  setProfile: Dispatch<SetStateAction<UserInfo | undefined>>;
 }) => {
   return (
     <Styled.Wrapper>
-      <BgImageSetting />
-      <ProfileImageSetting profile={profile} />
+      <BgImageSetting profile={profile} setProfile={setProfile} />
+      <ProfileImageSetting profile={profile} setProfile={setProfile} />
       <Styled.ProfileText>
         <p>
           <b>{profile.nickName}</b>
