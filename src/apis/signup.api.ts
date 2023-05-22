@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { ApiResponse } from '../types/kakao/base';
+import { API_HOST } from '../constants/kakao/constants';
 
 export const signup$ = async (signupData: SignupData) => {
   const signupRequest: SignupRequestDto = {
@@ -9,7 +10,7 @@ export const signup$ = async (signupData: SignupData) => {
   };
   try {
     const response: ApiResponse<SignupResponseDto> = await axios.post(
-      `http://localhost:3000/api/kakao/auth/signup`,
+      `${API_HOST}/auth/signup`,
       signupRequest,
     );
 

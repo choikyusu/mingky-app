@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ApiResponse } from '../types/kakao/base';
+import { API_HOST } from '../constants/kakao/constants';
 
 export const login$ = async (loginData: LoginData) => {
   const request = {
@@ -7,7 +8,7 @@ export const login$ = async (loginData: LoginData) => {
     password: loginData.password,
   };
   const response: ApiResponse<LoginResponseDto> = await axios.post(
-    `http://localhost:3000/api/kakao/auth/login`,
+    `${API_HOST}/auth/login`,
     request,
   );
   const { token, refreshToken } = response.data.data;

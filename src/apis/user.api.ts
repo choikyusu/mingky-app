@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ApiResponse } from '../types/kakao/base';
+import { API_HOST, HOST } from '../constants/kakao/constants';
 
 export const myProfile$ = async (token: string) => {
   const headers: { [key: string]: string } = {
@@ -8,7 +9,7 @@ export const myProfile$ = async (token: string) => {
   };
 
   const response: ApiResponse<UserResponseDto> = await axios.get(
-    `http://localhost:3000/api/kakao/user/profile/me`,
+    `${API_HOST}/user/profile/me`,
     { headers },
   );
 
@@ -28,19 +29,17 @@ export const changeProfile$ = async (token: string, userInfo: UserInfo) => {
     Authorization: `Bearer ${token}`,
   };
 
-  await axios.post(
-    `http://localhost:3000/api/kakao/user/profile/change`,
-    userInfoRequest,
-    { headers },
-  );
+  await axios.post(`${API_HOST}/user/profile/change`, userInfoRequest, {
+    headers,
+  });
 };
 
 export const uploadImageFile$ = async (image: File) => {
   const formData = new FormData();
   formData.append('image', image);
   const imageUrl: ApiResponse<string> = await axios.post(
-    `http://localhost:3000/api/kakao/user/profile/upload`,
+    `${API_HOST}/user/profile/upload`,
     formData,
   );
-  return `http://localhost:3000/${imageUrl.data.data}`;
+  return `${HOST}/${imageUrl.data.data}`;
 };
