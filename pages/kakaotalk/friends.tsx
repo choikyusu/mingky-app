@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react';
 import { myProfile } from '../../src/services/apis/user.api.service';
 import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
 import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
+import { FindFriendWindow } from '../../src/components/organisms/kakao/FindFriendWindow';
 
 const Menu = () => {
   const [profile, setProfile] = useState<UserInfo>();
+  const [isopenFindFriend, openFindFriend] = useState(false);
   const [isProfileShown, setIsProfileShown] = useState(false);
   useEffect(() => {
     myProfile((success: boolean, userInfo?: UserInfo) => {
@@ -28,10 +30,19 @@ const Menu = () => {
       <Styled.Container>
         <MenuSideBar />
         <Styled.Main>
+          <FindFriendWindow
+            isopenFindFriend={isopenFindFriend}
+            openFindFriend={openFindFriend}
+          />
           <Styled.MainHeader>
             <Styled.TitleBlock>
               <h2>친구</h2>
-              <i className="fas fa-user-plus" title="친구 추가" />
+              <i
+                aria-hidden
+                className="fas fa-user-plus"
+                title="친구 추가"
+                onClick={() => openFindFriend(true)}
+              />
             </Styled.TitleBlock>
             <input placeholder="이름 검색" />
           </Styled.MainHeader>
