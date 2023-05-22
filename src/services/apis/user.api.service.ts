@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import { changeProfile$, myProfile$ } from '../../apis/user.api';
+import { HOST } from '../../constants/kakao/constants';
 
 export const myProfile = async (
   cb: (success: boolean, userInfo?: UserInfo) => void,
@@ -14,8 +15,7 @@ export const myProfile = async (
     cb(false);
   } catch (err: any) {
     if (err instanceof AxiosError) {
-      if (err.response?.status === 401)
-        window.location.href = 'http://localhost:3000/kakaotalk/login';
+      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
 
       cb(false);
     }
@@ -37,8 +37,7 @@ export const changeProfile = async (
     cb(false);
   } catch (err: any) {
     if (err instanceof AxiosError) {
-      if (err.response?.status === 401)
-        window.location.href = 'http://localhost:3000/kakaotalk/login';
+      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
 
       cb(false);
     }
