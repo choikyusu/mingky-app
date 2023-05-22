@@ -2,7 +2,11 @@
 import * as express from 'express';
 import { User } from '../../schemas/kakao/user';
 import jwtToken, { TOKEN_EXPIRED } from '../../auth/kakao/jwtToken';
+import multer from 'multer';
+import path from 'path';
 
+const dest = path.join(__dirname, '../../uploads/');
+const upload = multer({ dest });
 const router = express.Router();
 
 router.get('/profile/me', async (req: any, res) => {
@@ -64,6 +68,15 @@ router.post('/profile/change', async (req, res) => {
   return res
     .status(400)
     .json({ data: false, msg: '프로필을 변경 못했습니다.' });
+});
+
+router.post('/profile/upload', upload.single('image'), (req, res) => {
+  try {
+    const image = req.file as Express.Multer.File;
+    return res.json({ data: `uploads\\${image.filename}` });
+  } catch (err: any) {
+    return res.status(400).json({ msg: err.message });
+  }
 });
 
 export default router;

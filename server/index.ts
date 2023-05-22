@@ -53,6 +53,10 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
     app.use(passport.session());
     app.use(express.static(`${__dirname}/build`));
     app.use('/public', express.static(path.join(rootDir, 'src/public')));
+    app.get('/uploads/:fileName', (req, res) => {
+      const { fileName } = req.params;
+      res.sendFile(path.join(__dirname, `./uploads/${fileName}`));
+    });
 
     app.use('/api/kakao/auth', authRouter);
     app.use('/api/kakao/user', kakaoUserRouter);

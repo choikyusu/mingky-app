@@ -34,3 +34,13 @@ export const changeProfile$ = async (token: string, userInfo: UserInfo) => {
     { headers },
   );
 };
+
+export const uploadImageFile$ = async (image: File) => {
+  const formData = new FormData();
+  formData.append('image', image);
+  const imageUrl: ApiResponse<string> = await axios.post(
+    `http://localhost:3000/api/kakao/user/profile/upload`,
+    formData,
+  );
+  return `http://localhost:3000/${imageUrl.data.data}`;
+};
