@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export const ProfileInputWindow = ({
   currentValue,
   maxLength,
-  showWindow,
+  setChangePopupType,
   changeProfile,
-  isShowNameChange,
+  changePopupType,
 }: {
   currentValue: string;
   maxLength: number;
-  showWindow(isShow: boolean): void;
+  setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
   changeProfile(value: string): void;
-  isShowNameChange: boolean;
+  changePopupType: ChangePopupType;
 }) => {
   const [value, setValue] = useState(currentValue);
   const onValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,17 +23,21 @@ export const ProfileInputWindow = ({
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await changeProfile(value);
-    await showWindow(false);
+    setChangePopupType('');
   };
 
-  if (!isShowNameChange) return null;
+  useEffect(() => {
+    setValue(currentValue);
+  }, [currentValue]);
+
+  if (changePopupType === '') return null;
   return (
     <>
       <Styled.SettingBg />
       <Styled.InputBlock>
         <Styled.CancelIcon
           className="fas fa-times"
-          onClick={() => showWindow(false)}
+          onClick={() => setChangePopupType('')}
         />
         <div>
           <form onSubmit={onSubmit}>

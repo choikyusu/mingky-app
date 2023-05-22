@@ -4,10 +4,10 @@ import { Dispatch, SetStateAction } from 'react';
 
 export const UserProfile = ({
   profile,
-  showNameChange,
+  setChangePopupType,
 }: {
   profile: UserInfo;
-  showNameChange: Dispatch<SetStateAction<boolean>>;
+  setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
 }) => {
   return (
     <Styled.Wrapper>
@@ -15,19 +15,24 @@ export const UserProfile = ({
       <ProfileImageSetting profile={profile} />
       <Styled.ProfileText>
         <p>
-          <b>{profile.name}</b>
+          <b>{profile.nickName}</b>
         </p>
         <i
           aria-hidden
           role="button"
           className="fas fa-pen"
-          onClick={() => showNameChange(true)}
+          onClick={() => setChangePopupType('NickName')}
         />
       </Styled.ProfileText>
       <Styled.ProfileText>
         <p>{profile.message}</p>
 
-        <i className="fas fa-pen" />
+        <i
+          aria-hidden
+          role="button"
+          className="fas fa-pen"
+          onClick={() => setChangePopupType('Message')}
+        />
       </Styled.ProfileText>
     </Styled.Wrapper>
   );
