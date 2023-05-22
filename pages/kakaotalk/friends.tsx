@@ -4,6 +4,7 @@ import MenuSideBar from '../../src/components/organisms/kakao/MenuSideBar';
 import { useEffect, useState } from 'react';
 import { myProfile } from '../../src/services/apis/user.api.service';
 import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
+import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
 
 const Menu = () => {
   const [profile, setProfile] = useState<UserInfo>();
@@ -37,7 +38,7 @@ const Menu = () => {
           <Styled.Contents>
             <Styled.MyProfileBlock>
               <img
-                src={profile?.baseUrl || ''}
+                src={profile?.baseUrl || BASE_IMG_URL}
                 alt="profile"
                 onClick={() => setIsProfileShown(true)}
               />

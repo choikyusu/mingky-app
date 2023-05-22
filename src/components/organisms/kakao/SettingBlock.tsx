@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ImageSetting } from './ImageSetting';
 import { changeProfile } from '../../../services/apis/user.api.service';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { BASE_IMG_URL } from '../../../constants/kakao/constants';
 
 export const ProfileImageSetting = ({
   profile,
@@ -21,9 +22,7 @@ export const ProfileImageSetting = ({
     <Styled.ProfileImageSettingWrapper>
       <img
         aria-hidden
-        src={
-          profile.baseUrl === '' ? '/asset/base_profile.jpg' : profile.baseUrl
-        }
+        src={profile.baseUrl || BASE_IMG_URL}
         alt="profile_image"
         onClick={() => showSetting(true)}
       />

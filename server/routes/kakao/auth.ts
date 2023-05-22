@@ -56,6 +56,7 @@ router.post('/signup', async (req, res) => {
       msg: '회원가입 되었습니다.',
     });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       msg: '회원가입 실패',
     });
