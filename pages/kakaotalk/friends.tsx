@@ -22,6 +22,7 @@ const Menu = () => {
         isProfileShown={isProfileShown}
         profile={profile}
         setIsProfileShown={setIsProfileShown}
+        setProfile={setProfile}
       />
       <Styled.Container>
         <MenuSideBar />
@@ -41,7 +42,7 @@ const Menu = () => {
                 onClick={() => setIsProfileShown(true)}
               />
               <p>
-                <b>{profile?.name}</b>
+                <b>{profile?.nickName}</b>
               </p>
               <p>{profile?.message}</p>
             </Styled.MyProfileBlock>

@@ -47,6 +47,7 @@ router.post('/signup', async (req, res) => {
       hashedPassword,
       salt,
       name,
+      nick_name: name,
       base_profile: '/asset/base_profile.jpg',
       base_background: '',
       message: '',

@@ -1,35 +1,47 @@
 import styled from 'styled-components';
 import { Modal } from './Modal';
-import { SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { UserProfile } from './UserProfile';
 import { Menu } from './Menu';
 import { ProfileInputWindow } from './ProfileInputWindow';
+import { changeProfile } from '../../../services/apis/user.api.service';
 
 export const ProfileContainer = ({
   isProfileShown,
   profile,
   setIsProfileShown,
+  setProfile,
 }: {
   isProfileShown: boolean;
   profile?: UserInfo;
   setIsProfileShown: (value: SetStateAction<boolean>) => void;
+  setProfile: Dispatch<SetStateAction<UserInfo | undefined>>;
 }) => {
   if (!isProfileShown || !profile) return null;
 
-  const [isShowNameChange, showNameChange] = useState(false);
+  const [changePopupType, setChangePopupType] = useState<ChangePopupType>('');
 
   const changeName = (value: string) => {
-    console.log('a');
+    if (profile) {
+      const newProfile: UserInfo = { ...profile };
+      if (changePopupType === 'NickName') newProfile.nickName = value;
+      if (changePopupType === 'Message') newProfile.message = value;
+      changeProfile(newProfile, success => {
+        if (success) setProfile(newProfile);
+      });
+    }
   };
 
   return (
     <Modal>
       <ProfileInputWindow
-        currentValue={profile.name || ''}
-        maxLength={20}
-        showWindow={showNameChange}
+        currentValue={
+          changePopupType === 'NickName' ? profile.nickName : profile.message
+        }
+        maxLength={changePopupType === 'NickName' ? 20 : 60}
+        setChangePopupType={setChangePopupType}
         changeProfile={changeName}
-        isShowNameChange={isShowNameChange}
+        changePopupType={changePopupType}
       />
       <Styled.Wrapper>
         <Styled.BackgroundBase>
@@ -41,7 +53,10 @@ export const ProfileContainer = ({
           className="fas fa-times"
           onClick={() => setIsProfileShown(false)}
         />
-        <UserProfile profile={profile} showNameChange={showNameChange} />
+        <UserProfile
+          profile={profile}
+          setChangePopupType={setChangePopupType}
+        />
         <Menu />
       </Styled.Wrapper>
     </Modal>

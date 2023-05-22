@@ -1,13 +1,46 @@
-import { myProfile$ } from '../../apis/user.api';
+import { AxiosError } from 'axios';
+import { changeProfile$, myProfile$ } from '../../apis/user.api';
 
 export const myProfile = async (
   cb: (success: boolean, userInfo?: UserInfo) => void,
 ) => {
-  const token = window.sessionStorage.getItem('token');
-  if (token) {
-    const myProfile = await myProfile$(token);
-    cb(true, myProfile);
-  }
+  try {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+      const myProfile = await myProfile$(token);
+      cb(true, myProfile);
+    }
 
-  cb(false);
+    cb(false);
+  } catch (err: any) {
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 401)
+        window.location.href = 'http://localhost:3000/kakaotalk/login';
+
+      cb(false);
+    }
+  }
+};
+
+export const changeProfile = async (
+  userInfo: UserInfo,
+  cb: (success: boolean) => void,
+) => {
+  try {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+      await changeProfile$(token, userInfo);
+
+      cb(true);
+    }
+
+    cb(false);
+  } catch (err: any) {
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 401)
+        window.location.href = 'http://localhost:3000/kakaotalk/login';
+
+      cb(false);
+    }
+  }
 };
