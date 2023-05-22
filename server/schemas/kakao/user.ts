@@ -25,7 +25,6 @@ const userSchema = new Schema({
   },
   base_profile: {
     type: String,
-    required: true,
   },
   base_background: {
     type: String,
