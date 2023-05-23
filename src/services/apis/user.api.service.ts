@@ -1,6 +1,27 @@
 import { AxiosError } from 'axios';
-import { changeProfile$, myProfile$ } from '../../apis/user.api';
+import { changeProfile$, findUser$, myProfile$ } from '../../apis/user.api';
 import { HOST } from '../../constants/kakao/constants';
+
+export const findUser = async (
+  userId: string,
+  cb: (success: boolean, userInfo?: UserInfo) => void,
+) => {
+  try {
+    const token = window.sessionStorage.getItem('token');
+    if (token) {
+      const user = await findUser$(token, userId);
+      cb(true, user);
+    }
+
+    cb(false);
+  } catch (err: any) {
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
+
+      cb(false);
+    }
+  }
+};
 
 export const myProfile = async (
   cb: (success: boolean, userInfo?: UserInfo) => void,

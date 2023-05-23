@@ -2,6 +2,19 @@ import axios from 'axios';
 import { ApiResponse } from '../types/kakao/base';
 import { API_HOST, HOST } from '../constants/kakao/constants';
 
+export const findUser$ = async (token: string, userId: string) => {
+  const headers: { [key: string]: string } = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+
+  const foundUser: ApiResponse<UserResponseDto> = await axios.get(
+    `${API_HOST}/user/${userId}`,
+    headers,
+  );
+  return foundUser.data.data;
+};
+
 export const myProfile$ = async (token: string) => {
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
