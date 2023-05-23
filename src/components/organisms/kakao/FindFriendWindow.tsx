@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Modal } from './Modal';
 import { FindFriendProfile } from './FindFriendProfile';
 import { Dispatch, SetStateAction, useState } from 'react';
+import { findUser } from '../../../services/apis/user.api.service';
 
 export const FindFriendWindow = ({
   isopenFindFriend,
@@ -12,6 +13,10 @@ export const FindFriendWindow = ({
 }) => {
   const MAX_LEN = 20;
   const [userId, setUserId] = useState('');
+  const [findUserId, setFindUserId] = useState('');
+  const [foundUser, setFoundUser] = useState<UserInfo | null | undefined>(
+    undefined,
+  );
 
   const onIdInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -19,6 +24,18 @@ export const FindFriendWindow = ({
     if (value.length <= 20) {
       setUserId(event.target.value);
     }
+    if (value.length === 0) {
+      setFoundUser(undefined);
+    }
+  };
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    await findUser(userId, (success, userInfo) => {
+      if (success) setFoundUser(userInfo);
+      setFindUserId(userId);
+    });
   };
 
   if (!isopenFindFriend) return null;
@@ -33,7 +50,7 @@ export const FindFriendWindow = ({
         <Styled.Menu>
           <span>ID로 추가</span>
         </Styled.Menu>
-        <form>
+        <form onSubmit={onSubmit}>
           <input
             value={userId}
             maxLength={MAX_LEN}
@@ -41,7 +58,7 @@ export const FindFriendWindow = ({
           />
           <span>{`${userId.length}/${MAX_LEN}`}</span>
         </form>
-        <FindFriendProfile />
+        <FindFriendProfile userId={findUserId} foundUser={foundUser} />
       </Styled.Wrapper>
     </Modal>
   );

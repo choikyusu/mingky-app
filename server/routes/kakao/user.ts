@@ -5,9 +5,35 @@ import jwtToken, { TOKEN_EXPIRED } from '../../auth/kakao/jwtToken';
 import multer from 'multer';
 import path from 'path';
 
-const dest = path.join(__dirname, '../../uploads/');
+const dest = path.join(__dirname, '../../kakaotalk/uploads/');
 const upload = multer({ dest });
 const router = express.Router();
+
+router.get('/:user_id', async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const user = await User.findOne({ user_id });
+    if (user) {
+      return res.json({
+        data: {
+          userId: user.user_id,
+          name: user.name,
+          nickName: user.nick_name,
+          message: user.message,
+          baseUrl: user.base_profile,
+          backgroundUrl: user.base_background,
+        },
+      });
+    }
+    return res.json({
+      data: null,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      msg: '서버 문제로 인해 찾을 수 없습니다.',
+    });
+  }
+});
 
 router.get('/profile/me', async (req: any, res) => {
   if (
