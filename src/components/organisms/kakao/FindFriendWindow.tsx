@@ -58,7 +58,11 @@ export const FindFriendWindow = ({
           />
           <span>{`${userId.length}/${MAX_LEN}`}</span>
         </form>
-        <FindFriendProfile userId={findUserId} foundUser={foundUser} />
+        <FindFriendProfile
+          userId={findUserId}
+          foundUser={foundUser}
+          openFindFriend={openFindFriend}
+        />
       </Styled.Wrapper>
     </Modal>
   );

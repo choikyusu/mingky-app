@@ -64,7 +64,7 @@ router.get('/profile/me', async (req: any, res) => {
         )
         .populate({
           path: 'friendList',
-          select: 'nickName message profileUrl backgroundUrl',
+          select: 'userId nickName message profileUrl backgroundUrl',
         });
       if (user)
         return res.json({

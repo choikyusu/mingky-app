@@ -8,7 +8,7 @@ export const addFriendRequest$ = async (token: string, friendId: string) => {
     Authorization: `Bearer ${token}`,
   };
   const request = {
-    friend_id: friendId,
+    friendId,
   };
   const addedFriend: ApiResponse<boolean> = await axios.post(
     `${API_HOST}/friend/add`,

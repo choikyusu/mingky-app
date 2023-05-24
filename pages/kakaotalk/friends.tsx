@@ -6,14 +6,23 @@ import { myProfile } from '../../src/services/apis/user.api.service';
 import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
 import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
 import { FindFriendWindow } from '../../src/components/organisms/kakao/FindFriendWindow';
+import { FriendPanel } from '../../src/components/organisms/kakao/FriendPanel';
 
 const Menu = () => {
-  const [profile, setProfile] = useState<UserInfo>();
+  const [profile, setProfile] = useState<UserInfo>({
+    userId: '',
+    name: '',
+    nickName: '',
+    message: '',
+    profileUrl: '',
+    backgroundUrl: '',
+    friendList: [],
+  });
+  const [popupProfile, setPopupProfile] = useState<UserProfile>();
   const [isopenFindFriend, openFindFriend] = useState(false);
-  const [isProfileShown, setIsProfileShown] = useState(false);
   useEffect(() => {
     myProfile((success: boolean, userInfo?: UserInfo) => {
-      if (success) {
+      if (success && userInfo) {
         setProfile(userInfo);
       }
     });
@@ -22,9 +31,9 @@ const Menu = () => {
   return (
     <Styled.Wrapper>
       <ProfileContainer
-        isProfileShown={isProfileShown}
         profile={profile}
-        setIsProfileShown={setIsProfileShown}
+        popupProfile={popupProfile}
+        setPopupProfile={setPopupProfile}
         setProfile={setProfile}
       />
       <Styled.Container>
@@ -51,7 +60,7 @@ const Menu = () => {
               <img
                 src={profile?.profileUrl || BASE_IMG_URL}
                 alt="profile"
-                onClick={() => setIsProfileShown(true)}
+                onClick={() => setPopupProfile(profile)}
               />
               <p>
                 <b>{profile?.nickName}</b>
@@ -59,8 +68,14 @@ const Menu = () => {
               <p>{profile?.message}</p>
             </Styled.MyProfileBlock>
             <Styled.FriendsBorder>
-              <p>친구 0</p>
+              <p>{`친구 ${profile?.friendList.length}`}</p>
             </Styled.FriendsBorder>
+            <ul>
+              <FriendPanel
+                friendList={profile?.friendList}
+                setPopupProfile={setPopupProfile}
+              />
+            </ul>
           </Styled.Contents>
         </Styled.Main>
       </Styled.Container>

@@ -6,15 +6,17 @@ import { BASE_IMG_URL } from '../../../constants/kakao/constants';
 
 export const ProfileImageSetting = ({
   profile,
+  popupProfile,
   setProfile,
 }: {
   profile: UserInfo;
-  setProfile: Dispatch<SetStateAction<UserInfo | undefined>>;
+  popupProfile: UserProfile;
+  setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
   const [isShowSetting, showSetting] = useState(false);
   const changeImage = async (imageUrl: string) => {
-    await changeProfile({ ...profile, baseUrl: imageUrl }, success => {
-      if (success) setProfile({ ...profile, baseUrl: imageUrl });
+    await changeProfile({ ...profile, profileUrl: imageUrl }, success => {
+      if (success) setProfile({ ...profile, profileUrl: imageUrl });
     });
   };
 
@@ -22,7 +24,7 @@ export const ProfileImageSetting = ({
     <Styled.ProfileImageSettingWrapper>
       <img
         aria-hidden
-        src={profile.baseUrl || BASE_IMG_URL}
+        src={popupProfile.profileUrl || BASE_IMG_URL}
         alt="profile_image"
         onClick={() => showSetting(true)}
       />
@@ -37,10 +39,12 @@ export const ProfileImageSetting = ({
 
 export const BgImageSetting = ({
   profile,
+  popupProfile,
   setProfile,
 }: {
   profile: UserInfo;
-  setProfile: Dispatch<SetStateAction<UserInfo | undefined>>;
+  popupProfile: UserProfile;
+  setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
   const [isShowSetting, showSetting] = useState(false);
   const changeImage = async (imageUrl: string) => {

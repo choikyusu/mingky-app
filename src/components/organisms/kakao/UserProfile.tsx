@@ -4,20 +4,30 @@ import { Dispatch, SetStateAction } from 'react';
 
 export const UserProfile = ({
   profile,
+  popupProfile,
   setChangePopupType,
   setProfile,
 }: {
   profile: UserInfo;
+  popupProfile: UserProfile;
   setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
-  setProfile: Dispatch<SetStateAction<UserInfo | undefined>>;
+  setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
   return (
     <Styled.Wrapper>
-      <BgImageSetting profile={profile} setProfile={setProfile} />
-      <ProfileImageSetting profile={profile} setProfile={setProfile} />
+      <BgImageSetting
+        profile={profile}
+        popupProfile={popupProfile}
+        setProfile={setProfile}
+      />
+      <ProfileImageSetting
+        profile={profile}
+        popupProfile={popupProfile}
+        setProfile={setProfile}
+      />
       <Styled.ProfileText>
         <p>
-          <b>{profile.nickName}</b>
+          <b>{popupProfile.nickName}</b>
         </p>
         <i
           aria-hidden
@@ -27,7 +37,7 @@ export const UserProfile = ({
         />
       </Styled.ProfileText>
       <Styled.ProfileText>
-        <p>{profile.message}</p>
+        <p>{popupProfile.message}</p>
 
         <i
           aria-hidden

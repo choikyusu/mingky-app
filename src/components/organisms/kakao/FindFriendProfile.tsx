@@ -1,13 +1,16 @@
 import styled from 'styled-components';
 import { BASE_IMG_URL } from '../../../constants/kakao/constants';
 import { addFriend } from '../../../services/apis/friend.api.service';
+import { SetStateAction } from 'react';
 
 export const FindFriendProfile = ({
   userId,
   foundUser,
+  openFindFriend,
 }: {
   userId: string;
   foundUser: UserInfo | null | undefined;
+  openFindFriend: (value: SetStateAction<boolean>) => void;
 }) => {
   const onAddFriendClick = async (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -16,10 +19,10 @@ export const FindFriendProfile = ({
     if (foundUser) {
       try {
         await addFriend(foundUser.userId, success => {
-          console.log('a');
+          if (success) openFindFriend(false);
         });
       } catch (err) {
-        alert('친구 추가 실패');
+        alert('친구 추가를 실패했습니다.');
       }
     }
   };
