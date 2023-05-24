@@ -27,7 +27,7 @@ export const FindFriendProfile = ({
   if (foundUser === undefined) return null;
   return foundUser ? (
     <Styled.FoundUserProfile>
-      <img src={foundUser.baseUrl || BASE_IMG_URL} alt="profile_img" />
+      <img src={foundUser.profileUrl || BASE_IMG_URL} alt="profile_img" />
       <p>{foundUser.name}</p>
       <Styled.Button onClick={onAddFriendClick}>친구 추가</Styled.Button>
     </Styled.FoundUserProfile>

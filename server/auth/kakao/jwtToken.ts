@@ -12,7 +12,7 @@ export const TOKEN_INVALID = -2;
 export default {
   sign: async (user: any) => {
     const payload = {
-      userId: user.user_id,
+      userId: user.userId,
     };
     const secretKey = process.env.SECRET_KEY;
     if (secretKey) {

@@ -10,7 +10,7 @@ export const findUser$ = async (token: string, userId: string) => {
 
   const foundUser: ApiResponse<UserResponseDto> = await axios.get(
     `${API_HOST}/user/${userId}`,
-    headers,
+    { headers },
   );
   return foundUser.data.data;
 };
@@ -31,9 +31,9 @@ export const myProfile$ = async (token: string) => {
 
 export const changeProfile$ = async (token: string, userInfo: UserInfo) => {
   const userInfoRequest: ProfileRequestDto = {
-    nick_name: userInfo.nickName,
-    base_url: userInfo.baseUrl,
-    background_url: userInfo.backgroundUrl,
+    nickName: userInfo.nickName,
+    profileUrl: userInfo.profileUrl,
+    backgroundUrl: userInfo.backgroundUrl,
     message: userInfo.message,
   };
 

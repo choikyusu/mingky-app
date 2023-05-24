@@ -4,7 +4,7 @@ import { API_HOST } from '../constants/kakao/constants';
 
 export const login$ = async (loginData: LoginData) => {
   const request = {
-    user_id: loginData.userId,
+    userId: loginData.userId,
     password: loginData.password,
   };
   const response: ApiResponse<LoginResponseDto> = await axios.post(

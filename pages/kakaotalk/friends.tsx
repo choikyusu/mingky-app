@@ -6,11 +6,9 @@ import { myProfile } from '../../src/services/apis/user.api.service';
 import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
 import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
 import { FindFriendWindow } from '../../src/components/organisms/kakao/FindFriendWindow';
-import { getFriend } from '../../src/services/apis/friend.api.service';
 
 const Menu = () => {
   const [profile, setProfile] = useState<UserInfo>();
-  const [userFriend, setUserFriend] = useState<UserFriend>();
   const [isopenFindFriend, openFindFriend] = useState(false);
   const [isProfileShown, setIsProfileShown] = useState(false);
   useEffect(() => {
@@ -18,9 +16,6 @@ const Menu = () => {
       if (success) {
         setProfile(userInfo);
       }
-      getFriend((success, result) => {
-        if (success && result) setUserFriend(result);
-      });
     });
   }, []);
 
@@ -54,7 +49,7 @@ const Menu = () => {
           <Styled.Contents>
             <Styled.MyProfileBlock>
               <img
-                src={profile?.baseUrl || BASE_IMG_URL}
+                src={profile?.profileUrl || BASE_IMG_URL}
                 alt="profile"
                 onClick={() => setIsProfileShown(true)}
               />
@@ -64,7 +59,7 @@ const Menu = () => {
               <p>{profile?.message}</p>
             </Styled.MyProfileBlock>
             <Styled.FriendsBorder>
-              <p>{`친구 ${userFriend?.friendList?.length}`}</p>
+              <p>친구 0</p>
             </Styled.FriendsBorder>
           </Styled.Contents>
         </Styled.Main>

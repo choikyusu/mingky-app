@@ -4,7 +4,7 @@ import { API_HOST } from '../constants/kakao/constants';
 
 export const signup$ = async (signupData: SignupData) => {
   const signupRequest: SignupRequestDto = {
-    user_id: signupData.userId,
+    userId: signupData.userId,
     password: signupData.password,
     name: signupData.name,
   };
