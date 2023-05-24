@@ -7,22 +7,20 @@ import { ProfileInputWindow } from './ProfileInputWindow';
 import { changeProfile } from '../../../services/apis/user.api.service';
 
 export const ProfileContainer = ({
-  isProfileShown,
   profile,
-  setIsProfileShown,
+  popupProfile,
+  setPopupProfile,
   setProfile,
 }: {
-  isProfileShown: boolean;
-  profile?: UserInfo;
-  setIsProfileShown: (value: SetStateAction<boolean>) => void;
-  setProfile: Dispatch<SetStateAction<UserInfo | undefined>>;
+  profile: UserInfo;
+  popupProfile?: UserProfile;
+  setPopupProfile: Dispatch<SetStateAction<UserProfile | undefined>>;
+  setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
-  if (!isProfileShown || !profile) return null;
-
   const [changePopupType, setChangePopupType] = useState<ChangePopupType>('');
 
   const changeName = (value: string) => {
-    if (profile) {
+    if (popupProfile) {
       const newProfile: UserInfo = { ...profile };
       if (changePopupType === 'NickName') newProfile.nickName = value;
       if (changePopupType === 'Message') newProfile.message = value;
@@ -32,11 +30,14 @@ export const ProfileContainer = ({
     }
   };
 
+  if (!popupProfile) return null;
   return (
     <Modal>
       <ProfileInputWindow
         currentValue={
-          changePopupType === 'NickName' ? profile.nickName : profile.message
+          changePopupType === 'NickName'
+            ? popupProfile.nickName
+            : popupProfile.message
         }
         maxLength={changePopupType === 'NickName' ? 20 : 60}
         setChangePopupType={setChangePopupType}
@@ -45,16 +46,17 @@ export const ProfileContainer = ({
       />
       <Styled.Wrapper>
         <Styled.BackgroundBase>
-          {profile.backgroundUrl !== '' && (
-            <img src={profile.backgroundUrl} alt="bg" />
+          {popupProfile.backgroundUrl !== '' && (
+            <img src={popupProfile.backgroundUrl} alt="bg" />
           )}
         </Styled.BackgroundBase>
         <Styled.CancelIcon
           className="fas fa-times"
-          onClick={() => setIsProfileShown(false)}
+          onClick={() => setPopupProfile(undefined)}
         />
         <UserProfile
           profile={profile}
+          popupProfile={popupProfile}
           setProfile={setProfile}
           setChangePopupType={setChangePopupType}
         />
