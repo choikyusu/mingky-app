@@ -10,7 +10,7 @@ interface SignupData {
 }
 
 interface SignupRequestDto {
-  user_id: string;
+  userId: string;
   password: string;
   name: string;
 }
@@ -21,5 +21,5 @@ interface LoginResponseDto {
 }
 
 interface SignupResponseDto {
-  user_id: string;
+  userId: string;
 }

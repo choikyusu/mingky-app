@@ -7,9 +7,9 @@ import { createHashedPassword, verifyPassword } from '../../utils/crypto.util';
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-  const { user_id, password } = req.body;
+  const { userId, password } = req.body;
   try {
-    const user = await User.findOne({ user_id });
+    const user = await User.findOne({ userId });
 
     if (user) {
       if (await verifyPassword(password, user.salt, user.hashedPassword)) {
@@ -28,11 +28,11 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
-  const { user_id, password, name } = req.body;
+  const { userId, password, name } = req.body;
 
   try {
     const user = await User.findOne({
-      user_id,
+      userId,
     });
     if (user) {
       return res
@@ -43,14 +43,15 @@ router.post('/signup', async (req, res) => {
     const { hashedPassword, salt } = await createHashedPassword(password);
 
     await User.create({
-      user_id,
+      userId,
       hashedPassword,
       salt,
       name,
-      nick_name: name,
-      base_profile: '',
-      base_background: '',
+      nickName: name,
+      profileUrl: '',
+      backgroundUrl: '',
       message: '',
+      friendList: [],
     });
     return res.json({
       msg: '회원가입 되었습니다.',

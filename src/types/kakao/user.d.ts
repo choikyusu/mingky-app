@@ -4,7 +4,7 @@ interface UserResponseDto {
   name: string;
   nickName: string;
   message: string;
-  baseUrl: string;
+  profileUrl: string;
   backgroundUrl: string;
 }
 
@@ -13,15 +13,15 @@ interface UserInfo {
   name: string;
   nickName: string;
   message: string;
-  baseUrl: string;
+  profileUrl: string;
   backgroundUrl: string;
 }
 
 interface ProfileRequestDto {
-  nick_name: string;
+  nickName: string;
   message: string;
-  base_url: string;
-  background_url: string;
+  profileUrl: string;
+  backgroundUrl: string;
 }
 
 type ChangePopupType = 'NickName' | 'Message' | '';

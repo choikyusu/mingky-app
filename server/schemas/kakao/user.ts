@@ -3,13 +3,15 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  user_id: {
+  userId: {
     type: String,
     require: true,
+    unique: true,
   },
   hashedPassword: {
     type: String,
     required: true,
+    trim: true,
   },
   salt: {
     type: String,
@@ -19,19 +21,21 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  nick_name: {
+  nickName: {
     type: String,
     required: true,
   },
-  base_profile: {
+  profileUrl: {
     type: String,
   },
-  base_background: {
+  backgroundUrl: {
     type: String,
   },
   message: {
     type: String,
   },
+  friendList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'KakaoUser' }],
 });
+userSchema.index({ userId: 1 });
 
 export const User = mongoose.model('KakaoUser', userSchema);
