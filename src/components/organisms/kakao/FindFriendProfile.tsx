@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BASE_IMG_URL } from '../../../constants/kakao/constants';
+import { addFriend } from '../../../services/apis/friend.api.service';
 
 export const FindFriendProfile = ({
   userId,
@@ -8,11 +9,27 @@ export const FindFriendProfile = ({
   userId: string;
   foundUser: UserInfo | null | undefined;
 }) => {
+  const onAddFriendClick = async (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+    if (foundUser) {
+      try {
+        await addFriend(foundUser.userId, success => {
+          console.log('a');
+        });
+      } catch (err) {
+        alert('친구 추가 실패');
+      }
+    }
+  };
+
   if (foundUser === undefined) return null;
   return foundUser ? (
     <Styled.FoundUserProfile>
       <img src={foundUser.baseUrl || BASE_IMG_URL} alt="profile_img" />
       <p>{foundUser.name}</p>
+      <Styled.Button onClick={onAddFriendClick}>친구 추가</Styled.Button>
     </Styled.FoundUserProfile>
   ) : (
     <Styled.FindNull>
@@ -43,6 +60,18 @@ const Styled = {
       padding-top: 50px;
       font-size: 15px;
       font-weight: bold;
+    }
+  `,
+  Button: styled.button`
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: inline-block;
+    padding: 10px;
+    background: #fee500;
+    &:hover {
+      background: #fada0a;
+      cursor: pointer;
     }
   `,
 };

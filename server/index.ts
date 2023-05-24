@@ -4,6 +4,7 @@ import connect from './schemas';
 import path from 'path';
 import authRouter from './routes/kakao/auth';
 import kakaoUserRouter from './routes/kakao/user';
+import kakaoFriendRouter from './routes/kakao/friend';
 import eventsRouter from './routes/events';
 import userRouter from './routes/user';
 import uploadRouter from './routes/upload';
@@ -60,6 +61,7 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
 
     app.use('/api/kakao/auth', authRouter);
     app.use('/api/kakao/user', kakaoUserRouter);
+    app.use('/api/kakao/friend', kakaoFriendRouter);
     app.use('/api/events', eventsRouter);
     app.use('/api/user', authJwt as RequestHandler, userRouter);
     // app.use('/api/user', authRouter, userRouter);
