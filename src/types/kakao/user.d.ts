@@ -24,3 +24,5 @@ interface ProfileRequestDto {
 }
 
 type ChangePopupType = 'NickName' | 'Message' | '';
+
+type ProfileWindowType = 'Me' | 'Friend' | '';

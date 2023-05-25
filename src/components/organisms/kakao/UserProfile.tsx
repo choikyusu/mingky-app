@@ -9,7 +9,10 @@ export const UserProfile = ({
   setProfile,
 }: {
   profile: UserInfo;
-  popupProfile: UserProfile;
+  popupProfile: {
+    type: ProfileWindowType;
+    profile: UserProfile;
+  };
   setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
   setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
@@ -27,7 +30,7 @@ export const UserProfile = ({
       />
       <Styled.ProfileText>
         <p>
-          <b>{popupProfile.nickName}</b>
+          <b>{popupProfile.profile.nickName}</b>
         </p>
         <i
           aria-hidden
@@ -37,14 +40,16 @@ export const UserProfile = ({
         />
       </Styled.ProfileText>
       <Styled.ProfileText>
-        <p>{popupProfile.message}</p>
+        <p>{popupProfile.profile.message}</p>
 
-        <i
-          aria-hidden
-          role="button"
-          className="fas fa-pen"
-          onClick={() => setChangePopupType('Message')}
-        />
+        {popupProfile.type === 'Me' && (
+          <i
+            aria-hidden
+            role="button"
+            className="fas fa-pen"
+            onClick={() => setChangePopupType('Message')}
+          />
+        )}
       </Styled.ProfileText>
     </Styled.Wrapper>
   );

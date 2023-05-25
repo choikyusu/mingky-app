@@ -6,7 +6,15 @@ export const FriendPanel = ({
   setPopupProfile,
 }: {
   friendList: UserProfile[] | undefined;
-  setPopupProfile: (value: SetStateAction<UserProfile | undefined>) => void;
+  setPopupProfile: (
+    value: SetStateAction<
+      | {
+          type: ProfileWindowType;
+          profile: UserProfile;
+        }
+      | undefined
+    >,
+  ) => void;
 }) => {
   if (!friendList) return null;
   return (

@@ -6,14 +6,22 @@ export const FriendRow = ({
   setPopupProfile,
 }: {
   friend: UserProfile;
-  setPopupProfile: (value: SetStateAction<UserProfile | undefined>) => void;
+  setPopupProfile: (
+    value: SetStateAction<
+      | {
+          type: ProfileWindowType;
+          profile: UserProfile;
+        }
+      | undefined
+    >,
+  ) => void;
 }) => {
   return (
     <li>
       <img
         src={friend.profileUrl || BASE_IMG_URL}
         alt="profile"
-        onClick={() => setPopupProfile(friend)}
+        onClick={() => setPopupProfile({ type: 'Friend', profile: friend })}
       />
       <p>
         <b>{friend.nickName}</b>

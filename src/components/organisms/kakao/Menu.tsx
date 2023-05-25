@@ -1,11 +1,21 @@
 import styled from 'styled-components';
 
-export const Menu = () => {
+export const Menu = ({
+  popupProfile,
+}: {
+  popupProfile:
+    | {
+        type: ProfileWindowType;
+        profile: UserProfile;
+      }
+    | undefined;
+}) => {
+  if (!popupProfile) return null;
   return (
     <Styled.Wrapper>
       <div>
         <i className="fas fa-comment" />
-        <p>나와의 채팅</p>
+        <p>{popupProfile.type === 'Me' ? '나와의 채팅' : '1:1 채팅'}</p>
       </div>
     </Styled.Wrapper>
   );
