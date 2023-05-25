@@ -10,7 +10,10 @@ export const ProfileImageSetting = ({
   setProfile,
 }: {
   profile: UserInfo;
-  popupProfile: UserProfile;
+  popupProfile: {
+    type: ProfileWindowType;
+    profile: UserProfile;
+  };
   setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
   const [isShowSetting, showSetting] = useState(false);
@@ -21,12 +24,12 @@ export const ProfileImageSetting = ({
   };
 
   return (
-    <Styled.ProfileImageSettingWrapper>
+    <Styled.ProfileImageSettingWrapper type={popupProfile.type}>
       <img
         aria-hidden
-        src={popupProfile.profileUrl || BASE_IMG_URL}
+        src={popupProfile.profile.profileUrl || BASE_IMG_URL}
         alt="profile_image"
-        onClick={() => showSetting(true)}
+        onClick={() => popupProfile.type === 'Me' && showSetting(true)}
       />
       <ImageSetting
         isShowSetting={isShowSetting}
@@ -43,7 +46,10 @@ export const BgImageSetting = ({
   setProfile,
 }: {
   profile: UserInfo;
-  popupProfile: UserProfile;
+  popupProfile: {
+    type: ProfileWindowType;
+    profile: UserProfile;
+  };
   setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
   const [isShowSetting, showSetting] = useState(false);
@@ -53,6 +59,7 @@ export const BgImageSetting = ({
     });
   };
 
+  if (popupProfile.type === 'Friend') return null;
   return (
     <Styled.BgImageSettingWrapper>
       <i
@@ -70,7 +77,7 @@ export const BgImageSetting = ({
 };
 
 const Styled = {
-  ProfileImageSettingWrapper: styled.div`
+  ProfileImageSettingWrapper: styled.div<{ type: ProfileWindowType }>`
     position: relative;
     display: inline-block;
     margin: auto;
@@ -80,7 +87,7 @@ const Styled = {
       width: 90px;
       height: 90px;
       border-radius: 35px;
-      cursor: pointer;
+      ${props => props.type === 'Me' && 'cursor: pointer;'}
     }
   `,
   BgImageSettingWrapper: styled.div`

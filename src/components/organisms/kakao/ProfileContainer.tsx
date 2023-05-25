@@ -13,8 +13,21 @@ export const ProfileContainer = ({
   setProfile,
 }: {
   profile: UserInfo;
-  popupProfile?: UserProfile;
-  setPopupProfile: Dispatch<SetStateAction<UserProfile | undefined>>;
+  popupProfile:
+    | {
+        type: ProfileWindowType;
+        profile: UserProfile;
+      }
+    | undefined;
+  setPopupProfile: Dispatch<
+    SetStateAction<
+      | {
+          type: ProfileWindowType;
+          profile: UserProfile;
+        }
+      | undefined
+    >
+  >;
   setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
   const [changePopupType, setChangePopupType] = useState<ChangePopupType>('');
@@ -36,8 +49,8 @@ export const ProfileContainer = ({
       <ProfileInputWindow
         currentValue={
           changePopupType === 'NickName'
-            ? popupProfile.nickName
-            : popupProfile.message
+            ? popupProfile.profile.nickName
+            : popupProfile.profile.message
         }
         maxLength={changePopupType === 'NickName' ? 20 : 60}
         setChangePopupType={setChangePopupType}
@@ -46,8 +59,8 @@ export const ProfileContainer = ({
       />
       <Styled.Wrapper>
         <Styled.BackgroundBase>
-          {popupProfile.backgroundUrl !== '' && (
-            <img src={popupProfile.backgroundUrl} alt="bg" />
+          {popupProfile.profile.backgroundUrl !== '' && (
+            <img src={popupProfile.profile.backgroundUrl} alt="bg" />
           )}
         </Styled.BackgroundBase>
         <Styled.CancelIcon
@@ -60,7 +73,7 @@ export const ProfileContainer = ({
           setProfile={setProfile}
           setChangePopupType={setChangePopupType}
         />
-        <Menu />
+        <Menu popupProfile={popupProfile} />
       </Styled.Wrapper>
     </Modal>
   );

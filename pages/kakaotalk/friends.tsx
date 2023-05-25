@@ -18,7 +18,10 @@ const Menu = () => {
     backgroundUrl: '',
     friendList: [],
   });
-  const [popupProfile, setPopupProfile] = useState<UserProfile>();
+  const [popupProfile, setPopupProfile] = useState<{
+    type: ProfileWindowType;
+    profile: UserProfile;
+  }>();
   const [isopenFindFriend, openFindFriend] = useState(false);
   useEffect(() => {
     myProfile((success: boolean, userInfo?: UserInfo) => {
@@ -60,7 +63,7 @@ const Menu = () => {
               <img
                 src={profile?.profileUrl || BASE_IMG_URL}
                 alt="profile"
-                onClick={() => setPopupProfile(profile)}
+                onClick={() => setPopupProfile({ type: 'Me', profile })}
               />
               <p>
                 <b>{profile?.nickName}</b>
