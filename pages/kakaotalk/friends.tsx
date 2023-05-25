@@ -4,9 +4,12 @@ import MenuSideBar from '../../src/components/organisms/kakao/MenuSideBar';
 import { useEffect, useState } from 'react';
 import { myProfile } from '../../src/services/apis/user.api.service';
 import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
-import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
+import { BASE_IMG_URL, SOCKET_HOST } from '../../src/constants/kakao/constants';
 import { FindFriendWindow } from '../../src/components/organisms/kakao/FindFriendWindow';
 import { FriendPanel } from '../../src/components/organisms/kakao/FriendPanel';
+import socketio from 'socket.io-client';
+import { ChattingRoomContainer } from '../../src/components/organisms/kakao/chat/ChattingRoomContainer';
+import { createRoom } from '../../src/services/apis/chat.api.service';
 
 const Menu = () => {
   const [profile, setProfile] = useState<UserInfo>({
@@ -18,7 +21,11 @@ const Menu = () => {
     backgroundUrl: '',
     friendList: [],
   });
+
+  // const socket = socketio(SOCKET_HOST);
+  const [showChat, setShowChat] = useState(false);
   const [search, setSearch] = useState('');
+  const [roomInfo, setRoomInfo] = useState<CreateRoomRequest>();
   const [popupProfile, setPopupProfile] = useState<{
     type: ProfileWindowType;
     profile: UserProfile;
@@ -33,9 +40,27 @@ const Menu = () => {
       });
   }, [isopenFindFriend]);
 
+  // socket.on('connect', () => {
+  //   console.log('Connected to server');
+  // });
+
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setSearch(event.target.value);
+  };
+
+  const onMyBlockDoubleClick = () => {
+    setRoomInfo({
+      type: 'Individual',
+      identifier: `${profile.userId}-${profile.userId}`,
+      roomName: '',
+      participant: [profile],
+    });
+
+    if (roomInfo)
+      createRoom(roomInfo, success => {
+        if (success) setShowChat(true);
+      });
   };
 
   return (
@@ -45,6 +70,11 @@ const Menu = () => {
         popupProfile={popupProfile}
         setPopupProfile={setPopupProfile}
         setProfile={setProfile}
+      />
+      <ChattingRoomContainer
+        showChat={showChat}
+        setShowChat={setShowChat}
+        roomInfo={roomInfo}
       />
       <Styled.Container>
         <MenuSideBar />
@@ -66,7 +96,7 @@ const Menu = () => {
             <input placeholder="이름 검색" onChange={onSearchChange} />
           </Styled.MainHeader>
           <Styled.Contents>
-            <Styled.MyProfileBlock>
+            <Styled.MyProfileBlock onDoubleClick={onMyBlockDoubleClick}>
               <img
                 src={profile?.profileUrl || BASE_IMG_URL}
                 alt="profile"

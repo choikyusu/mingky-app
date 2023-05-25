@@ -30,16 +30,6 @@ router.post('/add', async (req, res) => {
         }
         return res.status(409).json({ msg: 'Friend already added' });
       }
-      if (friend) {
-        await User.create(
-          { userId: result.userId },
-          {
-            friendList: [friend._id],
-          },
-        );
-
-        return res.json({ data: true, msg: '친구 추가' });
-      }
       return res.status(404).json({ msg: 'cannot add friend' });
     }
     if (!result.ok && result.error === TOKEN_EXPIRED) {
