@@ -44,7 +44,10 @@ export const FindFriendWindow = ({
       <Styled.Wrapper>
         <Styled.CancelIcon
           className="fas fa-times"
-          onClick={() => openFindFriend(false)}
+          onClick={() => {
+            openFindFriend(false);
+            setUserId('');
+          }}
         />
         <h4>친구 추가</h4>
         <Styled.Menu>

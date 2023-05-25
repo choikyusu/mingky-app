@@ -18,18 +18,25 @@ const Menu = () => {
     backgroundUrl: '',
     friendList: [],
   });
+  const [search, setSearch] = useState('');
   const [popupProfile, setPopupProfile] = useState<{
     type: ProfileWindowType;
     profile: UserProfile;
   }>();
   const [isopenFindFriend, openFindFriend] = useState(false);
   useEffect(() => {
-    myProfile((success: boolean, userInfo?: UserInfo) => {
-      if (success && userInfo) {
-        setProfile(userInfo);
-      }
-    });
-  }, []);
+    if (!isopenFindFriend)
+      myProfile((success: boolean, userInfo?: UserInfo) => {
+        if (success && userInfo) {
+          setProfile(userInfo);
+        }
+      });
+  }, [isopenFindFriend]);
+
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setSearch(event.target.value);
+  };
 
   return (
     <Styled.Wrapper>
@@ -56,7 +63,7 @@ const Menu = () => {
                 onClick={() => openFindFriend(true)}
               />
             </Styled.TitleBlock>
-            <input placeholder="이름 검색" />
+            <input placeholder="이름 검색" onChange={onSearchChange} />
           </Styled.MainHeader>
           <Styled.Contents>
             <Styled.MyProfileBlock>
@@ -75,7 +82,9 @@ const Menu = () => {
             </Styled.FriendsBorder>
             <ul>
               <FriendPanel
-                friendList={profile?.friendList}
+                friendList={profile?.friendList
+                  .filter(friend => friend.nickName.includes(search))
+                  .sort()}
                 setPopupProfile={setPopupProfile}
               />
             </ul>
