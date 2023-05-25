@@ -1,10 +1,32 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
-export const Footer = () => {
+export const Footer = ({
+  onChatSumbmit,
+}: {
+  onChatSumbmit: (msg: string) => void;
+}) => {
+  const [message, setMessage] = useState('');
+  const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    event.preventDefault();
+    const { value } = event.target;
+    setMessage(value);
+  };
+
+  const requestSubmit = () => {
+    onChatSumbmit(message);
+    setMessage('');
+  };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    requestSubmit();
+  };
+
   return (
     <Styled.Wrapper>
-      <form>
-        <textarea />
+      <form onSubmit={onSubmit}>
+        <textarea value={message} onChange={onMessageChange} />
         <button className="canSubmit" type="submit">
           전송
         </button>
