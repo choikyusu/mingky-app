@@ -2,6 +2,7 @@ import express, { RequestHandler } from 'express';
 import Next from 'next';
 import connect from './schemas';
 import path from 'path';
+import chatRouter from './routes/kakao/chat';
 import authRouter from './routes/kakao/auth';
 import kakaoUserRouter from './routes/kakao/user';
 import kakaoFriendRouter from './routes/kakao/friend';
@@ -15,6 +16,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import expressSession from 'express-session';
 import { authJwt } from './auth/authJWT';
+import runSocketIo from './sockets';
 
 require('dotenv').config();
 
@@ -59,6 +61,7 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
       res.sendFile(path.join(__dirname, `./kakaotalk/uploads/${fileName}`));
     });
 
+    app.use('/api/kakao/chat', chatRouter);
     app.use('/api/kakao/auth', authRouter);
     app.use('/api/kakao/user', kakaoUserRouter);
     app.use('/api/kakao/friend', kakaoFriendRouter);
@@ -74,9 +77,11 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
         return nextJsRequestHandler(req, res);
       });
 
-    app.listen(process.env.PORT, () => {
+    const server = app.listen(process.env.PORT, () => {
       console.info(`http://localhost:${process.env.PORT}`);
     });
+
+    runSocketIo(server);
   } catch (ex: any) {
     console.error(ex.stack);
     process.exit(1);
