@@ -7,6 +7,7 @@ const runSocketIo = (server: http.Server) => {
   io.on('connection', socket => {
     disconnect(socket);
     joinRoom(socket);
+    message(socket, io);
   });
 };
 
@@ -20,6 +21,12 @@ const joinRoom = (socket: Socket) => {
   socket.on('join', (roomId: string) => {
     socket.join(roomId);
     console.log(`${roomId}에 들어감`);
+  });
+};
+
+const message = (socket: Socket, io: Server) => {
+  socket.on('message', async (messageObj: any) => {
+    console.log('message', messageObj);
   });
 };
 

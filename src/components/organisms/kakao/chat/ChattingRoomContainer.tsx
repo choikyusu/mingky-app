@@ -5,6 +5,7 @@ import { Footer } from './Footer';
 import { Content } from './Content';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { createRoom } from '../../../../services/apis/chat.api.service';
+import { useSocketIoProvider } from '../SocketIoProvider';
 
 export const ChattingRoomContainer = ({
   showChat,
@@ -15,13 +16,28 @@ export const ChattingRoomContainer = ({
   setShowChat: Dispatch<SetStateAction<boolean>>;
   roomInfo: CreateRoomRequest | undefined;
 }) => {
-  if (!showChat) return null;
+  if (!showChat || !roomInfo) return null;
+
+  const { socketIo } = useSocketIoProvider();
+
+  const onChatSumbmit = (msg: string) => {
+    const chattingRequset = {
+      identifier: roomInfo.identifier,
+      type: roomInfo.type,
+      participant: roomInfo.participant,
+      send_user_id: 'test01',
+      message: msg,
+      not_read: 0,
+    };
+    // 채팅방 참여자들에게 해당 메시지를 보냅니다.
+    socketIo.emit('message', chattingRequset);
+  };
 
   return (
     <Styled.Wrapper>
       <Header setShowChat={setShowChat} />
       <Content />
-      <Footer />
+      <Footer onChatSumbmit={onChatSumbmit} />
     </Styled.Wrapper>
   );
 };
