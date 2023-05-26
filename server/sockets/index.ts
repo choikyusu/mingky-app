@@ -1,5 +1,7 @@
 import * as http from 'http';
 import { Server, Socket } from 'socket.io';
+import { Message } from '../schemas/kakao/message';
+import { Room } from '../schemas/kakao/room';
 
 const runSocketIo = (server: http.Server) => {
   const io = new Server(server);
@@ -18,16 +20,43 @@ const disconnect = (socket: Socket) => {
 };
 
 const joinRoom = (socket: Socket) => {
-  socket.on('join', (roomId: string) => {
-    socket.join(roomId);
-    console.log(`${roomId}에 들어감`);
+  socket.on('join', (identifier: string) => {
+    socket.join(identifier);
+    console.log(`${identifier}에 들어감`);
   });
 };
 
 const message = (socket: Socket, io: Server) => {
-  socket.on('message', async (messageObj: any) => {
-    console.log('message', messageObj);
-  });
+  socket.on(
+    'message',
+    async (messageObj: {
+      identifier: string;
+      type: string;
+      participant: any[];
+      sendUserId: string;
+      message: string;
+      notRead: number;
+    }) => {
+      let index = 1;
+      const lastMessage = await Message.findOne({
+        identifier: messageObj.identifier,
+      }).sort('-index');
+      if (lastMessage) index = lastMessage.index + 1;
+      await Message.create({
+        identifier: messageObj.identifier,
+        index,
+        sendUserId: messageObj.sendUserId,
+        message: messageObj.message,
+        notRead: 0,
+      });
+      await Room.updateOne(
+        { identifier: messageObj.identifier },
+        { lastChat: messageObj.message },
+      );
+      console.log('here??');
+      io.to(messageObj.identifier).emit('message', messageObj.message);
+    },
+  );
 };
 
 export default runSocketIo;

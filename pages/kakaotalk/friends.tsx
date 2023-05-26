@@ -4,12 +4,12 @@ import MenuSideBar from '../../src/components/organisms/kakao/MenuSideBar';
 import { useEffect, useState } from 'react';
 import { myProfile } from '../../src/services/apis/user.api.service';
 import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
-import { BASE_IMG_URL, SOCKET_HOST } from '../../src/constants/kakao/constants';
+import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
 import { FindFriendWindow } from '../../src/components/organisms/kakao/FindFriendWindow';
 import { FriendPanel } from '../../src/components/organisms/kakao/FriendPanel';
-import socketio from 'socket.io-client';
 import { ChattingRoomContainer } from '../../src/components/organisms/kakao/chat/ChattingRoomContainer';
 import { createRoom } from '../../src/services/apis/chat.api.service';
+import { useSocketIoProvider } from '../../src/components/organisms/kakao/SocketIoProvider';
 
 const Menu = () => {
   const [profile, setProfile] = useState<UserInfo>({
@@ -22,7 +22,7 @@ const Menu = () => {
     friendList: [],
   });
 
-  // const socket = socketio(SOCKET_HOST);
+  const { socketIo } = useSocketIoProvider();
   const [showChat, setShowChat] = useState(false);
   const [search, setSearch] = useState('');
   const [roomInfo, setRoomInfo] = useState<CreateRoomRequest>();
@@ -40,26 +40,32 @@ const Menu = () => {
       });
   }, [isopenFindFriend]);
 
-  // socket.on('connect', () => {
-  //   console.log('Connected to server');
-  // });
-
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setSearch(event.target.value);
   };
 
-  const onMyBlockDoubleClick = () => {
-    setRoomInfo({
-      type: 'Individual',
-      identifier: `${profile.userId}-${profile.userId}`,
-      roomName: '',
-      participant: [profile],
-    });
+  const onBlockDoubleClick = (type: RoomType, userId: string) => {
+    const memberList = [userId, profile.userId];
 
-    if (roomInfo)
-      createRoom(roomInfo, success => {
-        if (success) setShowChat(true);
+    const roomObj = {
+      type,
+      identifier: memberList.sort().join('-'),
+      roomName: userId,
+      participantList: [...new Set(memberList)],
+    };
+
+    setRoomInfo(roomObj);
+
+    if (roomObj)
+      createRoom(roomObj, success => {
+        if (success) {
+          socketIo.emit('join', roomObj.identifier);
+          socketIo.on('message', (response: string) => {
+            console.log(response);
+          });
+          setShowChat(true);
+        }
       });
   };
 
@@ -75,6 +81,7 @@ const Menu = () => {
         showChat={showChat}
         setShowChat={setShowChat}
         roomInfo={roomInfo}
+        profile={profile}
       />
       <Styled.Container>
         <MenuSideBar />
@@ -96,7 +103,11 @@ const Menu = () => {
             <input placeholder="이름 검색" onChange={onSearchChange} />
           </Styled.MainHeader>
           <Styled.Contents>
-            <Styled.MyProfileBlock onDoubleClick={onMyBlockDoubleClick}>
+            <Styled.MyProfileBlock
+              onDoubleClick={() =>
+                onBlockDoubleClick('Individual', profile.userId)
+              }
+            >
               <img
                 src={profile?.profileUrl || BASE_IMG_URL}
                 alt="profile"
@@ -116,6 +127,7 @@ const Menu = () => {
                   .filter(friend => friend.nickName.includes(search))
                   .sort()}
                 setPopupProfile={setPopupProfile}
+                onBlockDoubleClick={onBlockDoubleClick}
               />
             </ul>
           </Styled.Contents>
