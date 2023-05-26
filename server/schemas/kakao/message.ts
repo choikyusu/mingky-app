@@ -7,6 +7,10 @@ const messageSchema = new Schema({
     type: String,
     require: true,
   },
+  index: {
+    type: Number,
+    required: true,
+  },
   sendUserId: {
     type: String,
   },

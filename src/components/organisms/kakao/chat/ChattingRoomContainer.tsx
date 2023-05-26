@@ -11,23 +11,25 @@ export const ChattingRoomContainer = ({
   showChat,
   setShowChat,
   roomInfo,
+  profile,
 }: {
   showChat: boolean;
   setShowChat: Dispatch<SetStateAction<boolean>>;
   roomInfo: CreateRoomRequest | undefined;
+  profile: UserInfo;
 }) => {
   if (!showChat || !roomInfo) return null;
 
   const { socketIo } = useSocketIoProvider();
 
-  const onChatSumbmit = (msg: string) => {
+  const onChatSumbmit = (message: string) => {
     const chattingRequset = {
       identifier: roomInfo.identifier,
       type: roomInfo.type,
-      participant: roomInfo.participant,
-      send_user_id: 'test01',
-      message: msg,
-      not_read: 0,
+      participantList: roomInfo.participantList,
+      sendUserId: profile.userId,
+      message,
+      notRead: 0,
     };
     // 채팅방 참여자들에게 해당 메시지를 보냅니다.
     socketIo.emit('message', chattingRequset);

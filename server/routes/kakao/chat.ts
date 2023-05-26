@@ -3,6 +3,7 @@ import jwtToken, { TOKEN_EXPIRED } from '../../auth/kakao/jwtToken';
 import { User } from '../../schemas/kakao/user';
 import { Room } from '../../schemas/kakao/room';
 import { Participant } from '../../schemas/kakao/participant';
+import { Types } from 'mongoose';
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.post('/room/create', async (req, res) => {
       type: 'Individual' | 'Group' | 'OneToOne';
       identifier: string;
       roomName: string;
-      participant: { userId: string }[];
+      participantList: string[];
     };
   } = req.body;
 
@@ -29,19 +30,34 @@ router.post('/room/create', async (req, res) => {
       const room = await Room.findOne({ identifier: roomInfo.identifier });
       if (user) {
         if (!room) {
-          const participant = await Participant.create({
-            identifier: roomInfo.identifier,
-            lastReadChatNo: 0,
-            newChat: 0,
-            roomName: '',
-            userObjectId: user._id,
-            userId: user.userId,
-          });
+          const participantIdList = roomInfo.participantList.map(
+            async userId => {
+              const user = await User.findOne({ userId });
+              if (user) {
+                const participant = await Participant.create({
+                  identifier: roomInfo.identifier,
+                  lastReadChatNo: 0,
+                  newChat: 0,
+                  roomName: '',
+                  userObjectId: user._id,
+                  userId: user.userId,
+                });
+
+                return participant._id;
+              }
+              return undefined;
+            },
+          );
+
+          const result = (await Promise.all(participantIdList)).filter(
+            participantId => participantId !== undefined,
+          ) as Types.ObjectId[];
+
           await Room.create({
             identifier: roomInfo.identifier,
             lastChat: '',
             messageList: [],
-            participantList: [participant._id],
+            participantList: result,
           });
         }
 

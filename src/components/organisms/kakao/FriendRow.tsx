@@ -4,6 +4,7 @@ import { BASE_IMG_URL } from '../../../constants/kakao/constants';
 export const FriendRow = ({
   friend,
   setPopupProfile,
+  onBlockDoubleClick,
 }: {
   friend: UserProfile;
   setPopupProfile: (
@@ -15,9 +16,10 @@ export const FriendRow = ({
       | undefined
     >,
   ) => void;
+  onBlockDoubleClick: (type: RoomType, userId: string) => void;
 }) => {
   return (
-    <li>
+    <li onDoubleClick={() => onBlockDoubleClick('OneToOne', friend.userId)}>
       <img
         src={friend.profileUrl || BASE_IMG_URL}
         alt="profile"
