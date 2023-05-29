@@ -3,8 +3,11 @@ import { Portal } from '../Modal';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { Content } from './Content';
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { createRoom } from '../../../../services/apis/chat.api.service';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  createRoom,
+  fetchChatting,
+} from '../../../../services/apis/chat.api.service';
 import { useSocketIoProvider } from '../SocketIoProvider';
 
 export const ChattingRoomContainer = ({
@@ -19,6 +22,10 @@ export const ChattingRoomContainer = ({
   profile: UserInfo;
 }) => {
   if (!showChat || !roomInfo) return null;
+
+  const [messageList, setMessageList] = useState<
+    { index: number; message: string; sendUserId: string }[]
+  >([]);
 
   const { socketIo } = useSocketIoProvider();
 
@@ -35,10 +42,16 @@ export const ChattingRoomContainer = ({
     socketIo.emit('message', chattingRequset);
   };
 
+  useEffect(() => {
+    fetchChatting(roomInfo.identifier, (success, messageList) => {
+      if (success && messageList) setMessageList(messageList);
+    });
+  }, []);
+
   return (
     <Styled.Wrapper>
       <Header setShowChat={setShowChat} />
-      <Content />
+      <Content messageList={messageList} profile={profile} />
       <Footer onChatSumbmit={onChatSumbmit} />
     </Styled.Wrapper>
   );
