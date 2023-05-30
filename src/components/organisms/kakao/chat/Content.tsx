@@ -16,14 +16,27 @@ export const Content = ({
     const container = containerRef.current;
     if (container) container.scrollTop = container.scrollHeight;
   });
+
   return (
     <Styled.Wrapper ref={containerRef}>
-      {messageList.map(message => {
+      {messageList.map((message, index) => {
+        const prevDate = formatDate(
+          messageList?.[index - 1]?.createdAt,
+          'YYYYMMDD',
+        );
+
+        const date = formatDate(message.createdAt, 'YYYYMMDD');
+
         if (message.sendUserId === profile.userId)
           return (
             <MyChat
               localeTime={formatDate(message.createdAt, 'a hh:mm')}
               message={message.message}
+              date={
+                prevDate !== date
+                  ? formatDate(message.createdAt, 'YYYY년 MM월 DD일 ddd요일')
+                  : ''
+              }
             />
           );
 
@@ -31,6 +44,11 @@ export const Content = ({
           <FriendChat
             localeTime={formatDate(message.createdAt, 'a hh:mm')}
             message={message.message}
+            date={
+              prevDate !== date
+                ? formatDate(message.createdAt, 'YYYY년 MM월 DD일 ddd요일')
+                : ''
+            }
           />
         );
       })}

@@ -7,6 +7,13 @@ interface CreateRoomRequest {
   participantList: string[];
 }
 
+interface CreateRoomResponse {
+  type: RoomType;
+  identifier: string;
+  roomName: string;
+  participantList: string[];
+}
+
 interface MessageResponse {
   index: number;
   message: string;

@@ -39,7 +39,7 @@ router.post('/room/create', async (req, res) => {
                   identifier: roomInfo.identifier,
                   lastReadChatNo: 0,
                   newChat: 0,
-                  roomName: '',
+                  roomName: roomInfo.roomName,
                   userObjectId: user._id,
                   userId: user.userId,
                 });
@@ -50,23 +50,43 @@ router.post('/room/create', async (req, res) => {
             },
           );
 
-          const result = (await Promise.all(participantIdList)).filter(
+          const participantResult = (
+            await Promise.all(participantIdList)
+          ).filter(
             participantId => participantId !== undefined,
           ) as Types.ObjectId[];
 
           await Room.create({
             identifier: roomInfo.identifier,
-            lastChat: '',
+            type: roomInfo.type,
             messageList: [],
-            participantList: result,
+            lastChat: '',
+            participantList: participantResult,
           });
         }
 
         const createdRoom = await Room.findOne({
           identifier: roomInfo.identifier,
-        }).populate('participantList');
+        }).populate({
+          path: 'participantList',
+          select: 'userId',
+        });
 
-        return res.json({ data: { room: createdRoom } });
+        const myRoomInfo = await Participant.findOne({
+          identifier: roomInfo.identifier,
+          userId: result.userId,
+        });
+
+        console.log('myRoomInfo', myRoomInfo);
+
+        return res.json({
+          data: {
+            identifier: createdRoom?.identifier || '',
+            type: createdRoom?.type || '',
+            roomName: myRoomInfo?.roomName || '',
+            participantList: createdRoom?.participantList,
+          },
+        });
       }
 
       return res.status(404).json({ msg: 'user not exist' });

@@ -4,13 +4,13 @@ import { createRoom$, fetchChatting$ } from '../../apis/chat.api';
 
 export const createRoom = async (
   roomInfo: CreateRoomRequest,
-  cb: (success: boolean) => void,
+  cb: (success: boolean, createRoom?: CreateRoomResponse) => void,
 ) => {
   try {
     const token = window.sessionStorage.getItem('token');
     if (token) {
-      await createRoom$(token, roomInfo);
-      cb(true);
+      const createRoom = await createRoom$(token, roomInfo);
+      cb(true, createRoom);
     } else cb(false);
   } catch (err: any) {
     if (err instanceof AxiosError) {

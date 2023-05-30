@@ -3,38 +3,56 @@ import styled from 'styled-components';
 export const MyChat = ({
   message,
   localeTime,
+  date,
 }: {
   message: string;
   localeTime: string;
+  date: string;
 }) => {
   return (
-    <Styled.RightBlock>
-      <div>
-        <Styled.ChatWrapper>
-          {message}
-          <span className="time">{localeTime}</span>
-        </Styled.ChatWrapper>
-      </div>
-    </Styled.RightBlock>
+    <>
+      {date ? <SeparationBlock date={date} /> : null}
+      <Styled.RightBlock>
+        <div>
+          <Styled.ChatWrapper>
+            {message}
+            <span className="time">{localeTime}</span>
+          </Styled.ChatWrapper>
+        </div>
+      </Styled.RightBlock>
+    </>
   );
 };
 
 export const FriendChat = ({
   message,
   localeTime,
+  date,
 }: {
   message: string;
   localeTime: string;
+  date: string;
 }) => {
   return (
-    <Styled.LeftBlock>
-      <div>
-        <Styled.ChatWrapper>
-          {message}
-          <span className="time">{localeTime}</span>
-        </Styled.ChatWrapper>
-      </div>
-    </Styled.LeftBlock>
+    <>
+      {date ? <SeparationBlock date={date} /> : null}
+      <Styled.LeftBlock>
+        <div>
+          <Styled.ChatWrapper>
+            {message}
+            <span className="time">{localeTime}</span>
+          </Styled.ChatWrapper>
+        </div>
+      </Styled.LeftBlock>
+    </>
+  );
+};
+
+export const SeparationBlock = ({ date }: { date: string }) => {
+  return (
+    <Styled.BorderBlock>
+      <span>{date}</span>
+    </Styled.BorderBlock>
   );
 };
 
@@ -116,5 +134,27 @@ const Styled = {
     max-width: 70%;
     word-wrap: break-word;
     white-space: pre-wrap;
+  `,
+  BorderBlock: styled.div`
+    position: relative;
+    text-align: center;
+    width: 100%;
+    padding: 13px 0;
+    & span {
+      position: relative;
+      display: inline-block;
+      background-color: #b2c7d9;
+      padding: 0 10px;
+    }
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 2%;
+      top: 50%;
+      width: 96%;
+      height: 1px;
+      background-color: #727b83;
+    }
   `,
 };
