@@ -26,10 +26,7 @@ export const createRoom = async (
 
 export const fetchChatting = async (
   identifier: string,
-  cb: (
-    success: boolean,
-    messageList?: { index: number; message: string; sendUserId: string }[],
-  ) => void,
+  cb: (success: boolean, messageList?: MessageResponse[]) => void,
 ) => {
   try {
     const token = window.sessionStorage.getItem('token');

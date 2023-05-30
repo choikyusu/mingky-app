@@ -42,7 +42,7 @@ const message = (socket: Socket, io: Server) => {
         identifier: messageObj.identifier,
       }).sort('-index');
       if (lastMessage) index = lastMessage.index + 1;
-      await Message.create({
+      const addedMessage = await Message.create({
         identifier: messageObj.identifier,
         index,
         sendUserId: messageObj.sendUserId,
@@ -53,8 +53,7 @@ const message = (socket: Socket, io: Server) => {
         { identifier: messageObj.identifier },
         { lastChat: messageObj.message },
       );
-      console.log('here??');
-      io.to(messageObj.identifier).emit('message', messageObj.message);
+      io.to(messageObj.identifier).emit('message', addedMessage);
     },
   );
 };

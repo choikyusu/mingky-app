@@ -26,6 +26,8 @@ const Menu = () => {
   const [showChat, setShowChat] = useState(false);
   const [search, setSearch] = useState('');
   const [roomInfo, setRoomInfo] = useState<CreateRoomRequest>();
+  const [messageList, setMessageList] = useState<MessageResponse[]>([]);
+
   const [popupProfile, setPopupProfile] = useState<{
     type: ProfileWindowType;
     profile: UserProfile;
@@ -61,8 +63,8 @@ const Menu = () => {
       createRoom(roomObj, success => {
         if (success) {
           socketIo.emit('join', roomObj.identifier);
-          socketIo.on('message', (response: string) => {
-            console.log(response);
+          socketIo.on('message', (response: MessageResponse) => {
+            setMessageList(prev => [...prev, response]);
           });
           setShowChat(true);
         }
@@ -82,6 +84,8 @@ const Menu = () => {
         setShowChat={setShowChat}
         roomInfo={roomInfo}
         profile={profile}
+        setMessageList={setMessageList}
+        messageList={messageList}
       />
       <Styled.Container>
         <MenuSideBar />

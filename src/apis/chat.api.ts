@@ -21,9 +21,7 @@ export const fetchChatting$ = async (token: string, identifier: string) => {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
-  const messageResponse: ApiResponse<
-    { index: number; message: string; sendUserId: string }[]
-  > = await axios.get(
+  const messageResponse: ApiResponse<MessageResponse[]> = await axios.get(
     `${API_HOST}/chat/room?identifier=${identifier}&cursor=${0}`,
     { headers },
   );

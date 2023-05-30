@@ -6,3 +6,10 @@ interface CreateRoomRequest {
   roomName: string;
   participantList: string[];
 }
+
+interface MessageResponse {
+  index: number;
+  message: string;
+  sendUserId: string;
+  createdAt: string;
+}

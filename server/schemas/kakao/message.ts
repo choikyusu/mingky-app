@@ -22,6 +22,7 @@ const messageSchema = new Schema({
     type: Number,
     require: true,
   },
+  createdAt: { type: Date, default: Date.now },
 });
 messageSchema.index({ identifier: 1 });
 
