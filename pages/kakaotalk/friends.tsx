@@ -48,6 +48,7 @@ const Menu = () => {
   };
 
   const onBlockDoubleClick = (type: RoomType, userId: string) => {
+    socketIo.off('message');
     const memberList = [userId, profile.userId];
 
     const roomObj = {
