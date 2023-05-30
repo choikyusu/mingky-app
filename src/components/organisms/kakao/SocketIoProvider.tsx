@@ -21,14 +21,20 @@ const SocketIoContext = createContext<SocketIoProps | null>(null);
 export default function SocketIoProvider(props: { children: React.ReactNode }) {
   const { children } = props;
 
-  const [socketIo, setSocketIo] = useState<
-    Socket<DefaultEventsMap, DefaultEventsMap>
-  >(() => io(SOCKET_HOST));
+  const [socketIo, setSocketIo] = useState<Socket<
+    DefaultEventsMap,
+    DefaultEventsMap
+  > | null>(null);
 
   useEffect(() => {
-    socketIo.on('connect', () => {
+    setSocketIo(io(SOCKET_HOST));
+    socketIo?.on('connect', () => {
       console.log('Socket 연결됨');
     });
+
+    return () => {
+      socketIo?.close();
+    };
   }, []);
 
   const value = useMemo(
