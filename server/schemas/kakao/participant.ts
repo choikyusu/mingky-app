@@ -25,6 +25,7 @@ const participantSchema = new Schema({
   lastReadChatNo: {
     type: Number,
   },
+  createdAt: { type: Date, default: Date.now },
 });
 participantSchema.index({ identifier: 1 });
 

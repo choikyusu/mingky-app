@@ -35,6 +35,7 @@ const userSchema = new Schema({
     type: String,
   },
   friendList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'KakaoUser' }],
+  createdAt: { type: Date, default: Date.now },
 });
 userSchema.index({ userId: 1 });
 

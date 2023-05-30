@@ -15,17 +15,17 @@ export const ChattingRoomContainer = ({
   setShowChat,
   roomInfo,
   profile,
+  messageList,
+  setMessageList,
 }: {
   showChat: boolean;
   setShowChat: Dispatch<SetStateAction<boolean>>;
   roomInfo: CreateRoomRequest | undefined;
   profile: UserInfo;
+  messageList: MessageResponse[];
+  setMessageList: Dispatch<SetStateAction<MessageResponse[]>>;
 }) => {
   if (!showChat || !roomInfo) return null;
-
-  const [messageList, setMessageList] = useState<
-    { index: number; message: string; sendUserId: string }[]
-  >([]);
 
   const { socketIo } = useSocketIoProvider();
 
@@ -43,8 +43,8 @@ export const ChattingRoomContainer = ({
   };
 
   useEffect(() => {
-    fetchChatting(roomInfo.identifier, (success, messageList) => {
-      if (success && messageList) setMessageList(messageList);
+    fetchChatting(roomInfo.identifier, (success, messageResponse) => {
+      if (success && messageResponse) setMessageList(messageResponse);
     });
   }, []);
 

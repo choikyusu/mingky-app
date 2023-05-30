@@ -1,21 +1,38 @@
 import styled from 'styled-components';
-import { Chat } from './Chat';
 
-export const MyChat = ({ message }: { message: string }) => {
+export const MyChat = ({
+  message,
+  localeTime,
+}: {
+  message: string;
+  localeTime: string;
+}) => {
   return (
     <Styled.RightBlock>
       <div>
-        <Chat>{message}</Chat>
+        <Styled.ChatWrapper>
+          {message}
+          <span className="time">{localeTime}</span>
+        </Styled.ChatWrapper>
       </div>
     </Styled.RightBlock>
   );
 };
 
-export const FriendChat = ({ message }: { message: string }) => {
+export const FriendChat = ({
+  message,
+  localeTime,
+}: {
+  message: string;
+  localeTime: string;
+}) => {
   return (
     <Styled.LeftBlock>
       <div>
-        <Chat>{message}</Chat>
+        <Styled.ChatWrapper>
+          {message}
+          <span className="time">{localeTime}</span>
+        </Styled.ChatWrapper>
       </div>
     </Styled.LeftBlock>
   );
@@ -88,5 +105,16 @@ const Styled = {
           cursor: pointer;
         }
     }
+  `,
+  ChatWrapper: styled.div`
+    position: relative;
+    display: inline-block;
+    padding: 7px 8px;
+    border-radius: 4px;
+    margin-bottom: 7px;
+    box-shadow: 0px 1px 2px 0px #8fabc7;
+    max-width: 70%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
   `,
 };

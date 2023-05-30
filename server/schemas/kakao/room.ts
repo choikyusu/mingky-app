@@ -20,6 +20,7 @@ const roomSchema = new Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: 'KakaoParticipant' },
   ],
   messageList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'KakaoMessage' }],
+  createdAt: { type: Date, default: Date.now },
 });
 roomSchema.index({ identifier: 1 });
 
