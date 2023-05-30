@@ -13,7 +13,13 @@ export const createRoom$ = async (
   const request = {
     roomInfo,
   };
-  await axios.post(`${API_HOST}/chat/room/create`, request, { headers });
+  const createRoomResponse: ApiResponse<CreateRoomResponse> = await axios.post(
+    `${API_HOST}/chat/room/create`,
+    request,
+    { headers },
+  );
+
+  return createRoomResponse.data.data;
 };
 
 export const fetchChatting$ = async (token: string, identifier: string) => {

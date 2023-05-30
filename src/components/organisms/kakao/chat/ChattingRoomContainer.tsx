@@ -25,9 +25,15 @@ export const ChattingRoomContainer = ({
   messageList: MessageResponse[];
   setMessageList: Dispatch<SetStateAction<MessageResponse[]>>;
 }) => {
-  if (!showChat || !roomInfo) return null;
-
   const { socketIo } = useSocketIoProvider();
+
+  useEffect(() => {
+    if (roomInfo)
+      fetchChatting(roomInfo.identifier, (success, messageResponse) => {
+        if (success && messageResponse) setMessageList(messageResponse);
+      });
+  }, [roomInfo]);
+  if (!showChat || !roomInfo) return null;
 
   const onChatSumbmit = (message: string) => {
     const chattingRequset = {
@@ -42,15 +48,9 @@ export const ChattingRoomContainer = ({
     socketIo.emit('message', chattingRequset);
   };
 
-  useEffect(() => {
-    fetchChatting(roomInfo.identifier, (success, messageResponse) => {
-      if (success && messageResponse) setMessageList(messageResponse);
-    });
-  }, []);
-
   return (
     <Styled.Wrapper>
-      <Header setShowChat={setShowChat} />
+      <Header setShowChat={setShowChat} roomName={roomInfo.roomName} />
       <Content messageList={messageList} profile={profile} />
       <Footer onChatSumbmit={onChatSumbmit} />
     </Styled.Wrapper>

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Socket, io } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { SOCKET_HOST } from '../../../constants/kakao/constants';
@@ -19,9 +25,11 @@ export default function SocketIoProvider(props: { children: React.ReactNode }) {
     Socket<DefaultEventsMap, DefaultEventsMap>
   >(() => io(SOCKET_HOST));
 
-  socketIo.on('connect', () => {
-    console.log('Socket 연결됨');
-  });
+  useEffect(() => {
+    socketIo.on('connect', () => {
+      console.log('Socket 연결됨');
+    });
+  }, []);
 
   const value = useMemo(
     () => ({

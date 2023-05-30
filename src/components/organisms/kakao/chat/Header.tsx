@@ -3,15 +3,17 @@ import styled from 'styled-components';
 
 export const Header = ({
   setShowChat,
+  roomName,
 }: {
   setShowChat: Dispatch<SetStateAction<boolean>>;
+  roomName: string;
 }) => {
   return (
     <Styled.Wrapper>
       <button type="button" onClick={() => setShowChat(false)}>
         <i className="fas fa-arrow-left" />
       </button>
-      <span>test</span>
+      <span>{roomName}</span>
     </Styled.Wrapper>
   );
 };

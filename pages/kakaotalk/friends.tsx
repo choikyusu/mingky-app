@@ -57,11 +57,10 @@ const Menu = () => {
       participantList: [...new Set(memberList)],
     };
 
-    setRoomInfo(roomObj);
-
     if (roomObj)
-      createRoom(roomObj, success => {
-        if (success) {
+      createRoom(roomObj, (success, createdRoom) => {
+        if (success && createdRoom) {
+          setRoomInfo(createdRoom);
           socketIo.emit('join', roomObj.identifier);
           socketIo.on('message', (response: MessageResponse) => {
             setMessageList(prev => [...prev, response]);
