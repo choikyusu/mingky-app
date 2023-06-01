@@ -1,8 +1,9 @@
 import jwtToken, { TOKEN_EXPIRED } from './jwtToken';
-import { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Response } from 'express';
 
-// eslint-disable-next-line consistent-return
-export const authKakaoJwt = (req: any, res: Response, next: NextFunction) => {
+const router = express.Router();
+
+router.use((req: any, res: Response, next: NextFunction) => {
   if (
     req.headers.authorization &&
     typeof req.headers.authorization === 'string'
@@ -12,13 +13,14 @@ export const authKakaoJwt = (req: any, res: Response, next: NextFunction) => {
     if (result.ok && result.userId) {
       req.userId = result.userId;
       next();
+    } else if (!result.ok && result.error === TOKEN_EXPIRED) {
+      res.status(401).json({ msg: 'token_expired' });
     } else {
-      return res.status(401).json({ msg: 'Invalid token' });
-    }
-    if (!result.ok && result.error === TOKEN_EXPIRED) {
-      return res.status(401).json({ msg: 'token_expired' });
+      res.status(401).json({ msg: 'Invalid token' });
     }
   } else {
-    return res.status(400).json({ msg: 'Cannot find token' });
+    res.status(400).json({ msg: 'Cannot find token' });
   }
-};
+});
+
+export default router;

@@ -1,66 +1,49 @@
-import { AxiosError } from 'axios';
-import { changeProfile$, findUser$, myProfile$ } from '../../apis/user.api';
-import { HOST } from '../../constants/kakao/constants';
+import { $changeProfile, $findUser, $myProfile } from '../../apis/user.api';
+import { callWrapper } from './base.api.service';
 
 export const findUser = async (
   userId: string,
   cb: (success: boolean, userInfo?: UserInfo) => void,
 ) => {
-  try {
-    const token = window.sessionStorage.getItem('token');
-    if (token) {
-      const user = await findUser$(token, userId);
-      cb(true, user);
-    }
+  const callApi = async (token: string) => {
+    const user = await $findUser(token, userId);
+    cb(true, user);
+  };
 
+  const fail = () => {
     cb(false);
-  } catch (err: any) {
-    if (err instanceof AxiosError) {
-      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
+  };
 
-      cb(false);
-    }
-  }
+  await callWrapper(callApi, fail);
 };
 
 export const myProfile = async (
   cb: (success: boolean, userInfo?: UserInfo) => void,
 ) => {
-  try {
-    const token = window.sessionStorage.getItem('token');
-    if (token) {
-      const myProfile = await myProfile$(token);
-      cb(true, myProfile);
-    }
+  const callApi = async (token: string) => {
+    const myProfile = await $myProfile(token);
+    cb(true, myProfile);
+  };
 
+  const fail = () => {
     cb(false);
-  } catch (err: any) {
-    if (err instanceof AxiosError) {
-      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
+  };
 
-      cb(false);
-    }
-  }
+  await callWrapper(callApi, fail);
 };
 
 export const changeProfile = async (
   userInfo: UserInfo,
   cb: (success: boolean) => void,
 ) => {
-  try {
-    const token = window.sessionStorage.getItem('token');
-    if (token) {
-      await changeProfile$(token, userInfo);
+  const callApi = async (token: string) => {
+    await $changeProfile(token, userInfo);
+    cb(true);
+  };
 
-      cb(true);
-    }
-
+  const fail = () => {
     cb(false);
-  } catch (err: any) {
-    if (err instanceof AxiosError) {
-      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
+  };
 
-      cb(false);
-    }
-  }
+  await callWrapper(callApi, fail);
 };

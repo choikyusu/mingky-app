@@ -111,13 +111,10 @@ const Signup = () => {
     const validName = isValidName();
 
     if (validId && validPw && validCheckPw && validName) {
-      userSignup(
-        { userId, password: pw, name },
-        async (success: boolean, message?: string) => {
-          if (message) alert(message);
-          if (success) router.push('/kakaotalk/login');
-        },
-      );
+      userSignup({ userId, password: pw, name }, async (success: boolean) => {
+        if (success) router.push('/kakaotalk/login');
+        else alert('서버 접속에 실패했습니다.');
+      });
     }
   };
   return (

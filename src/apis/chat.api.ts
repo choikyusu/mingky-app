@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_HOST } from '../constants/kakao/constants';
 import { ApiResponse } from '../types/kakao/base';
 
-export const createRoom$ = async (
+export const $createRoom = async (
   token: string,
   roomInfo: CreateRoomRequest,
 ) => {
@@ -22,7 +22,7 @@ export const createRoom$ = async (
   return createRoomResponse.data.data;
 };
 
-export const fetchChatting$ = async (token: string, identifier: string) => {
+export const $fetchChatting = async (token: string, identifier: string) => {
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,

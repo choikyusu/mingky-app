@@ -10,15 +10,15 @@ export const TOKEN_EXPIRED = -3;
 export const TOKEN_INVALID = -2;
 
 export default {
-  sign: async (user: any) => {
+  sign: async (userId: string) => {
     const payload = {
-      userId: user.userId,
+      userId,
     };
     const secretKey = process.env.SECRET_KEY;
     if (secretKey) {
       return jwt.sign(payload, secretKey, {
         algorithm: 'HS256', // 해싱 알고리즘
-        expiresIn: '30m', // 토큰 유효 기간
+        expiresIn: '10s', // 토큰 유효 기간
         issuer: 'issuer', // 발행자
       });
     }
@@ -39,15 +39,16 @@ export default {
       }
     } catch (err: any) {
       if (err.message === 'jwt expired') {
-        console.log('expired token');
+        console.log('expired token', err);
+        const decoded = jwt.decode(token) as AuthPayload;
         return {
           ok: false,
+          userId: decoded.userId,
           error: TOKEN_EXPIRED,
         };
       }
       if (err.message === 'invalid token') {
-        console.log('invalid token');
-        console.log(TOKEN_INVALID);
+        console.log('invalid token', TOKEN_INVALID);
         return {
           ok: false,
           error: TOKEN_INVALID,
@@ -77,7 +78,7 @@ export default {
     }
     return '';
   },
-  refreshVerify: async (token: string, userId: any) => {
+  refreshVerify: async (token: string, userId: string) => {
     const secretKey = process.env.SECRET_KEY;
     const getAsync = promisify(redisClient.get).bind(redisClient);
 

@@ -3,6 +3,7 @@ import Next from 'next';
 import connect from './schemas';
 import path from 'path';
 import chatRouter from './routes/kakao/chat';
+import tokenRouter from './routes/kakao/token';
 import authRouter from './routes/kakao/auth';
 import kakaoUserRouter from './routes/kakao/user';
 import kakaoFriendRouter from './routes/kakao/friend';
@@ -17,7 +18,7 @@ import bodyParser from 'body-parser';
 import expressSession from 'express-session';
 import { authJwt } from './auth/authJWT';
 import runSocketIo from './sockets';
-import { authKakaoJwt } from './auth/kakao/authJwt';
+import authKakaoJwt from './auth/kakao/authJwt';
 
 require('dotenv').config();
 
@@ -62,6 +63,7 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
       res.sendFile(path.join(__dirname, `./kakaotalk/uploads/${fileName}`));
     });
 
+    app.use('/api/kakao/token', tokenRouter);
     app.use('/api/kakao/chat', authKakaoJwt, chatRouter);
     app.use('/api/kakao/auth', authRouter);
     app.use('/api/kakao/user', authKakaoJwt, kakaoUserRouter);
