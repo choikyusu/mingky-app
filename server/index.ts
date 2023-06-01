@@ -17,6 +17,7 @@ import bodyParser from 'body-parser';
 import expressSession from 'express-session';
 import { authJwt } from './auth/authJWT';
 import runSocketIo from './sockets';
+import { authKakaoJwt } from './auth/kakao/authJwt';
 
 require('dotenv').config();
 
@@ -61,10 +62,10 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
       res.sendFile(path.join(__dirname, `./kakaotalk/uploads/${fileName}`));
     });
 
-    app.use('/api/kakao/chat', chatRouter);
+    app.use('/api/kakao/chat', authKakaoJwt, chatRouter);
     app.use('/api/kakao/auth', authRouter);
-    app.use('/api/kakao/user', kakaoUserRouter);
-    app.use('/api/kakao/friend', kakaoFriendRouter);
+    app.use('/api/kakao/user', authKakaoJwt, kakaoUserRouter);
+    app.use('/api/kakao/friend', authKakaoJwt, kakaoFriendRouter);
     app.use('/api/events', eventsRouter);
     app.use('/api/user', authJwt as RequestHandler, userRouter);
     // app.use('/api/user', authRouter, userRouter);
