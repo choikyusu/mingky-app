@@ -3,6 +3,7 @@ import * as express from 'express';
 import { User } from '../../schemas/kakao/user';
 import jwtToken from '../../auth/kakao/jwtToken';
 import { createHashedPassword, verifyPassword } from '../../utils/crypto.util';
+import { redisClient } from '../../utils/cache';
 
 const router = express.Router();
 
@@ -11,10 +12,11 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ userId });
 
-    if (user) {
+    if (user && user.userId) {
       if (await verifyPassword(password, user.salt, user.hashedPassword)) {
-        const token = await jwtToken.sign(user);
+        const token = await jwtToken.sign(user.userId);
         const refreshToken = jwtToken.refresh();
+        redisClient.set(user.userId, refreshToken);
         return res.json({ data: { token, refreshToken }, msg: '로그인 성공!' });
       }
     }

@@ -1,9 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import { createClient } from 'redis';
 
-const redisClient = createClient({
-  socket: { port: Number(process.env.REDIS_PORT) },
+const redisClient = createClient({ legacyMode: true });
+
+redisClient.on('connect', () => {
+  console.info('Redis connected!');
 });
+redisClient.on('error', err => {
+  console.error('Redis Client Error', err);
+});
+
+redisClient.connect().then();
 
 export const set = (key: string, value: string) => {
   redisClient.set(key, JSON.stringify(value));

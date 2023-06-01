@@ -2,18 +2,22 @@ import axios from 'axios';
 import { API_HOST } from '../constants/kakao/constants';
 import { ApiResponse } from '../types/kakao/base';
 
-export const $addFriendRequest = async (token: string, friendId: string) => {
+export const getNewAccessToken = async (
+  token: string,
+  refreshToken: string,
+) => {
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
+    Refresh: refreshToken,
   };
-  const request = {
-    friendId,
-  };
-  const addedFriend: ApiResponse<boolean> = await axios.post(
-    `${API_HOST}/friend/add`,
-    request,
-    { headers },
+
+  const response: ApiResponse<string> = await axios.get(
+    `${API_HOST}/token/refresh`,
+    {
+      headers,
+    },
   );
-  return addedFriend.data.data;
+
+  return response.data.data;
 };

@@ -1,47 +1,34 @@
-import { AxiosError } from 'axios';
-import { HOST } from '../../constants/kakao/constants';
-import { createRoom$, fetchChatting$ } from '../../apis/chat.api';
+import { $createRoom, $fetchChatting } from '../../apis/chat.api';
+import { callWrapper } from './base.api.service';
 
 export const createRoom = async (
   roomInfo: CreateRoomRequest,
   cb: (success: boolean, createRoom?: CreateRoomResponse) => void,
 ) => {
-  try {
-    const token = window.sessionStorage.getItem('token');
-    if (token) {
-      const createRoom = await createRoom$(token, roomInfo);
-      cb(true, createRoom);
-    } else cb(false);
-  } catch (err: any) {
-    if (err instanceof AxiosError) {
-      if (err.response?.status === 409) {
-        cb(true);
-      }
-      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
+  const callApi = async (token: string) => {
+    const createRoom = await $createRoom(token, roomInfo);
+    cb(true, createRoom);
+  };
 
-      cb(false);
-    }
-  }
+  const fail = () => {
+    cb(false);
+  };
+
+  await callWrapper(callApi, fail);
 };
 
 export const fetchChatting = async (
   identifier: string,
   cb: (success: boolean, messageList?: MessageResponse[]) => void,
 ) => {
-  try {
-    const token = window.sessionStorage.getItem('token');
-    if (token) {
-      const messageList = await fetchChatting$(token, identifier);
-      cb(true, messageList);
-    } else cb(false);
-  } catch (err: any) {
-    if (err instanceof AxiosError) {
-      if (err.response?.status === 409) {
-        cb(true);
-      }
-      if (err.response?.status === 401) window.location.href = `${HOST}/login`;
+  const callApi = async (token: string) => {
+    const messageList = await $fetchChatting(token, identifier);
+    cb(true, messageList);
+  };
 
-      cb(false);
-    }
-  }
+  const fail = () => {
+    cb(false);
+  };
+
+  await callWrapper(callApi, fail);
 };

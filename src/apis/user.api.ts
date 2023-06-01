@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ApiResponse } from '../types/kakao/base';
 import { API_HOST, HOST } from '../constants/kakao/constants';
 
-export const findUser$ = async (token: string, userId: string) => {
+export const $findUser = async (token: string, userId: string) => {
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
@@ -15,7 +15,7 @@ export const findUser$ = async (token: string, userId: string) => {
   return foundUser.data.data;
 };
 
-export const myProfile$ = async (token: string) => {
+export const $myProfile = async (token: string) => {
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ export const myProfile$ = async (token: string) => {
   return { ...response.data.data, code: response.status };
 };
 
-export const changeProfile$ = async (token: string, userInfo: UserInfo) => {
+export const $changeProfile = async (token: string, userInfo: UserInfo) => {
   const userInfoRequest: ProfileRequestDto = {
     nickName: userInfo.nickName,
     profileUrl: userInfo.profileUrl,
@@ -47,7 +47,7 @@ export const changeProfile$ = async (token: string, userInfo: UserInfo) => {
   });
 };
 
-export const uploadImageFile$ = async (image: File) => {
+export const $uploadImageFile = async (image: File) => {
   const formData = new FormData();
   formData.append('image', image);
   const imageUrl: ApiResponse<string> = await axios.post(

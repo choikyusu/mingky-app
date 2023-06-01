@@ -8,6 +8,6 @@ export const userSignup = async (
     const { code, msg } = await signup$(signupData);
     cb(code === 200, msg);
   } catch {
-    cb(false, '서버 접속에 실패했습니다.');
+    cb(false);
   }
 };

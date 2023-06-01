@@ -33,9 +33,9 @@ const Login = () => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!loggingIn && password.length >= 5) {
-      userLogin({ userId, password }, (success: boolean, message: string) => {
+      userLogin({ userId, password }, (success: boolean) => {
         if (!success) {
-          setLoginFailuerMsg(message);
+          setLoginFailuerMsg('계정 또는 비밀번호를 다시 확인해주세요.');
           setPassword('');
         } else {
           router.push('/kakaotalk/friends');
