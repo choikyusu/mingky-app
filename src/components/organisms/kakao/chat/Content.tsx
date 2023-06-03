@@ -25,12 +25,19 @@ export const Content = ({
           'YYYYMMDD',
         );
 
+        const nextTime = formatDate(
+          messageList?.[index + 1]?.createdAt,
+          'a hh:mm',
+        );
+
+        const currentTime = formatDate(message.createdAt, 'a hh:mm');
+
         const date = formatDate(message.createdAt, 'YYYYMMDD');
 
         if (message.sendUserId === profile.userId)
           return (
             <MyChat
-              localeTime={formatDate(message.createdAt, 'a hh:mm')}
+              localeTime={currentTime !== nextTime ? currentTime : ''}
               message={message.message}
               date={
                 prevDate !== date
