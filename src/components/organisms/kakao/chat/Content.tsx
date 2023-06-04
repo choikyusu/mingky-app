@@ -24,20 +24,24 @@ export const Content = ({
           messageList?.[index - 1]?.createdAt,
           'YYYYMMDD',
         );
-
         const nextTime = formatDate(
           messageList?.[index + 1]?.createdAt,
           'a hh:mm',
         );
 
         const currentTime = formatDate(message.createdAt, 'a hh:mm');
-
         const date = formatDate(message.createdAt, 'YYYYMMDD');
+
+        const nextUserId = messageList?.[index + 1]?.sendUserId;
 
         if (message.sendUserId === profile.userId)
           return (
             <MyChat
-              localeTime={currentTime !== nextTime ? currentTime : ''}
+              localeTime={
+                currentTime !== nextTime || nextUserId !== message.sendUserId
+                  ? currentTime
+                  : ''
+              }
               message={message.message}
               date={
                 prevDate !== date
@@ -49,7 +53,11 @@ export const Content = ({
 
         return (
           <FriendChat
-            localeTime={formatDate(message.createdAt, 'a hh:mm')}
+            localeTime={
+              currentTime !== nextTime || nextUserId !== message.sendUserId
+                ? currentTime
+                : ''
+            }
             message={message.message}
             date={
               prevDate !== date

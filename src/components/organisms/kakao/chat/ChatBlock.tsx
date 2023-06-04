@@ -40,7 +40,7 @@ export const FriendChat = ({
         <div>
           <Styled.ChatWrapper>
             {message}
-            <span className="time">{localeTime}</span>
+            {localeTime ? <span className="time">{localeTime}</span> : null}
           </Styled.ChatWrapper>
         </div>
       </Styled.LeftBlock>
