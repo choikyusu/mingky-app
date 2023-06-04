@@ -14,8 +14,11 @@ export const Footer = ({
   };
 
   const requestSubmit = () => {
-    onChatSumbmit(message);
-    setMessage('');
+    const isCanSubmit = !!message.replace(/ |\n/g, '');
+    if (isCanSubmit) {
+      onChatSumbmit(message);
+      setMessage('');
+    }
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -23,10 +26,21 @@ export const Footer = ({
     requestSubmit();
   };
 
+  const onEnterPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (!event.shiftKey && event.key === 'Enter') {
+      event.preventDefault();
+      requestSubmit();
+    }
+  };
+
   return (
     <Styled.Wrapper>
       <form onSubmit={onSubmit}>
-        <textarea value={message} onChange={onMessageChange} />
+        <textarea
+          value={message}
+          onChange={onMessageChange}
+          onKeyDown={onEnterPress}
+        />
         <button className="canSubmit" type="submit">
           전송
         </button>
