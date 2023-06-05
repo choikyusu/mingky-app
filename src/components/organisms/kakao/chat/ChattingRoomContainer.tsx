@@ -6,7 +6,7 @@ import { Content } from './Content';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import {
   createRoom,
-  fetchChatting,
+  fetchChatMessage,
 } from '../../../../services/apis/chat.api.service';
 import { useSocketIoProvider } from '../SocketIoProvider';
 
@@ -29,7 +29,7 @@ export const ChattingRoomContainer = ({
 
   useEffect(() => {
     if (roomInfo)
-      fetchChatting(roomInfo.identifier, (success, messageResponse) => {
+      fetchChatMessage(roomInfo.identifier, (success, messageResponse) => {
         if (success && messageResponse) setMessageList(messageResponse);
       });
   }, [roomInfo]);

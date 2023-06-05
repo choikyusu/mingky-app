@@ -20,3 +20,19 @@ interface MessageResponse {
   sendUserId: string;
   createdAt: string;
 }
+
+interface ParticipantResponse {
+  roomName: string;
+  newChat: number;
+  lastReadChatNo: 0;
+  roomObjectId: {
+    type: string;
+    lastChat: string;
+    participantList: {
+      userId: string;
+      userObjectId: {
+        profileUrl: string;
+      };
+    }[];
+  };
+}

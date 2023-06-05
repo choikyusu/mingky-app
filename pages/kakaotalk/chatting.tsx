@@ -1,8 +1,21 @@
 import styled from 'styled-components';
 import withAuth from '../../src/auth/WithAuth';
 import MenuSideBar from '../../src/components/organisms/kakao/MenuSideBar';
+import { MyChatRoomList } from '../../src/services/apis/chat.api.service';
+import { useEffect, useState } from 'react';
+import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
 
 const Menu = () => {
+  const [roomList, setRoomList] = useState<ParticipantResponse[]>([]);
+
+  useEffect(() => {
+    MyChatRoomList((success, responseRoomList) => {
+      if (success && responseRoomList) setRoomList(responseRoomList);
+    });
+  }, []);
+
+  console.log(roomList);
+
   return (
     <Styled.Wrapper>
       <Styled.Container>
@@ -15,7 +28,23 @@ const Menu = () => {
             </Styled.TitleBlock>
             <input placeholder="채팅방 이름, 참여자 검색" />
           </Styled.MainHeader>
-          <Styled.Contents>a</Styled.Contents>
+          <Styled.Contents>
+            {roomList.map(room => (
+              <li>
+                <img
+                  src={
+                    room.roomObjectId.participantList[0].userObjectId
+                      .profileUrl || BASE_IMG_URL
+                  }
+                  alt="profile"
+                />
+                <p className="room-block-top">
+                  <b>{room.roomName}</b>
+                </p>
+                <p className="preview">{room.roomObjectId.lastChat}</p>
+              </li>
+            ))}
+          </Styled.Contents>
         </Styled.Main>
       </Styled.Container>
     </Styled.Wrapper>

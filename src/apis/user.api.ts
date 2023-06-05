@@ -47,12 +47,18 @@ export const $changeProfile = async (token: string, userInfo: UserInfo) => {
   });
 };
 
-export const $uploadImageFile = async (image: File) => {
+export const $uploadImageFile = async (token: string, image: File) => {
+  const headers: { [key: string]: string } = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+
   const formData = new FormData();
   formData.append('image', image);
   const imageUrl: ApiResponse<string> = await axios.post(
     `${API_HOST}/user/profile/upload`,
     formData,
+    { headers },
   );
   return `${HOST}/${imageUrl.data.data}`;
 };

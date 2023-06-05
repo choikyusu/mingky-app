@@ -25,6 +25,7 @@ const participantSchema = new Schema({
   lastReadChatNo: {
     type: Number,
   },
+  roomObjectId: { type: mongoose.Schema.Types.ObjectId, ref: 'KakaoRoom' },
   createdAt: { type: Date, default: Date.now },
 });
 participantSchema.index({ identifier: 1 });
