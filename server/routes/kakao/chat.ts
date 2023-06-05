@@ -4,6 +4,7 @@ import { Room } from '../../schemas/kakao/room';
 import { Message } from '../../schemas/kakao/message';
 import { Participant } from '../../schemas/kakao/participant';
 import { Types } from 'mongoose';
+import { createRoom } from '../../../src/services/apis/chat.api.service';
 
 const router = express.Router();
 
@@ -24,6 +25,14 @@ router.post('/room/create', async (req: any, res) => {
   const room = await Room.findOne({ identifier: roomInfo.identifier });
   if (user) {
     if (!room) {
+      const createdRoom = await Room.create({
+        identifier: roomInfo.identifier,
+        type: roomInfo.type,
+        messageList: [],
+        lastChat: '',
+        participantList: [],
+      });
+
       const participantIdList = roomInfo.participantList.map(async userId => {
         const user = await User.findOne({ userId });
         if (user) {
@@ -34,6 +43,7 @@ router.post('/room/create', async (req: any, res) => {
             roomName: roomInfo.roomName,
             userObjectId: user._id,
             userId: user.userId,
+            roomObjectId: createdRoom._id,
           });
 
           return participant._id;
@@ -45,13 +55,8 @@ router.post('/room/create', async (req: any, res) => {
         participantId => participantId !== undefined,
       ) as Types.ObjectId[];
 
-      await Room.create({
-        identifier: roomInfo.identifier,
-        type: roomInfo.type,
-        messageList: [],
-        lastChat: '',
-        participantList: participantResult,
-      });
+      createdRoom.participantList = participantResult;
+      await createdRoom.save();
     }
 
     const createdRoom = await Room.findOne({
@@ -66,8 +71,6 @@ router.post('/room/create', async (req: any, res) => {
       userId,
     });
 
-    console.log('myRoomInfo', myRoomInfo);
-
     return res.json({
       data: {
         identifier: createdRoom?.identifier || '',
@@ -81,7 +84,7 @@ router.post('/room/create', async (req: any, res) => {
   return res.status(404).json({ msg: 'user not exist' });
 });
 
-router.get('/room', async (req: any, res) => {
+router.get('/room/message', async (req: any, res) => {
   const identifier = req.query.identifier as string;
   const { userId } = req;
 
@@ -93,6 +96,30 @@ router.get('/room', async (req: any, res) => {
     const messageList = await Message.find({ identifier }).sort('index');
     return res.json({
       data: messageList,
+    });
+  }
+
+  return res.status(500).json({ msg: '사용자 정보를 찾지 못했습니다.' });
+});
+
+router.get('/rooms', async (req: any, res) => {
+  const { userId } = req;
+
+  const participantList = await Participant.find({ userId })
+    .select('roomName newChat lastReadChatNo')
+    .populate({
+      path: 'roomObjectId',
+      select: 'type lastChat',
+      populate: {
+        path: 'participantList',
+        select: 'userObjectId userId',
+        populate: { path: 'userObjectId', select: 'profileUrl' },
+        match: { userId: { $ne: userId } },
+      },
+    });
+  if (participantList) {
+    return res.json({
+      data: participantList,
     });
   }
 

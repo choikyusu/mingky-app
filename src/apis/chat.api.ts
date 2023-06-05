@@ -22,13 +22,25 @@ export const $createRoom = async (
   return createRoomResponse.data.data;
 };
 
-export const $fetchChatting = async (token: string, identifier: string) => {
+export const $fetchChatMessage = async (token: string, identifier: string) => {
   const headers: { [key: string]: string } = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
   const messageResponse: ApiResponse<MessageResponse[]> = await axios.get(
-    `${API_HOST}/chat/room?identifier=${identifier}&cursor=${0}`,
+    `${API_HOST}/chat/room/message?identifier=${identifier}&cursor=${0}`,
+    { headers },
+  );
+  return messageResponse.data.data;
+};
+
+export const $MyChatRoomList = async (token: string) => {
+  const headers: { [key: string]: string } = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  };
+  const messageResponse: ApiResponse<ParticipantResponse[]> = await axios.get(
+    `${API_HOST}/chat/rooms`,
     { headers },
   );
   return messageResponse.data.data;

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { uploadImageFile$ } from '../../../apis/user.api';
+import { uploadImageFile } from '../../../services/apis/user.api.service';
 
 export const ImageSetting = ({
   isShowSetting,
@@ -18,8 +18,9 @@ export const ImageSetting = ({
     if (event.target.files) {
       const file = event.target.files[0];
       if (validFileType.includes(file.type)) {
-        const imageUrl = await uploadImageFile$(file);
-        await changeImage(imageUrl);
+        uploadImageFile(file, async (success, imageUrl) => {
+          if (success && imageUrl) changeImage(imageUrl);
+        });
       } else alert('이미지 파일만 가능합니다.');
     }
   };
