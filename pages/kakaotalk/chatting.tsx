@@ -1,9 +1,16 @@
 import styled from 'styled-components';
 import withAuth from '../../src/auth/WithAuth';
 import MenuSideBar from '../../src/components/organisms/kakao/MenuSideBar';
-import { MyChatRoomList } from '../../src/services/apis/chat.api.service';
+import {
+  MyChatRoomList,
+  createRoom,
+} from '../../src/services/apis/chat.api.service';
 import { useEffect, useState } from 'react';
 import { BASE_IMG_URL } from '../../src/constants/kakao/constants';
+import { useSocketIoProvider } from '../../src/components/organisms/kakao/SocketIoProvider';
+import { ProfileContainer } from '../../src/components/organisms/kakao/ProfileContainer';
+import { ChattingRoomContainer } from '../../src/components/organisms/kakao/chat/ChattingRoomContainer';
+import { myProfile } from '../../src/services/apis/user.api.service';
 
 const Menu = () => {
   const [roomList, setRoomList] = useState<ParticipantResponse[]>([]);
@@ -14,10 +21,81 @@ const Menu = () => {
     });
   }, []);
 
-  console.log(roomList);
+  const [profile, setProfile] = useState<UserInfo>({
+    userId: '',
+    name: '',
+    nickName: '',
+    message: '',
+    profileUrl: '',
+    backgroundUrl: '',
+    friendList: [],
+  });
+
+  const { socketIo } = useSocketIoProvider();
+  const [showChat, setShowChat] = useState(false);
+  const [search, setSearch] = useState('');
+  const [roomInfo, setRoomInfo] = useState<CreateRoomRequest>();
+  const [messageList, setMessageList] = useState<MessageResponse[]>([]);
+
+  const [popupProfile, setPopupProfile] = useState<{
+    type: ProfileWindowType;
+    profile: UserProfile;
+  }>();
+  const [isopenFindFriend, openFindFriend] = useState(false);
+  useEffect(() => {
+    if (!isopenFindFriend)
+      myProfile((success: boolean, userInfo?: UserInfo) => {
+        if (success && userInfo) {
+          setProfile(userInfo);
+        }
+      });
+  }, [isopenFindFriend]);
+
+  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setSearch(event.target.value);
+  };
+
+  const onBlockDoubleClick = (type: RoomType, userId: string) => {
+    socketIo.off('message');
+    const memberList = [userId, profile.userId];
+
+    const roomObj = {
+      type,
+      identifier: memberList.sort().join('-'),
+      roomName: userId,
+      participantList: [...new Set(memberList)],
+    };
+
+    if (roomObj)
+      createRoom(roomObj, (success, createdRoom) => {
+        if (success && createdRoom) {
+          setRoomInfo(createdRoom);
+          socketIo.emit('join', roomObj.identifier);
+          socketIo.on('message', (response: MessageResponse) => {
+            setMessageList(prev => [...prev, response]);
+          });
+          setShowChat(true);
+        }
+      });
+  };
 
   return (
     <Styled.Wrapper>
+      <ProfileContainer
+        profile={profile}
+        popupProfile={popupProfile}
+        setPopupProfile={setPopupProfile}
+        setProfile={setProfile}
+      />
+      <ChattingRoomContainer
+        showChat={showChat}
+        setShowChat={setShowChat}
+        roomInfo={roomInfo}
+        profile={profile}
+        setMessageList={setMessageList}
+        messageList={messageList}
+      />
       <Styled.Container>
         <MenuSideBar />
         <Styled.Main>
@@ -33,15 +111,18 @@ const Menu = () => {
               <li>
                 <img
                   src={
-                    room.roomObjectId.participantList[0].userObjectId
-                      .profileUrl || BASE_IMG_URL
+                    room.roomObjectId?.participantList[0]?.userObjectId
+                      ?.profileUrl || BASE_IMG_URL
                   }
                   alt="profile"
                 />
                 <p className="room-block-top">
                   <b>{room.roomName}</b>
                 </p>
-                <p className="preview">{room.roomObjectId.lastChat}</p>
+                <p className="preview">
+                  {room.roomObjectId.lastChat}
+                  <Notification>1</Notification>
+                </p>
               </li>
             ))}
           </Styled.Contents>
