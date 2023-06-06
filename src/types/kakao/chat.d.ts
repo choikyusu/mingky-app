@@ -26,7 +26,7 @@ interface ParticipantResponse {
   newChat: number;
   lastReadChatNo: 0;
   roomObjectId: {
-    type: string;
+    type: RoomType;
     lastChat: string;
     participantList: {
       userId: string;
