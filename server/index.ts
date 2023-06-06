@@ -3,6 +3,7 @@ import Next from 'next';
 import connect from './schemas';
 import path from 'path';
 import chatRouter from './routes/kakao/chat';
+import imageRouter from './routes/kakao/image';
 import tokenRouter from './routes/kakao/token';
 import authRouter from './routes/kakao/auth';
 import kakaoUserRouter from './routes/kakao/user';
@@ -63,6 +64,7 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
       res.sendFile(path.join(__dirname, `./kakaotalk/uploads/${fileName}`));
     });
 
+    app.use('/api/kakao/image', imageRouter);
     app.use('/api/kakao/token', tokenRouter);
     app.use('/api/kakao/chat', authKakaoJwt, chatRouter);
     app.use('/api/kakao/auth', authRouter);
