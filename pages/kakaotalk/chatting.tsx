@@ -41,15 +41,14 @@ const Menu = () => {
     type: ProfileWindowType;
     profile: UserProfile;
   }>();
-  const [isopenFindFriend, openFindFriend] = useState(false);
+
   useEffect(() => {
-    if (!isopenFindFriend)
-      myProfile((success: boolean, userInfo?: UserInfo) => {
-        if (success && userInfo) {
-          setProfile(userInfo);
-        }
-      });
-  }, [isopenFindFriend]);
+    myProfile((success: boolean, userInfo?: UserInfo) => {
+      if (success && userInfo) {
+        setProfile(userInfo);
+      }
+    });
+  }, []);
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -58,6 +57,7 @@ const Menu = () => {
 
   const onBlockDoubleClick = (type: RoomType, userId: string) => {
     socketIo.off('message');
+    console.log(userId, profile.userId);
     const memberList = [userId, profile.userId];
 
     const roomObj = {
@@ -104,16 +104,41 @@ const Menu = () => {
               <h2>채팅</h2>
               <i className="fas fa-comment-medical" title="새로운 채팅" />
             </Styled.TitleBlock>
-            <input placeholder="채팅방 이름, 참여자 검색" />
+            <input
+              placeholder="채팅방 이름, 참여자 검색"
+              onChange={onSearchChange}
+            />
           </Styled.MainHeader>
           <Styled.Contents>
             {roomList.map(room => (
-              <li>
+              <li
+                onDoubleClick={() =>
+                  onBlockDoubleClick(
+                    room.roomObjectId.type,
+                    room.roomObjectId.participantList[0]?.userId ||
+                      profile.userId,
+                  )
+                }
+              >
                 <img
                   src={
                     room.roomObjectId?.participantList[0]?.userObjectId
                       ?.profileUrl || BASE_IMG_URL
                   }
+                  onClick={() => {
+                    if (room.roomObjectId.type === 'OneToOne') {
+                      setPopupProfile({
+                        type: 'Friend',
+                        profile:
+                          room.roomObjectId?.participantList[0]?.userObjectId,
+                      });
+                    } else if (room.roomObjectId.type === 'Individual') {
+                      setPopupProfile({
+                        type: 'Me',
+                        profile,
+                      });
+                    }
+                  }}
                   alt="profile"
                 />
                 <p className="room-block-top">
