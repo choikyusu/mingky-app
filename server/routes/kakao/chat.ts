@@ -113,7 +113,10 @@ router.get('/rooms', async (req: any, res) => {
       populate: {
         path: 'participantList',
         select: 'userObjectId userId',
-        populate: { path: 'userObjectId', select: 'profileUrl' },
+        populate: {
+          path: 'userObjectId',
+          select: 'profileUrl userId nickName name backgroundUrl',
+        },
         match: { userId: { $ne: userId } },
       },
     });

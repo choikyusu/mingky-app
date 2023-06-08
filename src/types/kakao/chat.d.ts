@@ -30,9 +30,7 @@ interface ParticipantResponse {
     lastChat: string;
     participantList: {
       userId: string;
-      userObjectId: {
-        profileUrl: string;
-      };
+      userObjectId: UserProfile;
     }[];
   };
 }
