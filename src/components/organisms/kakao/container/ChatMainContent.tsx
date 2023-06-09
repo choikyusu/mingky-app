@@ -38,40 +38,46 @@ const ChatMainContent = ({
         />
       </Styled.MainHeader>
       <Styled.Contents>
-        {roomList.map(room => (
-          <li
-            onDoubleClick={() =>
-              onBlockDoubleClick(
-                room.roomObjectId.type,
-                room.roomObjectId.participantList[0]?.userId,
-              )
-            }
-          >
-            <img
-              src={
-                room.roomObjectId?.participantList[0]?.userObjectId
-                  ?.profileUrl || BASE_IMG_URL
-              }
-              onClick={() =>
-                onImageClick(
+        {roomList
+          .filter(room =>
+            room.roomObjectId.participantList[0]?.userObjectId.nickName.includes(
+              search,
+            ),
+          )
+          .map(room => (
+            <li
+              onDoubleClick={() =>
+                onBlockDoubleClick(
                   room.roomObjectId.type,
-                  room.roomObjectId?.participantList[0]?.userObjectId,
+                  room.roomObjectId.participantList[0]?.userId,
                 )
               }
-              alt="profile"
-            />
-            <p className="room-block-top">
-              <b>
-                {room.roomObjectId.participantList[0]?.userObjectId.nickName ||
-                  room.roomName}
-              </b>
-            </p>
-            <p className="preview">
-              {room.roomObjectId.lastChat}
-              <Notification>1</Notification>
-            </p>
-          </li>
-        ))}
+            >
+              <img
+                src={
+                  room.roomObjectId?.participantList[0]?.userObjectId
+                    ?.profileUrl || BASE_IMG_URL
+                }
+                onClick={() =>
+                  onImageClick(
+                    room.roomObjectId.type,
+                    room.roomObjectId?.participantList[0]?.userObjectId,
+                  )
+                }
+                alt="profile"
+              />
+              <p className="room-block-top">
+                <b>
+                  {room.roomObjectId.participantList[0]?.userObjectId
+                    .nickName || room.roomName}
+                </b>
+              </p>
+              <p className="preview">
+                {room.roomObjectId.lastChat}
+                <Notification>1</Notification>
+              </p>
+            </li>
+          ))}
       </Styled.Contents>
     </Styled.Main>
   );
