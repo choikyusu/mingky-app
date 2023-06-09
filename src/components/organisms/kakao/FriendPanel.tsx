@@ -1,21 +1,12 @@
-import { SetStateAction } from 'react';
 import { FriendRow } from './FriendRow';
 
 export const FriendPanel = ({
   friendList,
-  setPopupProfile,
+  onImageClick,
   onBlockDoubleClick,
 }: {
   friendList: UserProfile[] | undefined;
-  setPopupProfile: (
-    value: SetStateAction<
-      | {
-          type: ProfileWindowType;
-          profile: UserProfile;
-        }
-      | undefined
-    >,
-  ) => void;
+  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
   onBlockDoubleClick: (type: RoomType, userId: string) => void;
 }) => {
   if (!friendList) return null;
@@ -24,7 +15,7 @@ export const FriendPanel = ({
       {friendList.map(friend => (
         <FriendRow
           friend={friend}
-          setPopupProfile={setPopupProfile}
+          onImageClick={onImageClick}
           onBlockDoubleClick={onBlockDoubleClick}
         />
       ))}
