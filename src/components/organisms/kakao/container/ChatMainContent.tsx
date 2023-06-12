@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MyChatRoomList } from '../../../../services/apis/chat.api.service';
 import { BASE_IMG_URL } from '../../../../constants/kakao/constants';
+import { NewChattingWindow } from '../NewChattingWindow/NewChattingWindow';
 
 const ChatMainContent = ({
   onBlockDoubleClick,
@@ -19,6 +20,7 @@ const ChatMainContent = ({
   }, []);
 
   const [search, setSearch] = useState('');
+  const [isopenFindFriend, openFindFriend] = useState(false);
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -27,10 +29,19 @@ const ChatMainContent = ({
 
   return (
     <Styled.Main>
+      <NewChattingWindow
+        isopenFindFriend={isopenFindFriend}
+        openFindFriend={openFindFriend}
+      />
       <Styled.MainHeader>
         <Styled.TitleBlock>
           <h2>채팅</h2>
-          <i className="fas fa-comment-medical" title="새로운 채팅" />
+          <i
+            aria-hidden
+            className="fas fa-comment-medical"
+            title="새로운 채팅"
+            onClick={() => openFindFriend(true)}
+          />
         </Styled.TitleBlock>
         <input
           placeholder="채팅방 이름, 참여자 검색"
