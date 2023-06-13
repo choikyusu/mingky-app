@@ -84,7 +84,7 @@ const ChatMainContent = ({
                 </b>
               </p>
               <p className="preview">
-                {room.roomObjectId.lastChat}
+                {room.roomObjectId?.lastMessageObjectId?.message || ''}
                 <Notification>1</Notification>
               </p>
             </li>

@@ -27,7 +27,13 @@ interface ParticipantResponse {
   lastReadChatNo: 0;
   roomObjectId: {
     type: RoomType;
-    lastChat: string;
+    lastMessageObjectId: {
+      sendUserId: string;
+      notRead: number;
+      index: number;
+      message: string;
+      createdAt: string;
+    };
     participantList: {
       userId: string;
       userObjectId: UserProfile;

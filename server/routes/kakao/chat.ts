@@ -29,7 +29,6 @@ router.post('/room/create', async (req: any, res) => {
         identifier: roomInfo.identifier,
         type: roomInfo.type,
         messageList: [],
-        lastChat: '',
         participantList: [],
       });
 
@@ -109,7 +108,7 @@ router.get('/rooms', async (req: any, res) => {
     .select('roomName newChat lastReadChatNo')
     .populate({
       path: 'roomObjectId',
-      select: 'type lastChat',
+      select: 'type',
       populate: {
         path: 'participantList',
         select: 'userObjectId userId',
@@ -118,6 +117,14 @@ router.get('/rooms', async (req: any, res) => {
           select: 'profileUrl userId nickName name backgroundUrl',
         },
         match: { userId: { $ne: userId } },
+      },
+    })
+    .populate({
+      path: 'roomObjectId',
+      select: 'lastMessageObjectId',
+      populate: {
+        path: 'lastMessageObjectId',
+        select: 'sendUserId message notRead createdAt index',
       },
     });
   if (participantList) {
