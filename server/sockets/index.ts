@@ -51,7 +51,7 @@ const message = (socket: Socket, io: Server) => {
       });
       await Room.updateOne(
         { identifier: messageObj.identifier },
-        { lastChat: messageObj.message },
+        { lastMessageObjectId: addedMessage._id },
       );
       io.to(messageObj.identifier).emit('message', addedMessage);
     },

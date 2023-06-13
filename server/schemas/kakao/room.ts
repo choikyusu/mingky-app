@@ -12,9 +12,10 @@ const roomSchema = new Schema({
     type: String,
     require: true,
   },
-  lastChat: {
-    type: String,
-    require: String,
+  lastMessageObjectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'KakaoMessage',
+    default: null,
   },
   participantList: [
     { type: mongoose.Schema.Types.ObjectId, ref: 'KakaoParticipant' },
