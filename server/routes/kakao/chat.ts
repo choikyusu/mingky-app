@@ -109,6 +109,10 @@ router.get('/rooms', async (req: any, res) => {
     .populate({
       path: 'roomObjectId',
       select: 'type',
+    })
+    .populate({
+      path: 'roomObjectId',
+      select: 'roomObjectId',
       populate: {
         path: 'participantList',
         select: 'userObjectId userId',
