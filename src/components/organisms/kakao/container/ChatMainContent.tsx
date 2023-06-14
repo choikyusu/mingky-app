@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { MyChatRoomList } from '../../../../services/apis/chat.api.service';
 import { BASE_IMG_URL } from '../../../../constants/kakao/constants';
 import { NewChattingWindow } from '../NewChattingWindow/NewChattingWindow';
+import { formatDate } from '../../../../utils/kakao/date.util';
 
 const ChatMainContent = ({
   onBlockDoubleClick,
@@ -82,6 +83,12 @@ const ChatMainContent = ({
                   {room.roomObjectId.participantList[0]?.userObjectId
                     .nickName || room.roomName}
                 </b>
+                <span>
+                  {formatDate(
+                    room.roomObjectId.lastMessageObjectId.createdAt,
+                    'YYYY. MM. DD.',
+                  )}
+                </span>
               </p>
               <p className="preview">
                 {room.roomObjectId?.lastMessageObjectId?.message || ''}
