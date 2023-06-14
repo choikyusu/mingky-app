@@ -108,10 +108,6 @@ router.get('/rooms', async (req: any, res) => {
     .select('roomName newChat lastReadChatNo')
     .populate({
       path: 'roomObjectId',
-      select: 'type',
-    })
-    .populate({
-      path: 'roomObjectId',
       select: 'roomObjectId',
       populate: {
         path: 'participantList',
@@ -125,7 +121,7 @@ router.get('/rooms', async (req: any, res) => {
     })
     .populate({
       path: 'roomObjectId',
-      select: 'lastMessageObjectId',
+      select: 'type lastMessageObjectId',
       populate: {
         path: 'lastMessageObjectId',
         select: 'sendUserId message notRead createdAt index',
