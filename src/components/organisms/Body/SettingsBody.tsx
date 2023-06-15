@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { NaverLogin } from '../../molecules/NaverLogin/NaverLogin';
 import { Member } from '../../molecules/Member/Member';
 
-export function SettingsBody(props: { user: UserInfoType }) {
+export function SettingsBody(props: { user?: UserInfoType }) {
   const { user } = props;
 
   switch (user?.accountType) {

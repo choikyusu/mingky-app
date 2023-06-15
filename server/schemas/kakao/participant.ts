@@ -16,6 +16,10 @@ const participantSchema = new Schema({
     type: String,
     require: true,
   },
+  type: {
+    type: String,
+    require: true,
+  },
   roomName: {
     type: String,
   },
