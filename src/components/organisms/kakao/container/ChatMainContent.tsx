@@ -6,9 +6,11 @@ import { NewChattingWindow } from '../NewChattingWindow/NewChattingWindow';
 import { formatDate } from '../../../../utils/kakao/date.util';
 
 const ChatMainContent = ({
+  profile,
   onBlockDoubleClick,
   onImageClick,
 }: {
+  profile?: UserInfo;
   onBlockDoubleClick: (type: RoomType, userId: string) => void;
   onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
 }) => {
@@ -28,6 +30,7 @@ const ChatMainContent = ({
     setSearch(event.target.value);
   };
 
+  if (!profile) return null;
   return (
     <Styled.Main>
       <NewChattingWindow
@@ -51,6 +54,18 @@ const ChatMainContent = ({
       </Styled.MainHeader>
       <Styled.Contents>
         {roomList
+          .sort((a, b) => {
+            const time1 = formatDate(
+              a.roomObjectId.lastMessageObjectId.createdAt,
+              'YYYYMMDDhhmmss',
+            );
+            const time2 = formatDate(
+              b.roomObjectId.lastMessageObjectId.createdAt,
+              'YYYYMMDDhhmmss',
+            );
+
+            return time1 > time2 ? -1 : 1;
+          })
           .filter(room =>
             room.roomObjectId.participantList[0]?.userObjectId.nickName.includes(
               search,
