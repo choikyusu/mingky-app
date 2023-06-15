@@ -37,6 +37,7 @@ router.post('/room/create', async (req: any, res) => {
         if (user) {
           const participant = await Participant.create({
             identifier: roomInfo.identifier,
+            type: roomInfo.type,
             lastReadChatNo: 0,
             newChat: 0,
             roomName: roomInfo.roomName,
@@ -116,7 +117,9 @@ router.get('/rooms', async (req: any, res) => {
           path: 'userObjectId',
           select: 'profileUrl userId nickName name backgroundUrl',
         },
-        match: { userId: { $ne: userId } },
+        match: {
+          $or: [{ userId: { $ne: userId } }, { type: { $ne: 'OneToOne' } }],
+        },
       },
     })
     .populate({
