@@ -3,7 +3,7 @@ import MainContainer from '../../src/components/organisms/kakao/container/MainCo
 import FriendMainContent from '../../src/components/organisms/kakao/container/FriendMainContent';
 import { useRef } from 'react';
 
-const Menu = () => {
+const useFriends = () => {
   const chatRoomRef: React.MutableRefObject<any> = useRef({});
   const profileRef: React.MutableRefObject<any> = useRef({});
 
@@ -15,6 +15,17 @@ const Menu = () => {
     profileRef.current.setPopupProfile(type, friendProfile);
   };
 
+  return {
+    chatRoomRef,
+    onBlockDoubleClick,
+    profileRef,
+    onImageClick,
+  };
+};
+
+const Menu = () => {
+  const { profileRef, chatRoomRef, onBlockDoubleClick, onImageClick } =
+    useFriends();
   return (
     <MainContainer profileRef={profileRef} chatRoomRef={chatRoomRef}>
       <FriendMainContent
