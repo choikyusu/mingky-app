@@ -4,15 +4,7 @@ import { FindFriendWindow } from '../FindFriendWindow';
 import { FriendPanel } from '../FriendPanel';
 import styled from 'styled-components';
 
-const FriendMainContent = ({
-  profile,
-  onBlockDoubleClick,
-  onImageClick,
-}: {
-  profile?: UserInfo;
-  onBlockDoubleClick: (type: RoomType, userId: string) => void;
-  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
-}) => {
+const useFriendMainContent = () => {
   const [search, setSearch] = useState('');
   const [isopenFindFriend, openFindFriend] = useState(false);
 
@@ -20,6 +12,28 @@ const FriendMainContent = ({
     event.preventDefault();
     setSearch(event.target.value);
   };
+
+  return {
+    search,
+    isopenFindFriend,
+    openFindFriend,
+    onSearchChange,
+  };
+};
+
+interface FriendMainContentProps {
+  profile?: UserInfo;
+  onBlockDoubleClick: (type: RoomType, userId: string) => void;
+  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
+}
+
+const FriendMainContent = ({
+  profile,
+  onBlockDoubleClick,
+  onImageClick,
+}: FriendMainContentProps) => {
+  const { search, isopenFindFriend, openFindFriend, onSearchChange } =
+    useFriendMainContent();
 
   if (!profile) return null;
   return (
