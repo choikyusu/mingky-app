@@ -4,7 +4,6 @@ import { Room } from '../../schemas/kakao/room';
 import { Message } from '../../schemas/kakao/message';
 import { Participant } from '../../schemas/kakao/participant';
 import { Types } from 'mongoose';
-import { createRoom } from '../../../src/services/apis/chat.api.service';
 
 const router = express.Router();
 

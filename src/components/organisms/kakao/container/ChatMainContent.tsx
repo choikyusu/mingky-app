@@ -4,6 +4,7 @@ import { MyChatRoomList } from '../../../../services/apis/chat.api.service';
 import { BASE_IMG_URL } from '../../../../constants/kakao/constants';
 import { NewChattingWindow } from '../NewChattingWindow/NewChattingWindow';
 import { formatDate } from '../../../../utils/kakao/date.util';
+import { useSocketIoProvider } from '../SocketIoProvider';
 
 const ChatMainContent = ({
   profile,
@@ -14,6 +15,7 @@ const ChatMainContent = ({
   onBlockDoubleClick: (type: RoomType, userId: string) => void;
   onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
 }) => {
+  const { socketIo } = useSocketIoProvider();
   const [roomList, setRoomList] = useState<ParticipantResponse[]>([]);
 
   useEffect(() => {
@@ -29,6 +31,19 @@ const ChatMainContent = ({
     event.preventDefault();
     setSearch(event.target.value);
   };
+
+  useEffect(() => {
+    if (socketIo && profile) {
+      socketIo.emit('roomUpdate', profile.userId);
+      socketIo.on('roomUpdate', (response: MessageResponse) => {
+        console.log(response);
+      });
+    }
+
+    return () => {
+      if (socketIo) socketIo.off('roomUpdate');
+    };
+  }, [profile]);
 
   if (!profile) return null;
   return (

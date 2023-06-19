@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
+import { useSocketIoProvider } from '../SocketIoProvider';
 
 export const Header = ({
   setShowChat,
@@ -8,9 +9,17 @@ export const Header = ({
   setShowChat: Dispatch<SetStateAction<boolean>>;
   roomName: string;
 }) => {
+  const { socketIo } = useSocketIoProvider();
+
   return (
     <Styled.Wrapper>
-      <button type="button" onClick={() => setShowChat(false)}>
+      <button
+        type="button"
+        onClick={() => {
+          socketIo.off('message');
+          setShowChat(false);
+        }}
+      >
         <i className="fas fa-arrow-left" />
       </button>
       <span>{roomName}</span>
