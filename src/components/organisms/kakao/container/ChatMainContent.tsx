@@ -35,8 +35,25 @@ const ChatMainContent = ({
   useEffect(() => {
     if (socketIo && profile) {
       socketIo.emit('roomUpdate', profile.userId);
-      socketIo.on('roomUpdate', (response: MessageResponse) => {
-        console.log(response);
+      socketIo.on('roomUpdate', (response: ParticipantResponse) => {
+        const newResponse = {
+          ...response,
+          roomObjectId: {
+            ...response.roomObjectId,
+            participantList: response.roomObjectId.participantList.filter(
+              participant =>
+                participant.userId !== profile.userId ||
+                response.roomObjectId.type !== 'OneToOne',
+            ),
+          },
+        };
+
+        const newRoomList = [
+          ...roomList.filter(room => room._id !== response._id),
+          newResponse,
+        ];
+
+        setRoomList(newRoomList);
       });
     }
 

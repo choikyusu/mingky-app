@@ -22,6 +22,7 @@ interface MessageResponse {
 }
 
 interface ParticipantResponse {
+  _id: string;
   roomName: string;
   newChat: number;
   lastReadChatNo: 0;
