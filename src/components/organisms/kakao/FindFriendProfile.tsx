@@ -3,15 +3,17 @@ import { BASE_IMG_URL } from '../../../constants/kakao/constants';
 import { addFriend } from '../../../services/apis/friend.api.service';
 import { SetStateAction } from 'react';
 
+interface FindFriendProfileProps {
+  userId: string;
+  foundUser: UserInfo | null | undefined;
+  openFindFriend: (value: SetStateAction<boolean>) => void;
+}
+
 export const FindFriendProfile = ({
   userId,
   foundUser,
   openFindFriend,
-}: {
-  userId: string;
-  foundUser: UserInfo | null | undefined;
-  openFindFriend: (value: SetStateAction<boolean>) => void;
-}) => {
+}: FindFriendProfileProps) => {
   const onAddFriendClick = async (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => {

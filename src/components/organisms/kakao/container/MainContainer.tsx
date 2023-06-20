@@ -12,17 +12,19 @@ import { ProfileContainer } from '../ProfileContainer';
 import { ChattingRoomContainer } from '../chat/ChattingRoomContainer';
 import MenuSideBar from '../MenuSideBar';
 
-const MainContainer = ({
-  children,
-  profileRef,
-  chatRoomRef,
-}: {
+interface MainContainerProps {
   children:
     | ReactElement<any, string | JSXElementConstructor<any>>
     | readonly ReactElement<any, string | JSXElementConstructor<any>>[];
   profileRef: React.MutableRefObject<any>;
   chatRoomRef: React.MutableRefObject<any>;
-}) => {
+}
+
+const MainContainer = ({
+  children,
+  profileRef,
+  chatRoomRef,
+}: MainContainerProps) => {
   const [profile, setProfile] = useState<UserInfo>({
     userId: '',
     name: '',

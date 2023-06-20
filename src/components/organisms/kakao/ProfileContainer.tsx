@@ -12,16 +12,14 @@ import { Menu } from './Menu';
 import { ProfileInputWindow } from './ProfileInputWindow';
 import { changeProfile } from '../../../services/apis/user.api.service';
 
+interface ProfileContainerProps {
+  profile: UserInfo;
+  setProfile: Dispatch<SetStateAction<UserInfo>>;
+  profileRef: React.MutableRefObject<any>;
+}
+
 export const ProfileContainer = forwardRef(
-  ({
-    profile,
-    setProfile,
-    profileRef,
-  }: {
-    profile: UserInfo;
-    setProfile: Dispatch<SetStateAction<UserInfo>>;
-    profileRef: React.MutableRefObject<any>;
-  }) => {
+  ({ profile, setProfile, profileRef }: ProfileContainerProps) => {
     const [changePopupType, setChangePopupType] = useState<ChangePopupType>('');
     const [popupProfile, setPopupProfile] = useState<{
       type: ProfileWindowType;

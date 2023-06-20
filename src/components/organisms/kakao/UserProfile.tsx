@@ -2,12 +2,7 @@ import styled from 'styled-components';
 import { BgImageSetting, ProfileImageSetting } from './SettingBlock';
 import { Dispatch, SetStateAction } from 'react';
 
-export const UserProfile = ({
-  profile,
-  popupProfile,
-  setChangePopupType,
-  setProfile,
-}: {
+interface UserInfoProps {
   profile: UserInfo;
   popupProfile: {
     type: ProfileWindowType;
@@ -15,7 +10,14 @@ export const UserProfile = ({
   };
   setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
   setProfile: Dispatch<SetStateAction<UserInfo>>;
-}) => {
+}
+
+export const UserProfile = ({
+  profile,
+  popupProfile,
+  setChangePopupType,
+  setProfile,
+}: UserInfoProps) => {
   return (
     <Styled.Wrapper>
       <BgImageSetting

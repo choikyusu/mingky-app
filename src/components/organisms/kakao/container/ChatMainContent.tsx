@@ -4,17 +4,19 @@ import { MyChatRoomList } from '../../../../services/apis/chat.api.service';
 import { BASE_IMG_URL } from '../../../../constants/kakao/constants';
 import { NewChattingWindow } from '../NewChattingWindow/NewChattingWindow';
 import { formatDate } from '../../../../utils/kakao/date.util';
-import { useSocketIoProvider } from '../SocketIoProvider';
+import { useSocketIoProvider } from '../provider/SocketIoProvider';
+
+interface ChatMainContentProps {
+  profile?: UserInfo;
+  onBlockDoubleClick: (type: RoomType, userId: string) => void;
+  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
+}
 
 const ChatMainContent = ({
   profile,
   onBlockDoubleClick,
   onImageClick,
-}: {
-  profile?: UserInfo;
-  onBlockDoubleClick: (type: RoomType, userId: string) => void;
-  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
-}) => {
+}: ChatMainContentProps) => {
   const { socketIo } = useSocketIoProvider();
   const [roomList, setRoomList] = useState<ParticipantResponse[]>([]);
 

@@ -2,15 +2,17 @@ import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { uploadImageFile } from '../../../services/apis/user.api.service';
 
+interface ImageSettingProps {
+  isShowSetting: boolean;
+  showSetting: Dispatch<SetStateAction<boolean>>;
+  changeImage: (imageUrl: string) => Promise<void>;
+}
+
 export const ImageSetting = ({
   isShowSetting,
   showSetting,
   changeImage,
-}: {
-  isShowSetting: boolean;
-  showSetting: Dispatch<SetStateAction<boolean>>;
-  changeImage: (imageUrl: string) => Promise<void>;
-}) => {
+}: ImageSettingProps) => {
   const selectFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const validFileType = ['image/bmp', 'image/png', 'image/jpg', 'image/jpeg'];
 

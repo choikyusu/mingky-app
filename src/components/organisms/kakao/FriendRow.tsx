@@ -1,14 +1,16 @@
 import { BASE_IMG_URL } from '../../../constants/kakao/constants';
 
+interface FriendRowProps {
+  friend: UserProfile;
+  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
+  onBlockDoubleClick: (type: RoomType, userId: string) => void;
+}
+
 export const FriendRow = ({
   friend,
   onImageClick,
   onBlockDoubleClick,
-}: {
-  friend: UserProfile;
-  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
-  onBlockDoubleClick: (type: RoomType, userId: string) => void;
-}) => {
+}: FriendRowProps) => {
   return (
     <li onDoubleClick={() => onBlockDoubleClick('OneToOne', friend.userId)}>
       <img

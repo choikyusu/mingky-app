@@ -1,19 +1,21 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+interface ProfileInputWindowProps {
+  currentValue: string;
+  maxLength: number;
+  setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
+  changeProfile(value: string): void;
+  changePopupType: ChangePopupType;
+}
+
 export const ProfileInputWindow = ({
   currentValue,
   maxLength,
   setChangePopupType,
   changeProfile,
   changePopupType,
-}: {
-  currentValue: string;
-  maxLength: number;
-  setChangePopupType: Dispatch<SetStateAction<ChangePopupType>>;
-  changeProfile(value: string): void;
-  changePopupType: ChangePopupType;
-}) => {
+}: ProfileInputWindowProps) => {
   const [value, setValue] = useState(currentValue);
   const onValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();

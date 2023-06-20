@@ -4,13 +4,15 @@ import { FindFriendProfile } from './FindFriendProfile';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { findUser } from '../../../services/apis/user.api.service';
 
+interface FindFriendWindowProps {
+  isopenFindFriend: boolean;
+  openFindFriend: Dispatch<SetStateAction<boolean>>;
+}
+
 export const FindFriendWindow = ({
   isopenFindFriend,
   openFindFriend,
-}: {
-  isopenFindFriend: boolean;
-  openFindFriend: Dispatch<SetStateAction<boolean>>;
-}) => {
+}: FindFriendWindowProps) => {
   const MAX_LEN = 20;
   const [userId, setUserId] = useState('');
   const [findUserId, setFindUserId] = useState('');

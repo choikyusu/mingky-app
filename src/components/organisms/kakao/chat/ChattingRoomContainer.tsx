@@ -14,7 +14,7 @@ import {
   createRoom,
   fetchChatMessage,
 } from '../../../../services/apis/chat.api.service';
-import { useSocketIoProvider } from '../SocketIoProvider';
+import { useSocketIoProvider } from '../provider/SocketIoProvider';
 
 export const ChattingRoomContainer = forwardRef(
   ({

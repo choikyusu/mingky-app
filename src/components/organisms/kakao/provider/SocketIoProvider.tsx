@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
-import { SOCKET_HOST } from '../../../constants/kakao/constants';
+import { SOCKET_HOST } from '../../../../constants/kakao/constants';
 
 type SocketIoProps = {
   socketIo: Socket<DefaultEventsMap, DefaultEventsMap>;
