@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { useSocketIoProvider } from '../SocketIoProvider';
+import { useSocketIoProvider } from '../provider/SocketIoProvider';
 
 export const Header = ({
   setShowChat,

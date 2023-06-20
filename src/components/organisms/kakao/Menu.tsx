@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
-export const Menu = ({
-  popupProfile,
-}: {
+interface MenuProps {
   popupProfile:
     | {
         type: ProfileWindowType;
         profile: UserProfile;
       }
     | undefined;
-}) => {
+}
+
+export const Menu = ({ popupProfile }: MenuProps) => {
   if (!popupProfile) return null;
   return (
     <Styled.Wrapper>

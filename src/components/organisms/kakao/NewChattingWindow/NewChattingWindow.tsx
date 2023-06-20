@@ -5,13 +5,15 @@ import { Header } from './Header';
 import { Content } from './Content';
 import { Footer } from './Footer';
 
+interface NewChattingWindowProps {
+  isopenFindFriend: boolean;
+  openFindFriend: Dispatch<SetStateAction<boolean>>;
+}
+
 export const NewChattingWindow = ({
   isopenFindFriend,
   openFindFriend,
-}: {
-  isopenFindFriend: boolean;
-  openFindFriend: Dispatch<SetStateAction<boolean>>;
-}) => {
+}: NewChattingWindowProps) => {
   if (!isopenFindFriend) return null;
   return (
     <Modal>

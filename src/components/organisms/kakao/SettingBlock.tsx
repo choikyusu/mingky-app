@@ -4,16 +4,11 @@ import { changeProfile } from '../../../services/apis/user.api.service';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { BASE_IMG_URL } from '../../../constants/kakao/constants';
 
-export const ProfileImageSetting = ({
+const userSettingBlock = ({
   profile,
-  popupProfile,
   setProfile,
 }: {
   profile: UserInfo;
-  popupProfile: {
-    type: ProfileWindowType;
-    profile: UserProfile;
-  };
   setProfile: Dispatch<SetStateAction<UserInfo>>;
 }) => {
   const [isShowSetting, showSetting] = useState(false);
@@ -22,6 +17,28 @@ export const ProfileImageSetting = ({
       if (success) setProfile({ ...profile, profileUrl: imageUrl });
     });
   };
+
+  return { isShowSetting, showSetting, changeImage };
+};
+
+interface ProfileImageSettingProps {
+  profile: UserInfo;
+  popupProfile: {
+    type: ProfileWindowType;
+    profile: UserProfile;
+  };
+  setProfile: Dispatch<SetStateAction<UserInfo>>;
+}
+
+export const ProfileImageSetting = ({
+  profile,
+  popupProfile,
+  setProfile,
+}: ProfileImageSettingProps) => {
+  const { isShowSetting, showSetting, changeImage } = userSettingBlock({
+    profile,
+    setProfile,
+  });
 
   return (
     <Styled.ProfileImageSettingWrapper type={popupProfile.type}>
@@ -44,14 +61,7 @@ export const BgImageSetting = ({
   profile,
   popupProfile,
   setProfile,
-}: {
-  profile: UserInfo;
-  popupProfile: {
-    type: ProfileWindowType;
-    profile: UserProfile;
-  };
-  setProfile: Dispatch<SetStateAction<UserInfo>>;
-}) => {
+}: ProfileImageSettingProps) => {
   const [isShowSetting, showSetting] = useState(false);
   const changeImage = async (imageUrl: string) => {
     await changeProfile({ ...profile, backgroundUrl: imageUrl }, success => {

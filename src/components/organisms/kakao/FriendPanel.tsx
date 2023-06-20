@@ -1,14 +1,16 @@
 import { FriendRow } from './FriendRow';
 
+interface FriendPanelProps {
+  friendList: UserProfile[] | undefined;
+  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
+  onBlockDoubleClick: (type: RoomType, userId: string) => void;
+}
+
 export const FriendPanel = ({
   friendList,
   onImageClick,
   onBlockDoubleClick,
-}: {
-  friendList: UserProfile[] | undefined;
-  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
-  onBlockDoubleClick: (type: RoomType, userId: string) => void;
-}) => {
+}: FriendPanelProps) => {
   if (!friendList) return null;
   return (
     <>
