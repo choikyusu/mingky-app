@@ -37,6 +37,14 @@ const ChatMainContent = ({
   useEffect(() => {
     if (socketIo && profile) {
       socketIo.emit('roomUpdate', profile.userId);
+    }
+    return () => {
+      if (socketIo) socketIo.off('roomUpdate');
+    };
+  }, [profile]);
+
+  useEffect(() => {
+    if (socketIo && profile) {
       socketIo.on('roomUpdate', (response: ParticipantResponse) => {
         const newResponse = {
           ...response,
@@ -58,11 +66,7 @@ const ChatMainContent = ({
         setRoomList(newRoomList);
       });
     }
-
-    return () => {
-      if (socketIo) socketIo.off('roomUpdate');
-    };
-  }, [profile]);
+  }, [profile, roomList]);
 
   if (!profile) return null;
   return (
@@ -105,46 +109,53 @@ const ChatMainContent = ({
               search,
             ),
           )
-          .map(room => (
-            <li
-              onDoubleClick={() =>
-                onBlockDoubleClick(
-                  room.roomObjectId.type,
-                  room.roomObjectId.participantList[0]?.userId,
-                )
-              }
-            >
-              <img
-                src={
-                  room.roomObjectId?.participantList[0]?.userObjectId
-                    ?.profileUrl || BASE_IMG_URL
-                }
-                onClick={() =>
-                  onImageClick(
+          .map(room => {
+            const notReadMessageCount =
+              room.roomObjectId.lastMessageObjectId.index - room.lastReadChatNo;
+
+            return (
+              <li
+                onDoubleClick={() =>
+                  onBlockDoubleClick(
                     room.roomObjectId.type,
-                    room.roomObjectId?.participantList[0]?.userObjectId,
+                    room.roomObjectId.participantList[0]?.userId,
                   )
                 }
-                alt="profile"
-              />
-              <p className="room-block-top">
-                <b>
-                  {room.roomObjectId.participantList[0]?.userObjectId
-                    .nickName || room.roomName}
-                </b>
-                <span>
-                  {formatDate(
-                    room.roomObjectId.lastMessageObjectId.createdAt,
-                    'YYYY. MM. DD.',
-                  )}
-                </span>
-              </p>
-              <p className="preview">
-                {room.roomObjectId?.lastMessageObjectId?.message || ''}
-                <Notification>1</Notification>
-              </p>
-            </li>
-          ))}
+              >
+                <img
+                  src={
+                    room.roomObjectId?.participantList[0]?.userObjectId
+                      ?.profileUrl || BASE_IMG_URL
+                  }
+                  onClick={() =>
+                    onImageClick(
+                      room.roomObjectId.type,
+                      room.roomObjectId?.participantList[0]?.userObjectId,
+                    )
+                  }
+                  alt="profile"
+                />
+                <p className="room-block-top">
+                  <b>
+                    {room.roomObjectId.participantList[0]?.userObjectId
+                      .nickName || room.roomName}
+                  </b>
+                  <span>
+                    {formatDate(
+                      room.roomObjectId.lastMessageObjectId.createdAt,
+                      'YYYY. MM. DD.',
+                    )}
+                  </span>
+                </p>
+                <p className="preview">
+                  {room.roomObjectId?.lastMessageObjectId?.message || ''}
+                  {notReadMessageCount > 0 ? (
+                    <Notification>{notReadMessageCount}</Notification>
+                  ) : null}
+                </p>
+              </li>
+            );
+          })}
       </Styled.Contents>
     </Styled.Main>
   );

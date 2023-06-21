@@ -9,7 +9,8 @@ const runSocketIo = (server: http.Server) => {
 
   io.on('connection', socket => {
     disconnect(socket);
-    joinRoom(socket);
+    joinRoom(socket, io);
+    readMessage(socket, io);
     message(socket, io);
     roomUpdateListner(socket);
   });
@@ -28,10 +29,95 @@ const roomUpdateListner = (socket: Socket) => {
   });
 };
 
-const joinRoom = (socket: Socket) => {
-  socket.on('join', (identifier: string) => {
+const joinRoom = (socket: Socket, io: Server) => {
+  socket.on('join', async (userId: string, identifier: string) => {
     socket.join(identifier);
+
+    const lastMessage = await Message.findOne({ identifier }).sort('-index');
+
+    if (lastMessage) {
+      await Participant.updateOne(
+        {
+          identifier,
+          userId,
+        },
+        { lastReadChatNo: lastMessage.index },
+      );
+
+      const participant = await Participant.findOne({
+        identifier,
+        userId,
+      })
+        .select('roomName newChat lastReadChatNo userId')
+        .populate({
+          path: 'roomObjectId',
+          select: 'roomObjectId',
+          populate: {
+            path: 'participantList',
+            select: 'userObjectId userId',
+            populate: {
+              path: 'userObjectId',
+              select: 'profileUrl userId nickName name backgroundUrl',
+            },
+          },
+        })
+        .populate({
+          path: 'roomObjectId',
+          select: 'type lastMessageObjectId',
+          populate: {
+            path: 'lastMessageObjectId',
+            select: 'sendUserId message notRead createdAt index',
+          },
+        });
+
+      io.to(userId).emit('roomUpdate', participant);
+    }
+
     console.log(`${identifier}에 들어감`);
+  });
+};
+
+const readMessage = (socket: Socket, io: Server) => {
+  socket.on('readMessage', async (userId: string, identifier: string) => {
+    const lastMessage = await Message.findOne({ identifier }).sort('-index');
+
+    if (lastMessage) {
+      await Participant.updateOne(
+        {
+          identifier,
+          userId,
+        },
+        { lastReadChatNo: lastMessage.index },
+      );
+
+      const participant = await Participant.findOne({
+        identifier,
+        userId,
+      })
+        .select('roomName newChat lastReadChatNo userId')
+        .populate({
+          path: 'roomObjectId',
+          select: 'roomObjectId',
+          populate: {
+            path: 'participantList',
+            select: 'userObjectId userId',
+            populate: {
+              path: 'userObjectId',
+              select: 'profileUrl userId nickName name backgroundUrl',
+            },
+          },
+        })
+        .populate({
+          path: 'roomObjectId',
+          select: 'type lastMessageObjectId',
+          populate: {
+            path: 'lastMessageObjectId',
+            select: 'sendUserId message notRead createdAt index',
+          },
+        });
+
+      io.to(userId).emit('roomUpdate', participant);
+    }
   });
 };
 
@@ -61,6 +147,14 @@ const message = (socket: Socket, io: Server) => {
       await Room.updateOne(
         { identifier: messageObj.identifier },
         { lastMessageObjectId: addedMessage._id },
+      );
+
+      await Participant.updateOne(
+        {
+          identifier: messageObj.identifier,
+          userId: messageObj.sendUserId,
+        },
+        { lastReadChatNo: index },
       );
 
       const participantList = await Participant.find({

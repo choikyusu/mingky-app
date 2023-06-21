@@ -63,9 +63,10 @@ export const ChattingRoomContainer = forwardRef(
         createRoom(roomObj, (success, createdRoom) => {
           if (success && createdRoom) {
             setRoomInfo(createdRoom);
-            socketIo.emit('join', roomObj.identifier);
+            socketIo.emit('join', profile.userId, roomObj.identifier);
             socketIo.on('message', (response: MessageResponse) => {
               setMessageList(prev => [...prev, response]);
+              socketIo.emit('readMessage', profile.userId, roomObj.identifier);
             });
           }
         });
