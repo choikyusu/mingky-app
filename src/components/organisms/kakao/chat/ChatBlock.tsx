@@ -4,10 +4,12 @@ export const MyChat = ({
   message,
   localeTime,
   date,
+  notRead,
 }: {
   message: string;
   localeTime: string;
   date: string;
+  notRead: number;
 }) => {
   return (
     <>
@@ -17,6 +19,7 @@ export const MyChat = ({
           <Styled.ChatWrapper>
             {message}
             {localeTime ? <span className="time">{localeTime}</span> : null}
+            <span className="not-read">{notRead > 0 ? notRead : ''}</span>
           </Styled.ChatWrapper>
         </div>
       </Styled.RightBlock>
@@ -28,10 +31,12 @@ export const FriendChat = ({
   message,
   localeTime,
   date,
+  notRead,
 }: {
   message: string;
   localeTime: string;
   date: string;
+  notRead: number;
 }) => {
   return (
     <>
@@ -41,6 +46,7 @@ export const FriendChat = ({
           <Styled.ChatWrapper>
             {message}
             {localeTime ? <span className="time">{localeTime}</span> : null}
+            <span className="not-read">{notRead > 0 ? notRead : ''}</span>
           </Styled.ChatWrapper>
         </div>
       </Styled.LeftBlock>

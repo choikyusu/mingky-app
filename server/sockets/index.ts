@@ -54,7 +54,7 @@ const joinRoom = (socket: Socket, io: Server) => {
           select: 'roomObjectId',
           populate: {
             path: 'participantList',
-            select: 'userObjectId userId',
+            select: 'userObjectId userId lastReadChatNo',
             populate: {
               path: 'userObjectId',
               select: 'profileUrl userId nickName name backgroundUrl',
@@ -70,7 +70,12 @@ const joinRoom = (socket: Socket, io: Server) => {
           },
         });
 
+      const participantMessage = await Participant.find({
+        identifier,
+      }).select('userId lastReadChatNo');
+
       io.to(userId).emit('roomUpdate', participant);
+      io.to(identifier).emit('lastReadMessage', participantMessage);
     }
 
     console.log(`${identifier}에 들어감`);
@@ -100,7 +105,7 @@ const readMessage = (socket: Socket, io: Server) => {
           select: 'roomObjectId',
           populate: {
             path: 'participantList',
-            select: 'userObjectId userId',
+            select: 'userObjectId userId lastReadChatNo',
             populate: {
               path: 'userObjectId',
               select: 'profileUrl userId nickName name backgroundUrl',
@@ -116,7 +121,12 @@ const readMessage = (socket: Socket, io: Server) => {
           },
         });
 
+      const participantMessage = await Participant.find({
+        identifier,
+      }).select('userId lastReadChatNo');
+
       io.to(userId).emit('roomUpdate', participant);
+      io.to(identifier).emit('lastReadMessage', participantMessage);
     }
   });
 };
@@ -166,7 +176,7 @@ const message = (socket: Socket, io: Server) => {
           select: 'roomObjectId',
           populate: {
             path: 'participantList',
-            select: 'userObjectId userId',
+            select: 'userObjectId userId lastReadChatNo',
             populate: {
               path: 'userObjectId',
               select: 'profileUrl userId nickName name backgroundUrl',

@@ -21,6 +21,11 @@ interface MessageResponse {
   createdAt: string;
 }
 
+interface LastMessageResponse {
+  userId: string;
+  lastReadChatNo: number;
+}
+
 interface ParticipantResponse {
   _id: string;
   roomName: string;
@@ -36,6 +41,7 @@ interface ParticipantResponse {
       createdAt: string;
     };
     participantList: {
+      lastReadChatNo: number;
       userId: string;
       userObjectId: UserProfile;
     }[];

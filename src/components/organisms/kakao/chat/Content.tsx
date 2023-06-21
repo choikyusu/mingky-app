@@ -6,9 +6,11 @@ import { useEffect, useRef } from 'react';
 export const Content = ({
   profile,
   messageList,
+  lastReadChatNoList,
 }: {
   profile: UserInfo;
   messageList: MessageResponse[];
+  lastReadChatNoList: number[];
 }) => {
   const containerRef = useRef<HTMLElement>(null);
 
@@ -48,6 +50,13 @@ export const Content = ({
                   ? formatDate(message.createdAt, 'YYYY년 MM월 DD일 ddd요일')
                   : ''
               }
+              notRead={lastReadChatNoList.reduce(
+                (previousValue, currentValue) => {
+                  const value = currentValue < message.index ? 1 : 0;
+                  return previousValue + value;
+                },
+                0,
+              )}
             />
           );
 
@@ -64,6 +73,13 @@ export const Content = ({
                 ? formatDate(message.createdAt, 'YYYY년 MM월 DD일 ddd요일')
                 : ''
             }
+            notRead={lastReadChatNoList.reduce(
+              (previousValue, currentValue) => {
+                const value = currentValue < message.index ? 1 : 0;
+                return previousValue + value;
+              },
+              0,
+            )}
           />
         );
       })}
