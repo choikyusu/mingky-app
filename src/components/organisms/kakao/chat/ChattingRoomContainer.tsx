@@ -31,6 +31,9 @@ export const ChattingRoomContainer = forwardRef(
     const { socketIo } = useSocketIoProvider();
     const [roomInfo, setRoomInfo] = useState<CreateRoomRequest>();
     const [messageList, setMessageList] = useState<MessageResponse[]>([]);
+    const [lastReadMessageList, setLastReadMessageList] = useState<
+      LastMessageResponse[]
+    >([]);
 
     useEffect(() => {
       if (roomInfo)
@@ -68,6 +71,15 @@ export const ChattingRoomContainer = forwardRef(
               setMessageList(prev => [...prev, response]);
               socketIo.emit('readMessage', profile.userId, roomObj.identifier);
             });
+
+            socketIo.on(
+              'lastReadMessage',
+              (response: LastMessageResponse[]) => {
+                setLastReadMessageList(
+                  response.filter(item => item.userId !== profile.userId),
+                );
+              },
+            );
           }
         });
     }
@@ -90,7 +102,13 @@ export const ChattingRoomContainer = forwardRef(
     return (
       <Styled.Wrapper>
         <Header setShowChat={setShowChat} roomName={roomInfo.roomName} />
-        <Content messageList={messageList} profile={profile} />
+        <Content
+          messageList={messageList}
+          profile={profile}
+          lastReadChatNoList={lastReadMessageList?.map(
+            message => message.lastReadChatNo,
+          )}
+        />
         <Footer onChatSumbmit={onChatSumbmit} />
       </Styled.Wrapper>
     );
