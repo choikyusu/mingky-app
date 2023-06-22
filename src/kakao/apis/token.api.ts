@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { API_HOST } from '../constants/kakao/constants';
-import { ApiResponse } from '../types/kakao/base';
+import { API_HOST } from '../constants/constants';
+import { ApiResponse } from '../types/base';
 
 export const getNewAccessToken = async (
   token: string,

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { ApiResponse } from '../types/kakao/base';
-import { API_HOST } from '../constants/kakao/constants';
+import { API_HOST } from '../constants/constants';
+import { ApiResponse } from '../types/base';
 
-export const login$ = async (loginData: LoginData) => {
+export const $login = async (loginData: LoginData) => {
   const request = {
     userId: loginData.userId,
     password: loginData.password,

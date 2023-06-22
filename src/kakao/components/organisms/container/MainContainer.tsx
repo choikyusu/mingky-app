@@ -6,11 +6,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { myProfile } from '../../../../services/apis/user.api.service';
 import styled from 'styled-components';
 import { ProfileContainer } from '../ProfileContainer';
 import { ChattingRoomContainer } from '../chat/ChattingRoomContainer';
 import MenuSideBar from '../MenuSideBar';
+import { myProfile } from '../../../services/apis/user.api.service';
 
 interface MainContainerProps {
   children:
@@ -58,13 +58,13 @@ const MainContainer = ({
       <ProfileContainer
         profile={profile}
         setProfile={setProfile}
-        profileRef={profileRef}
+        ref={profileRef}
       />
       <ChattingRoomContainer
         showChat={showChat}
         setShowChat={setShowChat}
         profile={profile}
-        chatRoomRef={chatRoomRef}
+        ref={chatRoomRef}
       />
       <Styled.Container>
         <MenuSideBar />

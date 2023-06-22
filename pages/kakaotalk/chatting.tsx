@@ -1,8 +1,8 @@
-import withAuth from '../../src/auth/WithAuth';
+import withAuth from '../../src/kakao/auth/WithAuth';
 
-import MainContainer from '../../src/components/organisms/kakao/container/MainContainer';
-import ChatMainContent from '../../src/components/organisms/kakao/container/ChatMainContent';
 import { useRef } from 'react';
+import MainContainer from '../../src/kakao/components/organisms/container/MainContainer';
+import ChatMainContent from '../../src/kakao/components/organisms/container/ChatMainContent';
 
 const Menu = () => {
   const chatRoomRef: React.MutableRefObject<any> = useRef({});

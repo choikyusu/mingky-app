@@ -6,6 +6,7 @@ import {
   forwardRef,
   useState,
   useImperativeHandle,
+  ForwardedRef,
 } from 'react';
 import { UserProfile } from './UserProfile';
 import { Menu } from './Menu';
@@ -15,11 +16,10 @@ import { changeProfile } from '../../../services/apis/user.api.service';
 interface ProfileContainerProps {
   profile: UserInfo;
   setProfile: Dispatch<SetStateAction<UserInfo>>;
-  profileRef: React.MutableRefObject<any>;
 }
 
 export const ProfileContainer = forwardRef(
-  ({ profile, setProfile, profileRef }: ProfileContainerProps) => {
+  ({ profile, setProfile }: ProfileContainerProps, ref: ForwardedRef<any>) => {
     const [changePopupType, setChangePopupType] = useState<ChangePopupType>('');
     const [popupProfile, setPopupProfile] = useState<{
       type: ProfileWindowType;
@@ -37,7 +37,7 @@ export const ProfileContainer = forwardRef(
       }
     };
 
-    useImperativeHandle(profileRef, () => ({
+    useImperativeHandle(ref, () => ({
       setPopupProfile: (type: RoomType, friendProfile: UserProfile) => {
         if (type === 'OneToOne') {
           setPopupProfile({

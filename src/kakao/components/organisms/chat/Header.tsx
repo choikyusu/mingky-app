@@ -2,13 +2,12 @@ import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { useSocketIoProvider } from '../provider/SocketIoProvider';
 
-export const Header = ({
-  setShowChat,
-  roomName,
-}: {
+interface HeaderProps {
   setShowChat: Dispatch<SetStateAction<boolean>>;
   roomName: string;
-}) => {
+}
+
+export const Header = ({ setShowChat, roomName }: HeaderProps) => {
   const { socketIo } = useSocketIoProvider();
 
   return (

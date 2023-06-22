@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
+import { HOST } from '../../constants/constants';
 import { getNewAccessToken } from '../../apis/token.api';
-import { HOST } from '../../constants/kakao/constants';
 
 export const callWrapper = async (
   callApi: (token: string) => Promise<void>,
