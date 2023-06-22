@@ -2,8 +2,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
 import io from 'socket.io-client';
-import { userLogin } from '../../src/services/apis/login.api.service';
 import { useRouter } from 'next/router';
+import { userLogin } from '../../src/kakao/services/apis/login.api.service';
 
 const Login = () => {
   const router = useRouter();

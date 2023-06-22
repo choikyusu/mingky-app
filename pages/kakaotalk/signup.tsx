@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { userSignup } from '../../src/services/apis/signup.api.service';
 import { useRouter } from 'next/router';
+import { userSignup } from '../../src/kakao/services/apis/signup.api.service';
 
 const Signup = () => {
   const router = useRouter();

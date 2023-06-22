@@ -1,4 +1,4 @@
-import { BASE_IMG_URL } from '../../../constants/kakao/constants';
+import { BASE_IMG_URL } from '../../constants/constants';
 
 interface FriendRowProps {
   friend: UserProfile;

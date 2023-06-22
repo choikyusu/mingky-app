@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ApiResponse } from '../types/kakao/base';
-import { API_HOST, HOST } from '../constants/kakao/constants';
+import { API_HOST, HOST } from '../constants/constants';
+import { ApiResponse } from '../types/base';
 
 export const $findUser = async (token: string, userId: string) => {
   const headers: { [key: string]: string } = {

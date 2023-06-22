@@ -4,30 +4,31 @@ import { Footer } from './Footer';
 import { Content } from './Content';
 import {
   Dispatch,
+  ForwardedRef,
   SetStateAction,
   forwardRef,
   useEffect,
   useImperativeHandle,
   useState,
 } from 'react';
+
+import { useSocketIoProvider } from '../provider/SocketIoProvider';
 import {
   createRoom,
   fetchChatMessage,
-} from '../../../../services/apis/chat.api.service';
-import { useSocketIoProvider } from '../provider/SocketIoProvider';
+} from '../../../services/apis/chat.api.service';
+
+interface ChattingRoomContainerProps {
+  showChat: boolean;
+  setShowChat: Dispatch<SetStateAction<boolean>>;
+  profile: UserInfo;
+}
 
 export const ChattingRoomContainer = forwardRef(
-  ({
-    showChat,
-    setShowChat,
-    profile,
-    chatRoomRef,
-  }: {
-    showChat: boolean;
-    setShowChat: Dispatch<SetStateAction<boolean>>;
-    profile: UserInfo;
-    chatRoomRef: React.MutableRefObject<any>;
-  }) => {
+  (
+    { showChat, setShowChat, profile }: ChattingRoomContainerProps,
+    ref: ForwardedRef<any>,
+  ) => {
     const { socketIo } = useSocketIoProvider();
     const [roomInfo, setRoomInfo] = useState<CreateRoomRequest>();
     const [messageList, setMessageList] = useState<MessageResponse[]>([]);
@@ -42,7 +43,7 @@ export const ChattingRoomContainer = forwardRef(
         });
     }, [roomInfo]);
 
-    useImperativeHandle(chatRoomRef, () => ({
+    useImperativeHandle(ref, () => ({
       connectRoom: (type: RoomType, userId: string) => {
         if (type === 'OneToOne') connectRoom(type, userId);
         else if (type === 'Individual') connectRoom(type, profile.userId);

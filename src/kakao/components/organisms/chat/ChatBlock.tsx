@@ -1,16 +1,13 @@
 import styled from 'styled-components';
 
-export const MyChat = ({
-  message,
-  localeTime,
-  date,
-  notRead,
-}: {
+interface ChatProps {
   message: string;
   localeTime: string;
   date: string;
   notRead: number;
-}) => {
+}
+
+export const MyChat = ({ message, localeTime, date, notRead }: ChatProps) => {
   return (
     <>
       {date ? <SeparationBlock date={date} /> : null}
@@ -32,12 +29,7 @@ export const FriendChat = ({
   localeTime,
   date,
   notRead,
-}: {
-  message: string;
-  localeTime: string;
-  date: string;
-  notRead: number;
-}) => {
+}: ChatProps) => {
   return (
     <>
       {date ? <SeparationBlock date={date} /> : null}

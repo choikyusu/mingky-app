@@ -1,17 +1,19 @@
 import styled from 'styled-components';
 import { FriendChat, MyChat } from './ChatBlock';
-import { formatDate } from '../../../../utils/kakao/date.util';
+import { formatDate } from '../../../utils/date.util';
 import { useEffect, useRef } from 'react';
+
+interface ContentProps {
+  profile: UserInfo;
+  messageList: MessageResponse[];
+  lastReadChatNoList: number[];
+}
 
 export const Content = ({
   profile,
   messageList,
   lastReadChatNoList,
-}: {
-  profile: UserInfo;
-  messageList: MessageResponse[];
-  lastReadChatNoList: number[];
-}) => {
+}: ContentProps) => {
   const containerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {

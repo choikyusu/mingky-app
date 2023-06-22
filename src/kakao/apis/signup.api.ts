@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import { ApiResponse } from '../types/kakao/base';
-import { API_HOST } from '../constants/kakao/constants';
+import { API_HOST } from '../constants/constants';
+import { ApiResponse } from '../types/base';
 
 export const signup$ = async (signupData: SignupData) => {
   const signupRequest: SignupRequestDto = {

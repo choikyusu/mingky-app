@@ -1,11 +1,11 @@
-import { login$ } from '../../apis/login.api';
+import { $login } from '../../apis/login.api';
 
 export const userLogin = async (
   loginData: LoginData,
   cb: (success: boolean) => void,
 ) => {
   try {
-    const { token, refreshToken } = await login$(loginData);
+    const { token, refreshToken } = await $login(loginData);
     await window.sessionStorage.setItem('token', token);
     await window.sessionStorage.setItem('refreshToken', refreshToken);
     cb(true);

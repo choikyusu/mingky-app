@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export const Footer = ({
-  onChatSumbmit,
-}: {
+interface FooterProps {
   onChatSumbmit: (msg: string) => void;
-}) => {
+}
+
+export const Footer = ({ onChatSumbmit }: FooterProps) => {
   const [message, setMessage] = useState('');
   const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
