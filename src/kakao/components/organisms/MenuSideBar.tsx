@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { userLogout } from '../../services/apis/login.api.service';
+import { PAGE_PATHS } from '../../constants/constants';
 
 const MenuSideBar = () => {
   const router = useRouter();
@@ -17,16 +18,16 @@ const MenuSideBar = () => {
     <Styled.MenuSideBar>
       <ul>
         <Styled.Menu
-          className={router.pathname === '/kakaotalk/friends' ? 'active' : ''}
-          href="/kakaotalk/friends"
+          className={router.pathname === PAGE_PATHS.FRIEND ? 'active' : ''}
+          href={PAGE_PATHS.FRIEND}
         >
           <li title="친구">
             <i className="fas fa-user" />
           </li>
         </Styled.Menu>
         <Styled.Menu
-          className={router.pathname === '/kakaotalk/chatting' ? 'active' : ''}
-          href="/kakaotalk/chatting"
+          className={router.pathname === PAGE_PATHS.CHATTING ? 'active' : ''}
+          href={PAGE_PATHS.CHATTING}
         >
           <li title="채팅">
             <i className="fas fa-comment" />
