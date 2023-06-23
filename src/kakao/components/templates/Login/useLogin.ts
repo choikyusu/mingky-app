@@ -34,7 +34,7 @@ export const useLogin = () => {
           setLoginFailuerMsg('계정 또는 비밀번호를 다시 확인해주세요.');
           setPassword('');
         } else {
-          router.push('/kakaotalk/friends');
+          router.push('/kakaotalk/friend');
         }
       });
     }

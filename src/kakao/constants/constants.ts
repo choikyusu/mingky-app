@@ -3,7 +3,7 @@ export enum PAGE_PATHS {
   LOGIN = '/login',
   SIGNUP = '/signup',
   MENU = '/menu',
-  FRIENDS = '/menu/friends',
+  FRIEND = '/menu/friend',
   CHATTING = '/menu/chatting',
   CHATTING_ROOM = '/room',
 }
