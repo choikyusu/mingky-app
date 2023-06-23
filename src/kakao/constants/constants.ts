@@ -2,9 +2,9 @@ export enum PAGE_PATHS {
   HOME = '/',
   LOGIN = '/login',
   SIGNUP = '/signup',
-  MENU = '/menu',
-  FRIEND = '/menu/friend',
-  CHATTING = '/menu/chatting',
+  MENU = '/kakaotalk',
+  FRIEND = '/kakaotalk/friend',
+  CHATTING = '/kakaotalk/chatting',
   CHATTING_ROOM = '/room',
 }
 

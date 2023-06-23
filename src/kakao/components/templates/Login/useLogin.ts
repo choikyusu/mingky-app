@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { userLogin } from '../../../services/apis/login.api.service';
 import { useRouter } from 'next/router';
+import { PAGE_PATHS } from '../../../constants/constants';
 
 export const useLogin = () => {
   const router = useRouter();
@@ -34,7 +35,7 @@ export const useLogin = () => {
           setLoginFailuerMsg('계정 또는 비밀번호를 다시 확인해주세요.');
           setPassword('');
         } else {
-          router.push('/kakaotalk/friend');
+          router.push(PAGE_PATHS.FRIEND);
         }
       });
     }
