@@ -8,7 +8,6 @@ export const useLogin = () => {
   const [loggingIn, setLoggingIn] = useState(false);
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
-  const MAX_LEN = 20;
 
   const onUserIdChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
@@ -43,7 +42,6 @@ export const useLogin = () => {
 
   return {
     loginFailuerMsg,
-    MAX_LEN,
     onSubmit,
     userId,
     password,

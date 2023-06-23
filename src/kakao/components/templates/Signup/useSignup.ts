@@ -4,15 +4,14 @@ import { useState } from 'react';
 
 export const useSignup = () => {
   const router = useRouter();
-  const MAX_LEN = 20;
   const [userId, setUserId] = useState('');
-  const [pw, setPw] = useState('');
-  const [checkPw, setCheckPw] = useState('');
+  const [password, setPassword] = useState('');
+  const [checkPassword, setCheckPassword] = useState('');
   const [name, setName] = useState('');
 
   const [userIdWarningMsg, setUserIdWarningMsg] = useState('');
-  const [pwWarningMsg, setPwWarningMsg] = useState('');
-  const [checkPwWarningMsg, setCheckPwWarningMsg] = useState('');
+  const [passwordWarningMsg, setPasswordWarningMsg] = useState('');
+  const [checkPasswordWarningMsg, setCheckPasswordWarningMsg] = useState('');
   const [nameWarningMsg, setNameWarningMsg] = useState('');
 
   const onUserIdChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -21,17 +20,19 @@ export const useSignup = () => {
     setUserId(value);
   };
 
-  const onPwChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    event.preventDefault();
-    const { value } = event.target;
-    setPw(value);
-  };
-  const onCheckPwChange = (
+  const onPasswordChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
     event.preventDefault();
     const { value } = event.target;
-    setCheckPw(value);
+    setPassword(value);
+  };
+  const onCheckPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    event.preventDefault();
+    const { value } = event.target;
+    setCheckPassword(value);
   };
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
@@ -57,21 +58,21 @@ export const useSignup = () => {
     setUserIdWarningMsg('');
     return true;
   };
-  const isValidPw = (): boolean => {
-    const len = pw.length;
+  const isValidPassword = (): boolean => {
+    const len = password.length;
     if (len < 5) {
-      setPwWarningMsg('5 ~ 20자 입력해주세요.');
+      setPasswordWarningMsg('5 ~ 20자 입력해주세요.');
       return false;
     }
-    setPwWarningMsg('');
+    setPasswordWarningMsg('');
     return true;
   };
-  const isValidCheckPw = (): boolean => {
-    if (checkPw !== pw) {
-      setCheckPwWarningMsg('비밀번호가 일치하지 않습니다.');
+  const isValidCheckPassword = (): boolean => {
+    if (checkPassword !== password) {
+      setCheckPasswordWarningMsg('비밀번호가 일치하지 않습니다.');
       return false;
     }
-    setCheckPwWarningMsg('');
+    setCheckPasswordWarningMsg('');
     return true;
   };
   const isValidName = (): boolean => {
@@ -89,13 +90,15 @@ export const useSignup = () => {
     event.preventDefault();
     isValidUserId();
   };
-  const onPwBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
+  const onPasswordBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
     event.preventDefault();
-    isValidPw();
+    isValidPassword();
   };
-  const onCheckPwBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
+  const onCheckPasswordBlur = (
+    event: React.FocusEvent<HTMLInputElement>,
+  ): void => {
     event.preventDefault();
-    isValidCheckPw();
+    isValidCheckPassword();
   };
   const onNameBlur = (event: React.FocusEvent<HTMLInputElement>): void => {
     event.preventDefault();
@@ -104,12 +107,12 @@ export const useSignup = () => {
 
   const onSubmit = async () => {
     const validId = await isValidUserId();
-    const validPw = isValidPw();
-    const validCheckPw = isValidCheckPw();
+    const validPassword = isValidPassword();
+    const validCheckPassword = isValidCheckPassword();
     const validName = isValidName();
 
-    if (validId && validPw && validCheckPw && validName) {
-      userSignup({ userId, password: pw, name }, async (success: boolean) => {
+    if (validId && validPassword && validCheckPassword && validName) {
+      userSignup({ userId, password, name }, async (success: boolean) => {
         if (success) router.push('/kakaotalk/login');
         else alert('서버 접속에 실패했습니다.');
       });
@@ -117,16 +120,15 @@ export const useSignup = () => {
   };
 
   return {
-    MAX_LEN,
     onUserIdChange,
     onUserIdBlur,
     userIdWarningMsg,
-    onPwChange,
-    onPwBlur,
-    pwWarningMsg,
-    onCheckPwChange,
-    onCheckPwBlur,
-    checkPwWarningMsg,
+    onPasswordChange,
+    onPasswordBlur,
+    passwordWarningMsg,
+    onCheckPasswordChange,
+    onCheckPasswordBlur,
+    checkPasswordWarningMsg,
     onNameChange,
     onNameBlur,
     nameWarningMsg,
