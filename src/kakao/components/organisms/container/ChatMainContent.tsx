@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MyChatRoomList } from '../../../../services/apis/chat.api.service';
 import { BASE_IMG_URL } from '../../../constants/constants';
 import { NewChattingWindow } from '../NewChattingWindow/NewChattingWindow';
 import { formatDate } from '../../../utils/date.util';
 import { useSocketIoProvider } from '../provider/SocketIoProvider';
+import { MyChatRoomList } from '../../../services/apis/chat.api.service';
 
 interface ChatMainContentProps {
   profile?: UserInfo;
