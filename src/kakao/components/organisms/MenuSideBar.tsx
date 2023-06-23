@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { userLogout } from '../../../services/apis/login.api.service';
+import { userLogout } from '../../services/apis/login.api.service';
 
 const MenuSideBar = () => {
   const router = useRouter();

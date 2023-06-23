@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { ImageSetting } from './ImageSetting';
-import { changeProfile } from '../../../services/apis/user.api.service';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { BASE_IMG_URL } from '../../constants/constants';
+import { changeProfile } from '../../services/apis/user.api.service';
 
 const userSettingBlock = ({
   profile,
