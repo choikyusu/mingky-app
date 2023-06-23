@@ -2,19 +2,19 @@ import { InputField } from '../../elements/InputField';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useSignup } from './useSignup';
+import { MAX_LENGTH } from '../../../constants/login.constants';
 
 export const Signup = () => {
   const {
-    MAX_LEN,
     onUserIdChange,
     onUserIdBlur,
     userIdWarningMsg,
-    onPwChange,
-    onPwBlur,
-    pwWarningMsg,
-    onCheckPwChange,
-    onCheckPwBlur,
-    checkPwWarningMsg,
+    onPasswordChange,
+    onPasswordBlur,
+    passwordWarningMsg,
+    onCheckPasswordChange,
+    onCheckPasswordBlur,
+    checkPasswordWarningMsg,
     onNameChange,
     onNameBlur,
     nameWarningMsg,
@@ -33,7 +33,7 @@ export const Signup = () => {
           <InputField
             inputId="id"
             inputType="text"
-            maxLength={MAX_LEN}
+            maxLength={MAX_LENGTH}
             title="로그인"
             onChange={onUserIdChange}
             onBlur={onUserIdBlur}
@@ -42,25 +42,25 @@ export const Signup = () => {
           <InputField
             inputId="password"
             inputType="password"
-            maxLength={MAX_LEN}
+            maxLength={MAX_LENGTH}
             title="비밀번호"
-            onChange={onPwChange}
-            onBlur={onPwBlur}
-            warningMsg={pwWarningMsg}
+            onChange={onPasswordChange}
+            onBlur={onPasswordBlur}
+            warningMsg={passwordWarningMsg}
           />
           <InputField
             inputId="password2"
             inputType="password"
-            maxLength={MAX_LEN}
+            maxLength={MAX_LENGTH}
             title="비밀번호"
-            onChange={onCheckPwChange}
-            onBlur={onCheckPwBlur}
-            warningMsg={checkPwWarningMsg}
+            onChange={onCheckPasswordChange}
+            onBlur={onCheckPasswordBlur}
+            warningMsg={checkPasswordWarningMsg}
           />
           <InputField
             inputId="name"
             inputType="text"
-            maxLength={MAX_LEN}
+            maxLength={MAX_LENGTH}
             title="비밀번호"
             onChange={onNameChange}
             onBlur={onNameBlur}

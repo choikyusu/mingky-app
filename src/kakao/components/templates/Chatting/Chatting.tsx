@@ -1,9 +1,9 @@
-import withAuth from '../../src/kakao/auth/WithAuth';
 import { useRef } from 'react';
-import MainContainer from '../../src/kakao/components/organisms/container/MainContainer';
-import FriendMainContent from '../../src/kakao/components/organisms/container/FriendMainContent';
+import MainContainer from '../../organisms/container/MainContainer';
+import ChatMainContent from '../../organisms/container/ChatMainContent';
+import withAuth from '../../../auth/WithAuth';
 
-const useFriends = () => {
+const Chatting = () => {
   const chatRoomRef: React.MutableRefObject<any> = useRef({});
   const profileRef: React.MutableRefObject<any> = useRef({});
 
@@ -15,20 +15,9 @@ const useFriends = () => {
     profileRef.current.setPopupProfile(type, friendProfile);
   };
 
-  return {
-    chatRoomRef,
-    onBlockDoubleClick,
-    profileRef,
-    onImageClick,
-  };
-};
-
-const Menu = () => {
-  const { profileRef, chatRoomRef, onBlockDoubleClick, onImageClick } =
-    useFriends();
   return (
     <MainContainer profileRef={profileRef} chatRoomRef={chatRoomRef}>
-      <FriendMainContent
+      <ChatMainContent
         onBlockDoubleClick={onBlockDoubleClick}
         onImageClick={onImageClick}
       />
@@ -36,4 +25,4 @@ const Menu = () => {
   );
 };
 
-export default withAuth(Menu);
+export default withAuth(Chatting);

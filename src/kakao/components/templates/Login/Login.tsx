@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { useLogin } from './useLogin';
 import styled from 'styled-components';
+import { MAX_LENGTH } from '../../../constants/login.constants';
 
 const Login = () => {
   const {
     loginFailuerMsg,
-    MAX_LEN,
     onSubmit,
     userId,
     password,
@@ -26,7 +26,7 @@ const Login = () => {
               type="text"
               placeholder="계정"
               value={userId}
-              maxLength={MAX_LEN}
+              maxLength={MAX_LENGTH}
               onChange={onUserIdChange}
             />
             <input
@@ -34,7 +34,7 @@ const Login = () => {
               autoComplete="new-password"
               placeholder="비밀번호"
               value={password}
-              maxLength={MAX_LEN}
+              maxLength={MAX_LENGTH}
               onChange={onPasswordChange}
             />
             <button
