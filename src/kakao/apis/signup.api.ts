@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { API_HOST } from '../constants/constants';
+import { API_HOST } from '../constants/env.constants';
 import { ApiResponse } from '../types/base';
 
 export const signup$ = async (signupData: SignupData) => {

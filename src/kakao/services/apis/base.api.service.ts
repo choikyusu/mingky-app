@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { HOST } from '../../constants/constants';
+import { HOST } from '../../constants/env.constants';
 import { getNewAccessToken } from '../../apis/token.api';
 
 export const callWrapper = async (

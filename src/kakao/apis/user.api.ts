@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_HOST, HOST } from '../constants/constants';
+import { API_HOST, HOST } from '../constants/env.constants';
 import { ApiResponse } from '../types/base';
 
 export const $findUser = async (token: string, userId: string) => {
