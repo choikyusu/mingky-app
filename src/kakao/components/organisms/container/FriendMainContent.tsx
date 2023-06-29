@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BASE_IMG_URL } from '../../../constants/constants';
+import { BASE_IMG_URL } from '../../../constants/env.constants';
 import { FindFriendWindow } from '../FindFriendWindow';
 import { FriendPanel } from '../FriendPanel';
 import styled from 'styled-components';

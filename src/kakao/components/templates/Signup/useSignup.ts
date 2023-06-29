@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { userSignup } from '../../../services/apis/signup.api.service';
 import { useState } from 'react';
+import { SERVER_ACCESS_FAIL_MESSAGE } from '../../../constants/constants';
 
 export const useSignup = () => {
   const router = useRouter();
@@ -114,7 +115,7 @@ export const useSignup = () => {
     if (validId && validPassword && validCheckPassword && validName) {
       userSignup({ userId, password, name }, async (success: boolean) => {
         if (success) router.push('/kakaotalk/login');
-        else alert('서버 접속에 실패했습니다.');
+        else alert(SERVER_ACCESS_FAIL_MESSAGE);
       });
     }
   };

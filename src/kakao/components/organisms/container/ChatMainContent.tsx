@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BASE_IMG_URL } from '../../../constants/constants';
+import { BASE_IMG_URL } from '../../../constants/env.constants';
 import { NewChattingWindow } from '../NewChattingWindow/NewChattingWindow';
 import { formatDate } from '../../../utils/date.util';
 import { useSocketIoProvider } from '../provider/SocketIoProvider';

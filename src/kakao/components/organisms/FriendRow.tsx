@@ -1,4 +1,4 @@
-import { BASE_IMG_URL } from '../../constants/constants';
+import { BASE_IMG_URL } from '../../constants/env.constants';
 
 interface FriendRowProps {
   friend: UserProfile;
