@@ -8,8 +8,8 @@ import { MyChatRoomList } from '../../../services/apis/chat.api.service';
 
 interface ChatMainContentProps {
   profile?: UserInfo;
-  onBlockDoubleClick: (type: RoomType, userId: string) => void;
-  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
+  onBlockDoubleClick?: (type: RoomType, userId: string) => void;
+  onImageClick?: (type: RoomType, friendProfile: UserProfile) => void;
 }
 
 const ChatMainContent = ({
@@ -68,7 +68,7 @@ const ChatMainContent = ({
     }
   }, [profile, roomList]);
 
-  if (!profile) return null;
+  if (!profile || !onBlockDoubleClick || !onImageClick) return null;
   return (
     <Styled.Main>
       <NewChattingWindow
