@@ -12,11 +12,11 @@ import {
   useState,
 } from 'react';
 
-import { useSocketIoProvider } from '../provider/SocketIoProvider';
 import {
   createRoom,
   fetchChatMessage,
 } from '../../../services/apis/chat.api.service';
+import { useSocketIoProvider } from '../../../provider/SocketIoProvider/SocketIoProvider';
 
 interface ChattingRoomContainerProps {
   showChat: boolean;
@@ -53,6 +53,8 @@ export const ChattingRoomContainer = forwardRef(
     }));
 
     function connectRoom(type: RoomType, userId: string) {
+      if (!socketIo) return;
+
       socketIo.off('message');
       const memberList = [userId, profile.userId];
 
@@ -88,6 +90,8 @@ export const ChattingRoomContainer = forwardRef(
     if (!showChat || !roomInfo) return null;
 
     const onChatSumbmit = (message: string) => {
+      if (!socketIo) return;
+
       const chattingRequset = {
         identifier: roomInfo.identifier,
         type: roomInfo.type,

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useLogin } from './useLogin';
 import styled from 'styled-components';
 import { MAX_LENGTH } from '../../../constants/login.constants';
+import { PAGE_PATHS } from '../../../constants/env.constants';
 
 const Login = () => {
   const {
@@ -50,7 +51,7 @@ const Login = () => {
         <Styled.Footer>
           <ul>
             <li>
-              <Link href="/kakaotalk/signup">회원 가입</Link>
+              <Link href={PAGE_PATHS.SIGNUP}>회원 가입</Link>
             </li>
           </ul>
         </Styled.Footer>

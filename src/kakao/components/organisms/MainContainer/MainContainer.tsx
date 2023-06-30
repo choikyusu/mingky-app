@@ -7,10 +7,10 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
-import { ProfileContainer } from '../ProfileContainer';
-import { ChattingRoomContainer } from '../chat/ChattingRoomContainer';
-import MenuSideBar from '../MenuSideBar';
+import { ProfileContainer } from '../../modals/ProfileContainer/ProfileContainer';
+import MenuSideBar from '../MenuSideBar/MenuSideBar';
 import { myProfile } from '../../../services/apis/user.api.service';
+import { ChattingRoomContainer } from '../../modals/ChattingRoomContainer/ChattingRoomContainer';
 
 interface MainContainerProps {
   children:

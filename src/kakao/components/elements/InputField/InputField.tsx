@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+interface InputFieldProps {
+  inputId: string;
+  inputType: string;
+  title: string;
+  maxLength: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  warningMsg: string;
+}
+
 export const InputField = ({
   inputId,
   inputType,
@@ -8,15 +18,7 @@ export const InputField = ({
   onChange,
   onBlur,
   warningMsg,
-}: {
-  inputId: string;
-  inputType: string;
-  title: string;
-  maxLength: number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
-  warningMsg: string;
-}) => {
+}: InputFieldProps) => {
   return (
     <Styled.Label htmlFor={inputId}>
       <Styled.H3>{title}</Styled.H3>

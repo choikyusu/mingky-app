@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { PAGE_PATHS } from '../constants/env.constants';
 
 const withAuth = <P extends Record<string, unknown>>(
   WrappedComponent: React.ComponentType<P>,
@@ -9,7 +10,7 @@ const withAuth = <P extends Record<string, unknown>>(
       const token = window.sessionStorage.getItem('token');
       console.log(token);
       if (!token) {
-        router.push('/kakaotalk/login');
+        router.push(PAGE_PATHS.LOGIN);
       }
     }
 

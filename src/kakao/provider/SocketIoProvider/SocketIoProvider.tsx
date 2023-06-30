@@ -7,16 +7,19 @@ import React, {
 } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
-import { SOCKET_HOST } from '../../../constants/env.constants';
+import { SOCKET_HOST } from '../../constants/env.constants';
 
 type SocketIoProps = {
-  socketIo: Socket<DefaultEventsMap, DefaultEventsMap>;
+  socketIo: Socket<DefaultEventsMap, DefaultEventsMap> | null;
   setSocketIo: React.Dispatch<
-    React.SetStateAction<Socket<DefaultEventsMap, DefaultEventsMap>>
+    React.SetStateAction<Socket<DefaultEventsMap, DefaultEventsMap> | null>
   >;
 };
 
-const SocketIoContext = createContext<SocketIoProps | null>(null);
+const SocketIoContext = createContext<SocketIoProps>({
+  socketIo: null,
+  setSocketIo: () => undefined,
+});
 
 export default function SocketIoProvider(props: { children: React.ReactNode }) {
   const { children } = props;

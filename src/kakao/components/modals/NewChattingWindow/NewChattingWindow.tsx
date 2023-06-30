@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Modal } from '../Modal';
+import { Modal } from '../Modal/Modal';
 import { Dispatch, SetStateAction } from 'react';
 import { Header } from './Header';
 import { Content } from './Content';

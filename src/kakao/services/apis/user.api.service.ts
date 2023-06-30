@@ -4,7 +4,7 @@ import {
   $myProfile,
   $uploadImageFile,
 } from '../../apis/user.api';
-import { callWrapper } from './base.api.service';
+import { callWrapper } from './base/base.api.service';
 
 export const findUser = async (
   userId: string,

@@ -3,7 +3,7 @@ import {
   $createRoom,
   $fetchChatMessage,
 } from '../../apis/chat.api';
-import { callWrapper } from './base.api.service';
+import { callWrapper } from './base/base.api.service';
 
 export const createRoom = async (
   roomInfo: CreateRoomRequest,

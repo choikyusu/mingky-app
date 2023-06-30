@@ -17,9 +17,9 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import expressSession from 'express-session';
-import { authJwt } from './auth/authJWT';
 import runSocketIo from './sockets';
 import authKakaoJwt from './auth/kakao/authJwt';
+import { authJwt } from './auth/authJwt';
 
 require('dotenv').config();
 

@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import React from 'react';
 import axios from 'axios';
 import '../styles/global.css';
-import SocketIoProvider from '../src/kakao/components/organisms/provider/SocketIoProvider';
+import SocketIoProvider from '../src/kakao/provider/SocketIoProvider/SocketIoProvider';
 
 axios.defaults.withCredentials = true;
 

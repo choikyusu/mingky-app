@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { useSocketIoProvider } from '../provider/SocketIoProvider';
+import { useSocketIoProvider } from '../../../provider/SocketIoProvider/SocketIoProvider';
 
 interface HeaderProps {
   setShowChat: Dispatch<SetStateAction<boolean>>;
@@ -15,6 +15,8 @@ export const Header = ({ setShowChat, roomName }: HeaderProps) => {
       <button
         type="button"
         onClick={() => {
+          if (!socketIo) return;
+
           socketIo.off('message');
           setShowChat(false);
         }}

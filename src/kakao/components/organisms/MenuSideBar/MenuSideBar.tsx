@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { userLogout } from '../../services/apis/login.api.service';
-import { PAGE_PATHS } from '../../constants/env.constants';
+import { userLogout } from '../../../services/apis/login.api.service';
+import { PAGE_PATHS } from '../../../constants/env.constants';
 
 const MenuSideBar = () => {
   const router = useRouter();
@@ -10,7 +10,7 @@ const MenuSideBar = () => {
   const onLogoutClick = () => {
     const isLogout = window.confirm('로그아웃 하시겠습니까?');
     if (isLogout) {
-      userLogout(() => router.push('/kakaotalk/login'));
+      userLogout(() => router.push(PAGE_PATHS.LOGIN));
     }
   };
 

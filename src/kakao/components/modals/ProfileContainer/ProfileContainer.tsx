@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Modal } from './Modal';
+import { Modal } from '../Modal/Modal';
 import {
   Dispatch,
   SetStateAction,
@@ -11,7 +11,7 @@ import {
 import { UserProfile } from './UserProfile';
 import { Menu } from './Menu';
 import { ProfileInputWindow } from './ProfileInputWindow';
-import { changeProfile } from '../../services/apis/user.api.service';
+import { changeProfile } from '../../../services/apis/user.api.service';
 
 interface ProfileContainerProps {
   profile: UserInfo;
