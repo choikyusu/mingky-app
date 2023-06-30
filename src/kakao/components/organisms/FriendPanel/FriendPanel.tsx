@@ -1,4 +1,4 @@
-import { FriendRow } from './FriendRow';
+import { FriendRow } from '../../elements/FriendRow/FriendRow';
 
 interface FriendPanelProps {
   friendList: UserProfile[] | undefined;

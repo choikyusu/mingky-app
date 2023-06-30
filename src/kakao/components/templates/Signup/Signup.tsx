@@ -1,8 +1,9 @@
-import { InputField } from '../../elements/InputField';
+import { InputField } from '../../elements/InputField/InputField';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useSignup } from './useSignup';
 import { MAX_LENGTH } from '../../../constants/login.constants';
+import { PAGE_PATHS } from '../../../constants/env.constants';
 
 export const Signup = () => {
   const {
@@ -26,7 +27,7 @@ export const Signup = () => {
       <Styled.Container>
         <Styled.Header>
           <h2>
-            <Styled.LogoLink href="/kakaotalk/login">kakao</Styled.LogoLink>
+            <Styled.LogoLink href={PAGE_PATHS.LOGIN}>kakao</Styled.LogoLink>
           </h2>
         </Styled.Header>
         <Styled.Contants>

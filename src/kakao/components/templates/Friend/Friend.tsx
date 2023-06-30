@@ -1,6 +1,6 @@
 import withAuth from '../../../auth/WithAuth';
-import MainContainer from '../../organisms/container/MainContainer';
-import FriendMainContent from '../../organisms/container/FriendMainContent';
+import MainContainer from '../../organisms/MainContainer/MainContainer';
+import FriendMainContent from '../../organisms/FriendMainContent/FriendMainContent';
 import { useFriend } from './useFriend';
 
 const Friend = () => {

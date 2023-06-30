@@ -1,5 +1,5 @@
 import { $addFriendRequest } from '../../apis/friend.api';
-import { callWrapper } from './base.api.service';
+import { callWrapper } from './base/base.api.service';
 
 export const addFriend = async (
   friendId: string,

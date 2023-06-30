@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Modal } from './Modal';
+import { Modal } from '../Modal/Modal';
 import { FindFriendProfile } from './FindFriendProfile';
 import { Dispatch, SetStateAction, useState } from 'react';
-import { findUser } from '../../services/apis/user.api.service';
+import { findUser } from '../../../services/apis/user.api.service';
 
 interface FindFriendWindowProps {
   isopenFindFriend: boolean;

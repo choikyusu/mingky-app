@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BASE_IMG_URL } from '../../../constants/env.constants';
-import { FindFriendWindow } from '../FindFriendWindow';
-import { FriendPanel } from '../FriendPanel';
+import { FindFriendWindow } from '../../modals/FindFriendWindow/FindFriendWindow';
+import { FriendPanel } from '../FriendPanel/FriendPanel';
 import styled from 'styled-components';
 
 const useFriendMainContent = () => {
