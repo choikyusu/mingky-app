@@ -31,7 +31,7 @@ router.get('/:userId', async (req: any, res) => {
       msg: '서버 문제로 인해 찾을 수 없습니다.',
     });
   }
-  return res.status(500).json({ msg: '사용자 정보를 찾지 못했습니다.' });
+  return res.json({ msg: '사용자 정보를 찾지 못했습니다.' });
 });
 
 router.get('/profile/me', async (req: any, res) => {
