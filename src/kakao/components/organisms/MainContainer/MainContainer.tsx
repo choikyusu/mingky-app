@@ -4,54 +4,31 @@ import {
   ReactElement,
   cloneElement,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import styled from 'styled-components';
 import { ProfileContainer } from '../../modals/ProfileContainer/ProfileContainer';
 import MenuSideBar from '../MenuSideBar/MenuSideBar';
-import { myProfile } from '../../../services/apis/user.api.service';
 import { ChattingRoomContainer } from '../../modals/ChattingRoomContainer/ChattingRoomContainer';
+import { useMainContainer } from './useMainContainer';
 
-interface MainContainerProps {
+export interface MainContainerProps {
   children:
     | ReactElement<any, string | JSXElementConstructor<any>>
     | readonly ReactElement<any, string | JSXElementConstructor<any>>[];
-  profileRef: React.MutableRefObject<any>;
-  chatRoomRef: React.MutableRefObject<any>;
 }
 
-const MainContainer = ({
-  children,
-  profileRef,
-  chatRoomRef,
-}: MainContainerProps) => {
-  const [profile, setProfile] = useState<UserInfo>({
-    userId: '',
-    name: '',
-    nickName: '',
-    message: '',
-    profileUrl: '',
-    backgroundUrl: '',
-    friendList: [],
-  });
-
-  const [showChat, setShowChat] = useState(false);
-
-  useEffect(() => {
-    myProfile((success: boolean, userInfo?: UserInfo) => {
-      if (success && userInfo) {
-        setProfile(userInfo);
-      }
-    });
-  }, []);
-
-  const renderChildrenWithProfile = () => {
-    return Children.map(children, child => {
-      return cloneElement(child, {
-        profile,
-      });
-    });
-  };
+const MainContainer = ({ children }: MainContainerProps) => {
+  const {
+    profile,
+    setProfile,
+    profileRef,
+    showChat,
+    setShowChat,
+    chatRoomRef,
+    renderChildrenWithProps,
+  } = useMainContainer({ children });
 
   return (
     <Styled.Wrapper>
@@ -68,7 +45,7 @@ const MainContainer = ({
       />
       <Styled.Container>
         <MenuSideBar />
-        {renderChildrenWithProfile()}
+        {renderChildrenWithProps()}
       </Styled.Container>
     </Styled.Wrapper>
   );

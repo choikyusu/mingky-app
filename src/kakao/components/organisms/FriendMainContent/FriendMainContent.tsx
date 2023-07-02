@@ -23,8 +23,8 @@ const useFriendMainContent = () => {
 
 interface FriendMainContentProps {
   profile?: UserInfo;
-  onBlockDoubleClick: (type: RoomType, userId: string) => void;
-  onImageClick: (type: RoomType, friendProfile: UserProfile) => void;
+  onBlockDoubleClick?: (type: RoomType, userId: string) => void;
+  onImageClick?: (type: RoomType, friendProfile: UserProfile) => void;
 }
 
 const FriendMainContent = ({
@@ -35,7 +35,7 @@ const FriendMainContent = ({
   const { search, isopenFindFriend, openFindFriend, onSearchChange } =
     useFriendMainContent();
 
-  if (!profile) return null;
+  if (!profile || !onBlockDoubleClick || !onImageClick) return null;
   return (
     <Styled.Main>
       <FindFriendWindow

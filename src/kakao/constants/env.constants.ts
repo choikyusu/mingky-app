@@ -1,11 +1,11 @@
 export enum PAGE_PATHS {
   HOME = '/',
-  LOGIN = '/login',
-  SIGNUP = '/signup',
+  LOGIN = '/kakaotalk/login',
+  SIGNUP = '/kakaotalk/signup',
   MENU = '/kakaotalk',
   FRIEND = '/kakaotalk/friend',
   CHATTING = '/kakaotalk/chatting',
-  CHATTING_ROOM = '/room',
+  CHATTING_ROOM = '/kakaotalk/room',
 }
 
 export const SOCKET_HOST =
