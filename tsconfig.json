@@ -16,7 +16,10 @@
     "noEmit": true,
     "jsx": "preserve",
     "typeRoots": ["./node_modules/@types", "src/types"],
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx", "src", "@types"],
   "exclude": ["node_modules"]

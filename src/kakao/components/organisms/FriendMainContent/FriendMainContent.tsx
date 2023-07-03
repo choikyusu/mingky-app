@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { BASE_IMG_URL } from '../../../constants/env.constants';
-import { FindFriendWindow } from '../../modals/FindFriendWindow/FindFriendWindow';
-import { FriendPanel } from '../FriendPanel/FriendPanel';
 import styled from 'styled-components';
+import { FindFriendWindow } from '../../modals/FindFriendWindow/FindFriendWindow';
+import { BASE_IMG_URL } from '@/src/kakao/constants/env.constants';
+import { FriendPanel } from '../FriendPanel/FriendPanel';
 
 const useFriendMainContent = () => {
   const [search, setSearch] = useState('');

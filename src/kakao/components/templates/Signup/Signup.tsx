@@ -1,9 +1,9 @@
-import { InputField } from '../../elements/InputField/InputField';
 import styled from 'styled-components';
 import Link from 'next/link';
+import { PAGE_PATHS } from '@/src/kakao/constants/env.constants';
 import { useSignup } from './useSignup';
-import { MAX_LENGTH } from '../../../constants/login.constants';
-import { PAGE_PATHS } from '../../../constants/env.constants';
+import { MAX_LENGTH } from '@/src/kakao/constants/login.constants';
+import { InputField } from '../../elements/InputField/InputField';
 
 export const Signup = () => {
   const {

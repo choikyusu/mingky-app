@@ -11,12 +11,11 @@ import {
   useImperativeHandle,
   useState,
 } from 'react';
-
+import { useSocketIoProvider } from '@/src/kakao/provider/SocketIoProvider/SocketIoProvider';
 import {
   createRoom,
   fetchChatMessage,
-} from '../../../services/apis/chat.api.service';
-import { useSocketIoProvider } from '../../../provider/SocketIoProvider/SocketIoProvider';
+} from '@/src/kakao/services/apis/chat.api.service';
 
 interface ChattingRoomContainerProps {
   showChat: boolean;

@@ -1,8 +1,8 @@
+import { PAGE_PATHS } from '@/src/kakao/constants/env.constants';
+import { userLogout } from '@/src/kakao/services/apis/login.api.service';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { userLogout } from '../../../services/apis/login.api.service';
-import { PAGE_PATHS } from '../../../constants/env.constants';
 
 const MenuSideBar = () => {
   const router = useRouter();

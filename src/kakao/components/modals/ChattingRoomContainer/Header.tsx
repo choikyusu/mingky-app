@@ -1,6 +1,6 @@
+import { useSocketIoProvider } from '@/src/kakao/provider/SocketIoProvider/SocketIoProvider';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { useSocketIoProvider } from '../../../provider/SocketIoProvider/SocketIoProvider';
 
 interface HeaderProps {
   setShowChat: Dispatch<SetStateAction<boolean>>;

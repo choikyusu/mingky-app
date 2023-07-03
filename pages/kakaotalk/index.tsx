@@ -1,4 +1,4 @@
-import Login from './login';
+import Login from '@/src/kakao/components/templates/Login/Login';
 
 const Home = () => {
   return <Login />;

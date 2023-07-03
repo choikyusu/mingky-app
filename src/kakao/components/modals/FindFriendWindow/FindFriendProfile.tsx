@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { BASE_IMG_URL } from '../../../constants/env.constants';
 import { SetStateAction } from 'react';
-import { addFriend } from '../../../services/apis/friend.api.service';
+import { addFriend } from '@/src/kakao/services/apis/friend.api.service';
+import { BASE_IMG_URL } from '@/src/kakao/constants/env.constants';
 
 interface FindFriendProfileProps {
   userId: string;

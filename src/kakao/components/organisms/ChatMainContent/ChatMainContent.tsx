@@ -1,10 +1,10 @@
+import { useSocketIoProvider } from '@/src/kakao/provider/SocketIoProvider/SocketIoProvider';
+import { MyChatRoomList } from '@/src/kakao/services/apis/chat.api.service';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BASE_IMG_URL } from '../../../constants/env.constants';
 import { NewChattingWindow } from '../../modals/NewChattingWindow/NewChattingWindow';
-import { formatDate } from '../../../utils/date.util';
-import { useSocketIoProvider } from '../../../provider/SocketIoProvider/SocketIoProvider';
-import { MyChatRoomList } from '../../../services/apis/chat.api.service';
+import { formatDate } from '@/src/kakao/utils/date.util';
+import { BASE_IMG_URL } from '@/src/kakao/constants/env.constants';
 
 interface ChatMainContentProps {
   profile?: UserInfo;
