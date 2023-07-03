@@ -1,4 +1,4 @@
-import { Signup } from '../../src/kakao/components/templates/Signup/Signup';
+import { Signup } from '@/src/kakao/components/templates/Signup/Signup';
 
 const SignupPage = () => {
   return <Signup />;

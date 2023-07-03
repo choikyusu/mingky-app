@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FriendChat, MyChat } from './ChatBlock';
-import { formatDate } from '../../../utils/date.util';
 import { useEffect, useRef } from 'react';
+import { formatDate } from '@/src/kakao/utils/date.util';
 
 interface ContentProps {
   profile: UserInfo;

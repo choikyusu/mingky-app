@@ -1,8 +1,8 @@
+import { CalendarBody } from '@/src/components/organisms/Body/CalendarBody';
+import { MainHeader } from '@/src/components/organisms/MainHeader/MainHeader';
+import { API } from '@/src/constants/api.constant';
+import useFetch from '@/src/hooks/useFetch';
 import React from 'react';
-import { CalendarBody } from '../src/components/organisms/Body/CalendarBody';
-import { MainHeader } from '../src/components/organisms/MainHeader/MainHeader';
-import { API } from '../src/constants/api.constant';
-import useFetch from '../src/hooks/useFetch';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

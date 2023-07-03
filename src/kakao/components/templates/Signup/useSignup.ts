@@ -1,7 +1,7 @@
+import { SERVER_ACCESS_FAIL_MESSAGE } from '@/src/kakao/constants/constants';
+import { userSignup } from '@/src/kakao/services/apis/signup.api.service';
 import { useRouter } from 'next/router';
-import { userSignup } from '../../../services/apis/signup.api.service';
 import { useState } from 'react';
-import { SERVER_ACCESS_FAIL_MESSAGE } from '../../../constants/constants';
 
 export const useSignup = () => {
   const router = useRouter();

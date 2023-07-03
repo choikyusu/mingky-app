@@ -1,6 +1,6 @@
 import { Children, cloneElement, useEffect, useRef, useState } from 'react';
-import { myProfile } from '../../../services/apis/user.api.service';
 import { MainContainerProps } from './MainContainer';
+import { myProfile } from '@/src/kakao/services/apis/user.api.service';
 
 export const useMainContainer = ({ children }: MainContainerProps) => {
   const chatRoomRef: React.MutableRefObject<any> = useRef({});

@@ -1,4 +1,4 @@
-import Friend from '../../src/kakao/components/templates/Friend/Friend';
+import Friend from '@/src/kakao/components/templates/Friend/Friend';
 
 const FriendPage = () => {
   return <Friend />;

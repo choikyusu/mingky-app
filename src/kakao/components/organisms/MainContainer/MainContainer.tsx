@@ -1,17 +1,9 @@
-import {
-  Children,
-  JSXElementConstructor,
-  ReactElement,
-  cloneElement,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { JSXElementConstructor, ReactElement } from 'react';
 import styled from 'styled-components';
-import { ProfileContainer } from '../../modals/ProfileContainer/ProfileContainer';
-import MenuSideBar from '../MenuSideBar/MenuSideBar';
-import { ChattingRoomContainer } from '../../modals/ChattingRoomContainer/ChattingRoomContainer';
 import { useMainContainer } from './useMainContainer';
+import { ProfileContainer } from '../../modals/ProfileContainer/ProfileContainer';
+import { ChattingRoomContainer } from '../../modals/ChattingRoomContainer/ChattingRoomContainer';
+import MenuSideBar from '../MenuSideBar/MenuSideBar';
 
 export interface MainContainerProps {
   children:

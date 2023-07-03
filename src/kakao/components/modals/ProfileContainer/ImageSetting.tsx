@@ -1,6 +1,6 @@
+import { uploadImageFile } from '@/src/kakao/services/apis/user.api.service';
 import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { uploadImageFile } from '../../../services/apis/user.api.service';
 
 interface ImageSettingProps {
   isShowSetting: boolean;
