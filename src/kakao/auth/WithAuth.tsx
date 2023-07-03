@@ -7,7 +7,7 @@ const withAuth = <P extends Record<string, unknown>>(
   const WrapperComponent: React.FC<P> = props => {
     const router = useRouter();
     if (typeof window !== 'undefined') {
-      const token = window.sessionStorage.getItem('token');
+      const token = window.localStorage.getItem('token');
       console.log(token);
       if (!token) {
         router.push(PAGE_PATHS.LOGIN);

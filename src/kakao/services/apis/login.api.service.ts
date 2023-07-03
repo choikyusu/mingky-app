@@ -6,8 +6,8 @@ export const userLogin = async (
 ) => {
   try {
     const { token, refreshToken } = await $login(loginData);
-    await window.sessionStorage.setItem('token', token);
-    await window.sessionStorage.setItem('refreshToken', refreshToken);
+    await window.localStorage.setItem('token', token);
+    await window.localStorage.setItem('refreshToken', refreshToken);
     cb(true);
   } catch {
     cb(false);
@@ -15,7 +15,7 @@ export const userLogin = async (
 };
 
 export const userLogout = (cb: () => void) => {
-  window.sessionStorage.removeItem('token');
-  window.sessionStorage.removeItem('refreshToken');
+  window.localStorage.removeItem('token');
+  window.localStorage.removeItem('refreshToken');
   cb();
 };
