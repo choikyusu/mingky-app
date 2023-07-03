@@ -8,7 +8,7 @@ export const callWrapper = async (
   retry?: boolean,
 ) => {
   try {
-    const token = window.sessionStorage.getItem('token');
+    const token = window.localStorage.getItem('token');
     if (token) {
       await callApi(token);
     } else {
@@ -17,11 +17,11 @@ export const callWrapper = async (
   } catch (err: any) {
     if (err instanceof AxiosError) {
       if (err.response?.status === 401 && !retry) {
-        const token = window.sessionStorage.getItem('token');
-        const refreshToken = window.sessionStorage.getItem('refreshToken');
+        const token = window.localStorage.getItem('token');
+        const refreshToken = window.localStorage.getItem('refreshToken');
         if (token && refreshToken) {
           const newToken = await getNewAccessToken(token, refreshToken);
-          window.sessionStorage.setItem('token', newToken);
+          window.localStorage.setItem('token', newToken);
 
           callWrapper(callApi, fail, true);
         }
