@@ -4,6 +4,7 @@ import { Room } from '../../schemas/kakao/room';
 import { Message } from '../../schemas/kakao/message';
 import { Participant } from '../../schemas/kakao/participant';
 import { Types } from 'mongoose';
+import { NotFindUserError } from '@/server/Error/NotFindUserError';
 
 const router = express.Router();
 
@@ -22,65 +23,64 @@ router.post('/room/create', async (req: any, res) => {
 
   const user = await User.findOne({ userId });
   const room = await Room.findOne({ identifier: roomInfo.identifier });
-  if (user) {
-    if (!room) {
-      const createdRoom = await Room.create({
-        identifier: roomInfo.identifier,
-        type: roomInfo.type,
-        messageList: [],
-        participantList: [],
-      });
 
-      const participantIdList = roomInfo.participantList.map(async userId => {
-        const user = await User.findOne({ userId });
-        if (user) {
-          const participant = await Participant.create({
-            identifier: roomInfo.identifier,
-            type: roomInfo.type,
-            lastReadChatNo: 0,
-            newChat: 0,
-            roomName: roomInfo.roomName,
-            userObjectId: user._id,
-            userId: user.userId,
-            roomObjectId: createdRoom._id,
-          });
+  if (!user) throw new NotFindUserError('user not exist');
 
-          return participant._id;
-        }
-        return undefined;
-      });
-
-      const participantResult = (await Promise.all(participantIdList)).filter(
-        participantId => participantId !== undefined,
-      ) as Types.ObjectId[];
-
-      createdRoom.participantList = participantResult;
-      await createdRoom.save();
-    }
-
-    const createdRoom = await Room.findOne({
+  if (!room) {
+    const createdRoom = await Room.create({
       identifier: roomInfo.identifier,
-    }).populate({
-      path: 'participantList',
-      select: 'userId',
+      type: roomInfo.type,
+      messageList: [],
+      participantList: [],
     });
 
-    const myRoomInfo = await Participant.findOne({
-      identifier: roomInfo.identifier,
-      userId,
+    const participantIdList = roomInfo.participantList.map(async userId => {
+      const user = await User.findOne({ userId });
+      if (user) {
+        const participant = await Participant.create({
+          identifier: roomInfo.identifier,
+          type: roomInfo.type,
+          lastReadChatNo: 0,
+          newChat: 0,
+          roomName: roomInfo.roomName,
+          userObjectId: user._id,
+          userId: user.userId,
+          roomObjectId: createdRoom._id,
+        });
+
+        return participant._id;
+      }
+      return undefined;
     });
 
-    return res.json({
-      data: {
-        identifier: createdRoom?.identifier || '',
-        type: createdRoom?.type || '',
-        roomName: myRoomInfo?.roomName || '',
-        participantList: createdRoom?.participantList,
-      },
-    });
+    const participantResult = (await Promise.all(participantIdList)).filter(
+      participantId => participantId !== undefined,
+    ) as Types.ObjectId[];
+
+    createdRoom.participantList = participantResult;
+    await createdRoom.save();
   }
 
-  return res.status(404).json({ msg: 'user not exist' });
+  const createdRoom = await Room.findOne({
+    identifier: roomInfo.identifier,
+  }).populate({
+    path: 'participantList',
+    select: 'userId',
+  });
+
+  const myRoomInfo = await Participant.findOne({
+    identifier: roomInfo.identifier,
+    userId,
+  });
+
+  return res.json({
+    data: {
+      identifier: createdRoom?.identifier || '',
+      type: createdRoom?.type || '',
+      roomName: myRoomInfo?.roomName || '',
+      participantList: createdRoom?.participantList,
+    },
+  });
 });
 
 router.get('/room/message', async (req: any, res) => {
@@ -91,14 +91,12 @@ router.get('/room/message', async (req: any, res) => {
     'userId name nickName message profileUrl backgroundUrl friendList',
   );
 
-  if (user) {
-    const messageList = await Message.find({ identifier }).sort('index');
-    return res.json({
-      data: messageList,
-    });
-  }
+  if (!user) throw new NotFindUserError('사용자 정보를 찾지 못했습니다.');
 
-  return res.status(500).json({ msg: '사용자 정보를 찾지 못했습니다.' });
+  const messageList = await Message.find({ identifier }).sort('index');
+  return res.json({
+    data: messageList,
+  });
 });
 
 router.get('/rooms', async (req: any, res) => {
@@ -129,13 +127,10 @@ router.get('/rooms', async (req: any, res) => {
         select: 'sendUserId message notRead createdAt index',
       },
     });
-  if (participantList) {
-    return res.json({
-      data: participantList,
-    });
-  }
 
-  return res.status(500).json({ msg: '사용자 정보를 찾지 못했습니다.' });
+  return res.json({
+    data: participantList,
+  });
 });
 
 export default router;

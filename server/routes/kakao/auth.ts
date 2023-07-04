@@ -4,6 +4,10 @@ import { User } from '../../schemas/kakao/user';
 import jwtToken from '../../auth/kakao/jwtToken';
 import { createHashedPassword, verifyPassword } from '../../utils/crypto.util';
 import { redisClient } from '../../utils/cache';
+import { LoginError } from '@/server/Error/LoginError';
+import { WrongLoginInfoError } from '@/server/Error/WrongLoginInfoError';
+import { DuplicatedAccountError } from '@/server/Error/DuplicatedAccountError';
+import { SingupError } from '@/server/Error/SingupError';
 
 const router = express.Router();
 
@@ -12,20 +16,19 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ userId });
 
-    if (user && user.userId) {
-      if (await verifyPassword(password, user.salt, user.hashedPassword)) {
-        const token = await jwtToken.sign(user.userId);
-        const refreshToken = jwtToken.refresh();
-        redisClient.set(user.userId, refreshToken);
-        return res.json({ data: { token, refreshToken }, msg: '로그인 성공!' });
-      }
-    }
-    return res
-      .status(404)
-      .json({ msg: '계정 또는 비밀번호를 다시 확인해주세요.' });
+    if (!user || !user.userId)
+      throw new WrongLoginInfoError('계정 또는 비밀번호를 다시 확인해주세요.');
+
+    if (!(await verifyPassword(password, user.salt, user.hashedPassword)))
+      throw new WrongLoginInfoError('계정 또는 비밀번호를 다시 확인해주세요.');
+
+    const token = await jwtToken.sign(user.userId);
+    const refreshToken = jwtToken.refresh();
+    redisClient.set(user.userId, refreshToken);
+    return res.json({ data: { token, refreshToken }, msg: '로그인 성공!' });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ msg: '로그인 실패' });
+    throw new LoginError('로그인 실패');
   }
 });
 
@@ -36,11 +39,10 @@ router.post('/signup', async (req, res) => {
     const user = await User.findOne({
       userId,
     });
-    if (user) {
-      return res
-        .status(400)
-        .json({ msg: '이미 사용중이거나 탈퇴한 아이디입니다.' });
-    }
+    if (user)
+      throw new DuplicatedAccountError(
+        '이미 사용중이거나 탈퇴한 아이디입니다.',
+      );
 
     const { hashedPassword, salt } = await createHashedPassword(password);
 
@@ -59,10 +61,7 @@ router.post('/signup', async (req, res) => {
       msg: '회원가입 되었습니다.',
     });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      msg: '회원가입 실패',
-    });
+    throw new SingupError('회원가입 실패');
   }
 });
 
