@@ -1,25 +1,24 @@
+import { NotFindTokenError } from '@/server/Error/NotFindTokenError';
 import jwtToken, { TOKEN_EXPIRED } from './jwtToken';
 import express, { NextFunction, Response } from 'express';
+import { InvalidTokenError } from '@/server/Error/InvalidTokenError';
+import { ExpiredTokenError } from '@/server/Error/ExpiredTokenError';
 
 const router = express.Router();
 
 router.use((req: any, res: Response, next: NextFunction) => {
-  if (
-    req.headers.authorization &&
-    typeof req.headers.authorization === 'string'
-  ) {
-    const token = req.headers.authorization.split('Bearer ')[1];
-    const result = jwtToken.verify(token);
-    if (result.ok && result.userId) {
-      req.userId = result.userId;
-      next();
-    } else if (!result.ok && result.error === TOKEN_EXPIRED) {
-      res.status(401).json({ msg: 'token_expired' });
-    } else {
-      res.status(401).json({ msg: 'Invalid token' });
-    }
+  if (typeof req.headers.authorization !== 'string')
+    throw new NotFindTokenError('Cannot find token');
+
+  const token = req.headers.authorization.split('Bearer ')[1];
+  const result = jwtToken.verify(token);
+  if (result.ok && result.userId) {
+    req.userId = result.userId;
+    next();
+  } else if (!result.ok && result.error === TOKEN_EXPIRED) {
+    throw new ExpiredTokenError('token_expired');
   } else {
-    res.status(400).json({ msg: 'Cannot find token' });
+    throw new InvalidTokenError('Invalid token');
   }
 });
 
