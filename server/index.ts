@@ -1,25 +1,14 @@
-import express, { RequestHandler } from 'express';
+import express from 'express';
 import Next from 'next';
-import connect from './schemas';
+import connectDB from './schemas';
 import path from 'path';
-import chatRouter from './routes/kakao/chat';
-import imageRouter from './routes/kakao/image';
-import tokenRouter from './routes/kakao/token';
-import authRouter from './routes/kakao/auth';
-import kakaoUserRouter from './routes/kakao/user';
-import kakaoFriendRouter from './routes/kakao/friend';
-import eventsRouter from './routes/events';
-import userRouter from './routes/user';
-import uploadRouter from './routes/upload';
-import blogRouter from './routes/blog';
-import loginRouter from './routes/login';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import expressSession from 'express-session';
 import runSocketIo from './sockets';
-import authKakaoJwt from './auth/kakao/authJwt';
-import { authJwt } from './auth/authJwt';
+import kakaoRoutes from './routes/kakao';
+import routes from './routes';
 
 require('dotenv').config();
 
@@ -36,7 +25,7 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
   try {
     if (nextJsEnabled) await nextJs.prepare();
 
-    connect();
+    connectDB();
 
     const app = express();
 
@@ -59,23 +48,9 @@ const nextJsRequestHandler = nextJs.getRequestHandler();
     app.use(passport.session());
     app.use(express.static(`${__dirname}/build`));
     app.use('/public', express.static(path.join(rootDir, 'src/public')));
-    app.get('/kakaotalk/uploads/:fileName', (req, res) => {
-      const { fileName } = req.params;
-      res.sendFile(path.join(__dirname, `./kakaotalk/uploads/${fileName}`));
-    });
 
-    app.use('/api/kakao/image', imageRouter);
-    app.use('/api/kakao/token', tokenRouter);
-    app.use('/api/kakao/chat', authKakaoJwt, chatRouter);
-    app.use('/api/kakao/auth', authRouter);
-    app.use('/api/kakao/user', authKakaoJwt, kakaoUserRouter);
-    app.use('/api/kakao/friend', authKakaoJwt, kakaoFriendRouter);
-    app.use('/api/events', eventsRouter);
-    app.use('/api/user', authJwt as RequestHandler, userRouter);
-    // app.use('/api/user', authRouter, userRouter);
-    app.use('/api/upload', uploadRouter);
-    app.use('/api/blog', blogRouter);
-    app.use('/auth', loginRouter);
+    app.use(routes);
+    app.use(kakaoRoutes);
 
     if (nextJsEnabled)
       app.get('*', (req, res) => {
