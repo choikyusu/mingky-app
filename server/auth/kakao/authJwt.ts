@@ -1,8 +1,8 @@
-import { NotFindTokenError } from '@/server/Error/NotFindTokenError';
+import { ExpiredTokenError } from '../../Error/ExpiredTokenError';
+import { InvalidTokenError } from '../../Error/InvalidTokenError';
+import { NotFindTokenError } from '../../Error/NotFindTokenError';
 import jwtToken, { TOKEN_EXPIRED } from './jwtToken';
 import express, { NextFunction, Response } from 'express';
-import { InvalidTokenError } from '@/server/Error/InvalidTokenError';
-import { ExpiredTokenError } from '@/server/Error/ExpiredTokenError';
 
 const router = express.Router();
 

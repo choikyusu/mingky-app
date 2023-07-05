@@ -4,10 +4,10 @@ import { User } from '../../schemas/kakao/user';
 import jwtToken from '../../auth/kakao/jwtToken';
 import { createHashedPassword, verifyPassword } from '../../utils/crypto.util';
 import { redisClient } from '../../utils/cache';
-import { LoginError } from '@/server/Error/LoginError';
-import { WrongLoginInfoError } from '@/server/Error/WrongLoginInfoError';
-import { DuplicatedAccountError } from '@/server/Error/DuplicatedAccountError';
-import { SingupError } from '@/server/Error/SingupError';
+import { WrongLoginInfoError } from '../../Error/WrongLoginInfoError';
+import { LoginError } from '../../Error/LoginError';
+import { DuplicatedAccountError } from '../../Error/DuplicatedAccountError';
+import { SingupError } from '../../Error/SingupError';
 
 const router = express.Router();
 

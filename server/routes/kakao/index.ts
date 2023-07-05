@@ -7,7 +7,7 @@ import kakaoUserRouter from './user';
 import kakaoFriendRouter from './friend';
 import uploadRouter from './upload';
 import authKakaoJwt from '../../auth/kakao/authJwt';
-import { kakaoErrorHandler } from '@/server/errorHandler/kakaoErrorHandler';
+import { kakaoErrorHandler } from '../../errorHandler/kakaoErrorHandler';
 
 const router = express.Router();
 

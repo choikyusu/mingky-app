@@ -4,7 +4,7 @@ import { Room } from '../../schemas/kakao/room';
 import { Message } from '../../schemas/kakao/message';
 import { Participant } from '../../schemas/kakao/participant';
 import { Types } from 'mongoose';
-import { NotFindUserError } from '@/server/Error/NotFindUserError';
+import { NotFindUserError } from '../../Error/NotFindUserError';
 
 const router = express.Router();
 
