@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { logger } from '../logger/logger';
 
 const dbUrl = 'mongodb://gschoi:1234@localhost:27017/admin';
 
@@ -10,17 +11,17 @@ const connectDB = () => {
 
   mongoose.connect(dbUrl, { dbName: 'mingky' }, error => {
     if (error) {
-      console.log('몽고디비 연결 에러', error);
+      logger.log('몽고디비 연결 에러', error);
     } else {
-      console.log('몽고디비 연결 성공');
+      logger.info('몽고디비 연결 성공');
     }
 
     mongoose.connection.on('error', error => {
-      console.error('몽고디비 연결 에러', error);
+      logger.error('몽고디비 연결 에러', error);
     });
 
     mongoose.connection.on('disconnected', () => {
-      console.error('몽고디비 연결이 끊겼습니다. 연결을 재시도합니다.');
+      logger.error('몽고디비 연결이 끊겼습니다. 연결을 재시도합니다.');
       connectDB();
     });
   });
