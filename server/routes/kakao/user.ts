@@ -1,12 +1,7 @@
-/* eslint-disable camelcase */
 import express from 'express';
 import { User } from '../../schemas/kakao/user';
-import multer from 'multer';
-import path from 'path';
-import { NotFindUserError } from '@/server/Error/NotFindUserError';
+import { NotFindUserError } from '../../Error/NotFindUserError';
 
-const dest = path.join(__dirname, '../../kakaotalk/uploads/');
-const upload = multer({ dest });
 const router = express.Router();
 
 router.get('/:userId', async (req: any, res) => {

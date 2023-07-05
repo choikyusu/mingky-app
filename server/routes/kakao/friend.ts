@@ -1,8 +1,8 @@
 import express from 'express';
 import { User } from '../../schemas/kakao/user';
-import { CannotAddFriendError } from '@/server/Error/CannotAddFriendError';
-import { NotFindUserError } from '@/server/Error/NotFindUserError';
-import { AlreadExistFriendError } from '@/server/Error/AlreadExistFriendError';
+import { CannotAddFriendError } from '../../Error/CannotAddFriendError';
+import { NotFindUserError } from '../../Error/NotFindUserError';
+import { AlreadExistFriendError } from '../../Error/AlreadExistFriendError';
 
 const router = express.Router();
 

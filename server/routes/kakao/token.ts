@@ -1,6 +1,6 @@
 import express from 'express';
 import jwtToken from '../../auth/kakao/jwtToken';
-import { NotFindTokenError } from '@/server/Error/NotFindTokenError';
+import { NotFindTokenError } from '../../Error/NotFindTokenError';
 
 const router = express.Router();
 

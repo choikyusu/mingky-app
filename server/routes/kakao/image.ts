@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
-import { ImageUploadError } from '@/server/Error/ImageUploadError';
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
+import { ImageUploadError } from '../../Error/ImageUploadError';
 
 const dest = path.join(__dirname, '../../kakaotalk/uploads/');
 const upload = multer({ dest });
