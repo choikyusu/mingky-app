@@ -8,6 +8,7 @@ import { WrongLoginInfoError } from '../../Error/WrongLoginInfoError';
 import { LoginError } from '../../Error/LoginError';
 import { DuplicatedAccountError } from '../../Error/DuplicatedAccountError';
 import { SingupError } from '../../Error/SingupError';
+import { logger } from '../../logger/logger';
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.post('/login', async (req, res) => {
     redisClient.set(user.userId, refreshToken);
     return res.json({ data: { token, refreshToken }, msg: '로그인 성공!' });
   } catch (err) {
-    console.log(err);
+    logger.info(err);
     throw new LoginError('로그인 실패');
   }
 });

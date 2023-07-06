@@ -10,6 +10,7 @@ import { SingupError } from '../Error/SingupError';
 import { NotFindUserError } from '../Error/NotFindUserError';
 import { CannotAddFriendError } from '../Error/CannotAddFriendError';
 import { AlreadExistFriendError } from '../Error/AlreadExistFriendError';
+import { logger } from '../logger/logger';
 
 export const kakaoErrorHandler = (
   err: Error,
@@ -17,7 +18,7 @@ export const kakaoErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log(err);
+  logger.info(err);
 
   switch (err.constructor) {
     case AlreadExistFriendError:

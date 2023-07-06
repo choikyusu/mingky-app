@@ -2,11 +2,17 @@ import { ExpiredTokenError } from '../../Error/ExpiredTokenError';
 import { InvalidTokenError } from '../../Error/InvalidTokenError';
 import { NotFindTokenError } from '../../Error/NotFindTokenError';
 import jwtToken, { TOKEN_EXPIRED } from './jwtToken';
-import express, { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 
-const router = express.Router();
+interface AuthRequest extends Request {
+  userId: string;
+}
 
-router.use((req: any, res: Response, next: NextFunction) => {
+export const authJwt = (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
   if (typeof req.headers.authorization !== 'string')
     throw new NotFindTokenError('Cannot find token');
 
@@ -20,6 +26,4 @@ router.use((req: any, res: Response, next: NextFunction) => {
   } else {
     throw new InvalidTokenError('Invalid token');
   }
-});
-
-export default router;
+};

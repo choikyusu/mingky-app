@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import { redisClient } from '../../utils/cache';
+import { logger } from '../../logger/logger';
 
 interface AuthPayload {
   userId: string;
@@ -39,7 +40,7 @@ export default {
       }
     } catch (err: any) {
       if (err.message === 'jwt expired') {
-        console.log('expired token', err);
+        logger.info('expired token', err);
         const decoded = jwt.decode(token) as AuthPayload;
         return {
           ok: false,
@@ -48,13 +49,13 @@ export default {
         };
       }
       if (err.message === 'invalid token') {
-        console.log('invalid token', TOKEN_INVALID);
+        logger.info('invalid token', TOKEN_INVALID);
         return {
           ok: false,
           error: TOKEN_INVALID,
         };
       }
-      console.log('invalid token');
+      logger.info('invalid token');
       return {
         ok: false,
         error: TOKEN_INVALID,
