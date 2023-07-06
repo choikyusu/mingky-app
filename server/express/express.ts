@@ -7,6 +7,7 @@ import routes from '../routes';
 import kakaoRoutes from '../routes/kakao';
 import connectDB from '../schemas';
 import path from 'path';
+import { logRequest } from '../logger/logRequest/logRequest';
 
 const rootDir = path.resolve('./');
 
@@ -35,6 +36,8 @@ const createApp = () => {
 
   app.use(express.static(`${__dirname}/build`));
   app.use('/public', express.static(path.join(rootDir, 'src/public')));
+
+  app.use(logRequest);
 
   app.use(routes);
   app.use(kakaoRoutes);

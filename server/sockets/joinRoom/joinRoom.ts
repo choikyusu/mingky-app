@@ -5,6 +5,7 @@ import {
   getParticipantMessages,
   updateParticipant,
 } from './doQueries';
+import { logger } from '../../logger/logger';
 
 export const joinRoom = (socket: Socket, io: Server) => {
   socket.on('join', async (userId: string, identifier: string) => {
@@ -22,6 +23,6 @@ export const joinRoom = (socket: Socket, io: Server) => {
       io.to(identifier).emit('lastReadMessage', participantMessage);
     }
 
-    console.log(`${identifier}에 들어감`);
+    logger.info(`${identifier}에 들어감`);
   });
 };
