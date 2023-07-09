@@ -4,12 +4,13 @@ import { NotFindUserError } from '../../Error/NotFindUserError';
 
 const router = express.Router();
 
-router.get('/:userId', async (req: any, res) => {
+router.get('/:userId', async (req: any, res, next) => {
   const { userId } = req.params;
   const user = await User.findOne({ userId }).select(
     'userId name nickName message profileUrl backgroundUrl',
   );
-  if (!user) throw new NotFindUserError('사용자 정보를 찾지 못했습니다.');
+  if (!user)
+    return next(new NotFindUserError('사용자 정보를 찾지 못했습니다.'));
 
   return res.json({
     data: {
@@ -23,7 +24,7 @@ router.get('/:userId', async (req: any, res) => {
   });
 });
 
-router.get('/profile/me', async (req: any, res) => {
+router.get('/profile/me', async (req: any, res, next) => {
   const { userId } = req;
   const user = await User.findOne({ userId })
     .select('userId name nickName message profileUrl backgroundUrl friendList')
@@ -32,7 +33,8 @@ router.get('/profile/me', async (req: any, res) => {
       select: 'userId nickName message profileUrl backgroundUrl',
     });
 
-  if (!user) throw new NotFindUserError('사용자 정보를 찾지 못했습니다.');
+  if (!user)
+    return next(new NotFindUserError('사용자 정보를 찾지 못했습니다.'));
 
   return res.json({
     data: {
@@ -47,11 +49,12 @@ router.get('/profile/me', async (req: any, res) => {
   });
 });
 
-router.post('/profile/change', async (req: any, res) => {
+router.post('/profile/change', async (req: any, res, next) => {
   const { body, userId } = req;
   const user = await User.findOne({ userId });
 
-  if (!user) throw new NotFindUserError('사용자 정보를 찾지 못했습니다.');
+  if (!user)
+    return next(new NotFindUserError('사용자 정보를 찾지 못했습니다.'));
 
   await User.updateOne(
     { userId },
