@@ -6,18 +6,22 @@ export const getNewAccessToken = async (
   token: string,
   refreshToken: string,
 ) => {
-  const headers: { [key: string]: string } = {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-    Refresh: refreshToken,
-  };
+  try {
+    const headers: { [key: string]: string } = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+      Refresh: refreshToken,
+    };
 
-  const response: ApiResponse<string> = await axios.get(
-    `${API_HOST}/token/refresh`,
-    {
-      headers,
-    },
-  );
+    const response: ApiResponse<string> = await axios.get(
+      `${API_HOST}/token/refresh`,
+      {
+        headers,
+      },
+    );
 
-  return response.data.data;
+    return response.data.data;
+  } catch (err: any) {
+    return '';
+  }
 };
