@@ -6,18 +6,18 @@ import { AlreadExistFriendError } from '../../Error/AlreadExistFriendError';
 
 const router = express.Router();
 
-router.post('/add', async (req: any, res) => {
+router.post('/add', async (req: any, res, next) => {
   const { body, userId } = req;
 
   if (userId === body.friendId)
-    throw new CannotAddFriendError('Cannot add yourself as a friend');
+    return next(new CannotAddFriendError('Cannot add yourself as a friend'));
 
   const user = await User.findOne({ userId });
   const friend = await User.findOne({ userId: body.friendId });
 
-  if (!user || !friend) throw new NotFindUserError('cannot add friend');
+  if (!user || !friend) return next(new NotFindUserError('cannot add friend'));
   if (user.friendList.includes(friend._id))
-    throw new AlreadExistFriendError('Friend already added');
+    return next(new AlreadExistFriendError('Friend already added'));
 
   await User.updateOne(
     { userId },

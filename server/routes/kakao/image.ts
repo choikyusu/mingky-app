@@ -8,12 +8,12 @@ const dest = path.join(__dirname, '../../kakaotalk/uploads/');
 const upload = multer({ dest });
 const router = express.Router();
 
-router.post('/profile/upload', upload.single('image'), (req, res) => {
+router.post('/profile/upload', upload.single('image'), (req, res, next) => {
   try {
     const image = req.file as Express.Multer.File;
     return res.json({ data: `uploads\\${image.filename}` });
   } catch (err: any) {
-    throw new ImageUploadError(err.message);
+    return next(new ImageUploadError(err.message));
   }
 });
 

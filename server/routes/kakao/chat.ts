@@ -8,7 +8,7 @@ import { NotFindUserError } from '../../Error/NotFindUserError';
 
 const router = express.Router();
 
-router.post('/room/create', async (req: any, res) => {
+router.post('/room/create', async (req: any, res, next) => {
   const {
     roomInfo,
   }: {
@@ -24,7 +24,7 @@ router.post('/room/create', async (req: any, res) => {
   const user = await User.findOne({ userId });
   const room = await Room.findOne({ identifier: roomInfo.identifier });
 
-  if (!user) throw new NotFindUserError('user not exist');
+  if (!user) return next(new NotFindUserError('user not exist'));
 
   if (!room) {
     const createdRoom = await Room.create({
@@ -83,7 +83,7 @@ router.post('/room/create', async (req: any, res) => {
   });
 });
 
-router.get('/room/message', async (req: any, res) => {
+router.get('/room/message', async (req: any, res, next) => {
   const identifier = req.query.identifier as string;
   const { userId } = req;
 
@@ -91,7 +91,8 @@ router.get('/room/message', async (req: any, res) => {
     'userId name nickName message profileUrl backgroundUrl friendList',
   );
 
-  if (!user) throw new NotFindUserError('사용자 정보를 찾지 못했습니다.');
+  if (!user)
+    return next(new NotFindUserError('사용자 정보를 찾지 못했습니다.'));
 
   const messageList = await Message.find({ identifier }).sort('index');
   return res.json({
