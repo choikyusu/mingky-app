@@ -8,6 +8,7 @@ import kakaoRoutes from '../routes/kakao';
 import connectDB from '../schemas';
 import path from 'path';
 import { logRequest } from '../logger/logRequest/logRequest';
+import morgan from 'morgan';
 
 const rootDir = path.resolve('./');
 
@@ -15,6 +16,12 @@ const createApp = () => {
   connectDB();
 
   const app = express();
+
+  if (process.env.NODE_ENV === 'production') {
+    app.use(morgan('combined'));
+  } else {
+    app.use(morgan('dev'));
+  }
 
   app.use(
     express.json({
